@@ -1,3 +1,235 @@
-*{
-    background-color: red;
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:       #2563eb;
+$color-primary-hover: #1d4ed8;
+$color-bg-page:       #eef3fb;
+$color-bg-card:       #ffffff;
+$color-bg-input:      #f0f2f5;
+$color-text-dark:     #111827;
+$color-text-muted:    #6b7280;
+$color-text-subtitle: #9ca3af;
+$color-placeholder:   #b0b7c3;
+$color-link:          #2563eb;
+
+$font-family:  'Segoe UI', system-ui, -apple-system, sans-serif;
+$border-radius-card:  18px;
+$border-radius-input: 12px;
+$border-radius-btn:   12px;
+$card-max-width: 520px;
+$transition-speed: 0.2s;
+
+// ============================================================
+// MIXINS
+// ============================================================
+
+/// Centrado flex en ambos ejes
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+/// Estilos base de campo de texto
+@mixin input-base {
+  width: 100%;
+  padding: 14px 16px;
+  background: $color-bg-input;
+  border: 2px solid transparent;
+  border-radius: $border-radius-input;
+  font-size: 0.95rem;
+  font-family: $font-family;
+  color: $color-text-dark;
+  box-sizing: border-box;
+  transition:
+    border-color $transition-speed ease,
+    background $transition-speed ease,
+    box-shadow $transition-speed ease;
+
+  &::placeholder {
+    color: $color-placeholder;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba($color-primary, 0.12);
+  }
+}
+
+/// Sombra de elevación para cards
+@mixin card-shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  } @else if $level == 2 {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14);
+  }
+}
+
+// ============================================================
+// RESET MÍNIMO
+// ============================================================
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// ============================================================
+// BASE
+// ============================================================
+body {
+  font-family: $font-family;
+  background: linear-gradient(135deg, #dbe9fb 0%, #eef3fb 60%, #fdf4ff 100%);
+  min-height: 100vh;
+  @include flex-center(row);
+  padding: 24px 16px;
+}
+
+// ============================================================
+// PAGE WRAPPER
+// ============================================================
+.page-wrapper {
+  @include flex-center(row);
+  width: 100%;
+}
+
+// ============================================================
+// CARD
+// ============================================================
+.card {
+  background: $color-bg-card;
+  border-radius: $border-radius-card;
+  @include card-shadow(1);
+  width: 100%;
+  max-width: $card-max-width;
+  padding: 40px 48px 36px;
+  @include flex-center(column);
+
+  // Logo circular
+  .logo {
+    width: 72px;
+    height: 72px;
+    background: $color-primary;
+    border-radius: 50%;
+    @include flex-center(row);
+    margin-bottom: 18px;
+    @include card-shadow(1);
+
+    svg {
+      display: block;
+    }
+  }
+
+  // Nombre de la app
+  .brand-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  // Subtítulo
+  .brand-subtitle {
+    font-size: 0.95rem;
+    color: $color-text-subtitle;
+    margin-bottom: 28px;
+  }
+}
+
+// ============================================================
+// FORMULARIO
+// ============================================================
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  // Grupo de campo
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $color-text-dark;
+    }
+
+    .form-input {
+      @include input-base;
+    }
+  }
+
+  // Botón de envío
+  .btn-submit {
+    width: 100%;
+    padding: 15px;
+    margin-top: 6px;
+    background: $color-primary;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: $font-family;
+    border: none;
+    border-radius: $border-radius-btn;
+    cursor: pointer;
+    transition:
+      background $transition-speed ease,
+      transform $transition-speed ease,
+      box-shadow $transition-speed ease;
+
+    &:hover {
+      background: $color-primary-hover;
+      box-shadow: 0 4px 16px rgba($color-primary, 0.35);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+}
+
+// ============================================================
+// REDIRECT DE LOGIN
+// ============================================================
+.login-redirect {
+  margin-top: 22px;
+  font-size: 0.9rem;
+  color: $color-text-muted;
+
+  .login-link {
+    color: $color-link;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 4px;
+    transition: color $transition-speed ease;
+
+    &:hover {
+      color: $color-primary-hover;
+      text-decoration: underline;
+    }
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 560px) {
+  .card {
+    padding: 32px 24px 28px;
+
+    .brand-name {
+      font-size: 1.7rem;
+    }
+  }
 }
