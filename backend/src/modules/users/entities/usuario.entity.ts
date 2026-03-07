@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
-@Entity('USUARIO') // El nombre exacto que tendrá la tabla en la base de datos
+@Entity('USUARIO') 
 export class Usuario {
   @PrimaryGeneratedColumn()
   id_usuario: number;
@@ -21,7 +21,7 @@ export class Usuario {
   foto_perfil_url: string;
 
   @Column({ type: 'int', default: 0 })
-  cantidad_strikes: number; // Nuestro acumulador para el bloqueo
+  cantidad_strikes: number; 
 
   @CreateDateColumn()
   fecha_registro: Date;
@@ -29,8 +29,8 @@ export class Usuario {
   @Column({ type: 'boolean', default: true })
   esta_activo: boolean;
 
-  // Por ahora lo dejamos como columna normal. 
-  // Cuando creemos la entidad ROL, lo cambiaremos por un decorador @ManyToOne
+   
+  // Cuando creemos la entidad ROL @ManyToOne
   @Column({ type: 'int' })
   id_rol: number;
 }
