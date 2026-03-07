@@ -9,7 +9,6 @@ import { Notificacion } from './entities/notificacion.entity'
 import { Mensaje } from './entities/mensaje.entity'
 import { Match } from './entities/match.entity'
 import { Interaccion } from './entities/interaccion.entity'
-import { FotoMascota } from './entities/foto_mascota.entity'
 
 
 
@@ -24,7 +23,6 @@ import { FotoMascota } from './entities/foto_mascota.entity'
     Mensaje,
     Match,
     Interaccion,
-    FotoMascota
   ])], 
   controllers: [],
   providers: [],
