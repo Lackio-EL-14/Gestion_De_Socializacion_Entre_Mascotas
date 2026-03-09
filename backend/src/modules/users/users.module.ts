@@ -10,7 +10,8 @@ import { Mensaje } from './entities/mensaje.entity';
 import { Match } from './entities/match.entity';
 import { Interaccion } from './entities/interaccion.entity';
 import { Mascota } from './entities/mascota.entity';
-
+import { UsuariosController } from './controller/usuarios.controller';
+import { UsuariosService } from './service/usuarios.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -25,7 +26,7 @@ import { Mascota } from './entities/mascota.entity';
     Interaccion,
     Mascota,
   ])], 
-  controllers: [],
-  providers: [],
+  controllers: [UsuariosController],
+  providers: [UsuariosService],
 })
 export class UsersModule {}
