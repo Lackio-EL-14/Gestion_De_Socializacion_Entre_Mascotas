@@ -12,6 +12,7 @@ import { Interaccion } from './entities/interaccion.entity';
 import { Mascota } from './entities/mascota.entity';
 import { UsuariosController } from './controller/usuarios.controller';
 import { UsuariosService } from './service/usuarios.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -25,7 +26,13 @@ import { UsuariosService } from './service/usuarios.service';
     Match,
     Interaccion,
     Mascota,
-  ])], 
+  ]),
+   JwtModule.register({
+      secret: 'super-secreto-dogchat-2026', 
+      signOptions: { expiresIn: '48h' }, // El token expirará en 2 díaSSS
+    }),
+  ],
+
   controllers: [UsuariosController],
   providers: [UsuariosService],
 })
