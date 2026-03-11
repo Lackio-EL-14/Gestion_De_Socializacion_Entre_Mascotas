@@ -176,6 +176,41 @@ El sistema contempla los siguientes actores principales:
 
 # 6. Estructura del Repositorio
 
+dogchat
+│
+├── backend
+│ ├── src
+│ │ ├── modules
+│ │ ├── app.controller.ts
+│ │ ├── app.module.ts
+│ │ └── main.ts
+│ ├── test
+│ ├── package.json
+│ ├── README_BACKEND.md
+│ └── tsconfig.json
+│
+├──database
+│
+├── docs
+│ └── diagrams
+│
+├── frontend
+│ ├── public
+│ ├── src
+│ │ ├── app
+│ │ │ ├── core
+│ │ │ ├── features
+│ │ │ ├── app-module.ts
+│ │ │ ├── app.html
+│ │ │ ├── app.scss
+│ │ │ └── app.ts
+│ │ ├── index.html
+│ │ ├── main.ts
+│ │ └── styles.scss
+│ └── package.json
+│
+└── README.md
+
 | Rol | Integrante |
 |-----|-----------|
 | Product Owner | Alejandro Alvarez Huayhua |
