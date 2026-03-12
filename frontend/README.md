@@ -234,3 +234,41 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## HU-01
+Se implementó la primera historia de usuario, para registrar al dueño:
+
+### Estructura usada para el registro de dueño (Auth)
+
+frontend/src/app
+|
+|- features/auth .................................... Módulo funcional de autenticación
+|  |- auth-module.ts ................................. Agrupa componentes y dependencias de Auth
+|  |- auth-routing-module.ts ......................... Archivo de rutas del módulo Auth (actualmente vacío)
+|  |- register/
+|  |  |- register.ts ................................. Lógica del formulario y envío al backend
+|  |  |- register.html ............................... Vista del formulario de registro de dueño
+|  |  |- register.scss ............................... Estilos de la pantalla de registro
+|  |- login/
+|     |- login.ts .................................... Componente de login (base)
+|     |- login.html .................................. Vista de login (pendiente de desarrollo)
+|
+|- app-routing-module.ts ............................ Ruta global: redirige a register y muestra Register
+|- app-module.ts .................................... Módulo principal: importa HttpClient y Register
+|- core/services/auth.ts ............................ Servicio Auth creado (aun sin metodos implementados)
+
+### Que se hizo en el registro de dueño
+
+1. Se creo el componente Register dentro de Auth como componente standalone.
+2. Se construyo un formulario con campos: nombre, email, telefono, contrasena y confirmar contrasena.
+3. Se agregaron validaciones basicas en frontend:
+  - Todos los campos obligatorios.
+  - Validacion de coincidencia entre contrasena y confirmacion.
+4. Se integro el envio por HTTP POST al endpoint:
+  - http://localhost:3000/usuarios/registro
+5. Se manejo respuesta de exito y error con alertas y limpieza del formulario.
+6. Se conecto la ruta principal para abrir directamente la vista de registro.
+
+Es una implementacion inicial funcional de HU-01: permite registrar un dueno desde la interfaz y enviar los datos al backend.
+
+
