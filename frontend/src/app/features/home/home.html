@@ -1,0 +1,65 @@
+<div class="page-wrapper">
+  <div class="home-shell">
+
+    <!-- Header -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="white" width="30" height="30" aria-hidden="true">
+            <ellipse cx="16" cy="18" rx="8" ry="11" transform="rotate(-15 16 18)" />
+            <ellipse cx="48" cy="18" rx="8" ry="11" transform="rotate(15 48 18)" />
+            <circle cx="32" cy="36" r="20" />
+            <circle cx="24" cy="31" r="3" fill="#2563eb" />
+            <circle cx="40" cy="31" r="3" fill="#2563eb" />
+            <ellipse cx="32" cy="38" rx="5" ry="3.5" fill="#2563eb" />
+            <path d="M27 42 Q32 47 37 42" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h1 class="brand-name">DogChat</h1>
+      </div>
+
+      <a routerLink="/login" class="btn-login">Iniciar sesión</a>
+    </header>
+
+    <!-- Hero -->
+    <main class="hero">
+      <h2 class="hero-title">Bienvenido a DogChat</h2>
+      <p class="hero-subtitle">
+        Conecta con otros dueños de mascotas y encuentra el match perfecto para tu perrito
+      </p>
+
+      <!-- Cards -->
+      <section class="role-cards">
+        <article class="role-card owner-card" (click)="irARegistroDueno()">
+          <div class="icon-circle icon-owner">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21a8 8 0 0 0-16 0"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+
+          <h3 class="role-title">Registrarse como<br>Dueño</h3>
+          <p class="role-text">
+            Encuentra amigos peludos para tu mascota y conecta con otros dueños
+          </p>
+        </article>
+
+        <article class="role-card worker-card" (click)="irARegistroTrabajador()">
+          <div class="icon-circle icon-worker">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+          </div>
+
+          <h3 class="role-title">Registrarse como<br>Trabajador</h3>
+          <p class="role-text">
+            Promociona tus servicios y conecta con dueños de mascotas
+          </p>
+        </article>
+      </section>
+    </main>
+
+  </div>
+</div>
