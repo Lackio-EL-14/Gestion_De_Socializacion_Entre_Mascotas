@@ -269,6 +269,6 @@ frontend/src/app
 5. Se manejo respuesta de exito y error con alertas y limpieza del formulario.
 6. Se conecto la ruta principal para abrir directamente la vista de registro.
 
-Es una implementacion inicial funcional de HU-01: permite registrar un dueno desde la interfaz y enviar los datos al backend, todas las pruebas pasaron de manera eficiente.
+Es una implementacion inicial funcional de HU-01: permite registrar un dueño desde la interfaz y enviar los datos al backend, todas las pruebas pasaron de manera eficiente.
 
 
