@@ -1,9 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface LoginUsuarioRequest {
   email: string;
   contrasena: string;
+}
+
+interface LoginUsuarioResponse {
+  access_token: string;
+  nombre: string;
 }
 
 @Component({
@@ -22,7 +28,8 @@ export class Login {
   modalTipo: 'success' | 'error' = 'success';
 constructor(
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+  private cdr: ChangeDetectorRef,
+  private router: Router
   ) {}
 
   iniciarSesion(): void {
@@ -57,12 +64,12 @@ constructor(
 
     this.enviando = true;
 
-    this.http.post('http://localhost:3000/usuarios/login', body).subscribe({
+    this.http.post<LoginUsuarioResponse>('http://localhost:3000/usuarios/login', body).subscribe({
       next: (respuesta) => {
         console.log('Login exitoso:', respuesta);
         this.enviando = false;
-        this.mostrarModal('Inicio de sesión correcto', 'Has iniciado sesión correctamente', 'success');
-        this.cdr.detectChanges();
+        sessionStorage.setItem('usuarioNombre', respuesta.nombre);
+        this.router.navigate(['/dashboard-owner']);
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
