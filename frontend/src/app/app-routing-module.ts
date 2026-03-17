@@ -5,6 +5,7 @@ import { DashboardOwner } from './features/dashboards/dashboard-owner/dashboard-
 
 const routes: Routes = [
   { path: '', component: Home },
+  { path: 'dashboard-owner', component: DashboardOwner },
   {
     path: '',
     loadChildren: () =>
