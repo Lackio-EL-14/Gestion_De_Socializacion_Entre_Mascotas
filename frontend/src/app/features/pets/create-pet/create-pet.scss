@@ -1,0 +1,317 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:       #2563eb;
+$color-primary-hover: #1d4ed8;
+$color-bg-card:       #ffffff;
+$color-bg-input:      #f0f2f5;
+$color-text-dark:     #111827;
+$color-text-muted:    #6b7280;
+$color-text-subtitle: #7c8aa5;
+$color-placeholder:   #b0b7c3;
+$color-link:          #2563eb;
+
+$font-family:  'Segoe UI', system-ui, -apple-system, sans-serif;
+$border-radius-card:  18px;
+$border-radius-input: 12px;
+$border-radius-btn:   12px;
+$card-max-width: 560px;
+$transition-speed: 0.2s;
+
+// ============================================================
+// MIXINS
+// ============================================================
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin input-base {
+  width: 100%;
+  padding: 14px 16px;
+  background: $color-bg-input;
+  border: 2px solid transparent;
+  border-radius: $border-radius-input;
+  font-size: 0.95rem;
+  font-family: $font-family;
+  color: $color-text-dark;
+  box-sizing: border-box;
+  transition:
+    border-color $transition-speed ease,
+    background $transition-speed ease,
+    box-shadow $transition-speed ease;
+
+  &::placeholder {
+    color: $color-placeholder;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba($color-primary, 0.12);
+  }
+}
+
+@mixin card-shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  } @else if $level == 2 {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14);
+  }
+}
+// ============================================================
+// PAGE LAYOUT
+// ============================================================
+.page {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(90deg, #eef3fb 0%, #f7f7f8 55%, #f8f4ef 100%);
+  font-family: $font-family;
+}
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+.sidebar {
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid rgba(17, 24, 39, 0.06);
+  padding: 24px;
+}
+
+// ============================================================
+// CONTENT
+// ============================================================
+.content {
+  flex: 1;
+  padding: 40px 48px;
+}
+
+// ============================================================
+// HEADER
+// ============================================================
+.back-button {
+  background: none;
+  border: none;
+  color: $color-link;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 18px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.page-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: $color-text-dark;
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 0.95rem;
+  color: $color-text-subtitle;
+  margin-bottom: 32px;
+}
+
+// ============================================================
+// CARD
+// ============================================================
+.pet-card {
+  background: $color-bg-card;
+  border-radius: $border-radius-card;
+  padding: 36px 40px;
+  max-width: 600px;
+  border: 1px solid rgba(17, 24, 39, 0.06);
+
+  @include card-shadow(1);
+}
+
+// ============================================================
+// FORM
+// ============================================================
+.pet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $color-text-dark;
+  }
+
+  input,
+  select {
+    @include input-base;
+  }
+}
+
+// ============================================================
+// FOTO
+// ============================================================
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input[type="file"] {
+    @include input-base;
+    padding: 10px;
+    background: white;
+  }
+}
+
+// ============================================================
+// VACUNACIÓN
+// ============================================================
+.file-upload {
+  input {
+    @include input-base;
+    padding: 10px;
+    background: white;
+  }
+}
+
+// ============================================================
+// BUTTON
+// ============================================================
+.btn-save {
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+  background: $color-primary;
+  color: white;
+  border: none;
+  border-radius: $border-radius-btn;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    background $transition-speed ease,
+    transform $transition-speed ease,
+    box-shadow $transition-speed ease;
+
+  &:hover {
+    background: $color-primary-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba($color-primary, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 900px) {
+  .page {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+  }
+
+  .content {
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+//modal
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+  padding: 28px 24px 24px;
+  text-align: center;
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: white;
+
+  &.success {
+    background: #22c55e;
+  }
+
+  &.error {
+    background: #ef4444;
+  }
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $color-text-dark;
+  margin-bottom: 10px;
+}
+
+.modal-message {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: $color-text-muted;
+  margin-bottom: 22px;
+  white-space: pre-line;
+}
+
+.modal-btn {
+  width: 100%;
+  padding: 14px;
+  background: $color-primary;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: $font-family;
+  border: none;
+  border-radius: $border-radius-btn;
+  cursor: pointer;
+  transition: background $transition-speed ease;
+
+  &:hover {
+    background: $color-primary-hover;
+  }
+}

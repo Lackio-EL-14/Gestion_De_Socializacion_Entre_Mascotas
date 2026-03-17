@@ -28,8 +28,8 @@ export class Login {
   modalTipo: 'success' | 'error' = 'success';
 constructor(
     private http: HttpClient,
-  private cdr: ChangeDetectorRef,
-  private router: Router
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   iniciarSesion(): void {
@@ -67,6 +67,10 @@ constructor(
     this.http.post<LoginUsuarioResponse>('http://localhost:3000/usuarios/login', body).subscribe({
       next: (respuesta) => {
         console.log('Login exitoso:', respuesta);
+        if('id_usuario' in respuesta && typeof respuesta.id_usuario === 'number') {
+          const idUsuario = respuesta.id_usuario;
+          localStorage.setItem('id_usuario', ""+idUsuario);
+        }
         this.enviando = false;
         sessionStorage.setItem('usuarioNombre', respuesta.nombre);
         this.router.navigate(['/dashboard-owner']);
