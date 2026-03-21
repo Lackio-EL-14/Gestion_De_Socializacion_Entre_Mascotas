@@ -65,5 +65,9 @@ export class PetsService {
 
     return { message: 'Mascota eliminada correctamente' };
   }
-
+  async findMyPets(userId: number): Promise<Pet[]> {
+    return await this.petsRepository.find({
+      where: { id_usuario: userId },
+    });
+  }
 }

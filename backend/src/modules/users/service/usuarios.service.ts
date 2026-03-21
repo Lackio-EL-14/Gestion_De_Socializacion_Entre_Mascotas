@@ -1,9 +1,11 @@
-import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
+import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
+import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
@@ -18,24 +20,20 @@ export class UsuariosService {
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Partial<Usuario>> {
     const { nombre, email, contrasena_hash, telefono } = createUsuarioDto;
 
-    // CA3: Verificar si el correo ya está registrado
     const usuarioExistente = await this.usuarioRepository.findOne({ where: { email } });
     if (usuarioExistente) {
       throw new ConflictException('El correo electrónico ya está en uso');
     }
 
     try {
-      // Seguridad: Encriptacion de las contrasena antes de guardarlas en la DB 
       const salt = await bcrypt.genSalt(10);
       const contrasenaHash = await bcrypt.hash(contrasena_hash, salt);
 
-      // CA1: Crear la instancia del nuevo usuario
       const nuevoUsuario = this.usuarioRepository.create({
         nombre,
         email,
         contrasena_hash: contrasenaHash,
         telefono,
-        // HACK TEMPORAL Y MUY NECESARIO LA VERDAD: Como aplazamos lo de los roles, forzamos el rol 1 (Dueño) 
         rol: { id_rol: 1 } 
       });
 
@@ -56,19 +54,16 @@ export class UsuariosService {
 
     const usuario = await this.usuarioRepository.findOne({ where: { email } });
 
-    // CA2: Si el usuario no existe, lanzamos error genérico
     if (!usuario) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    // CA3 (Parte 1): Verificar si la cuenta está bloqueada
     if (!usuario.esta_activo) {
       throw new UnauthorizedException('Cuenta bloqueada. Contacte al administrador.');
     }
 
     const contrasenaValida = await bcrypt.compare(contrasena, usuario.contrasena_hash);
 
-    // CA2 y CA3 (Parte 2): Si la contraseña es incorrecta 5 veces bloquemos la cuenta 
     if (!contrasenaValida) {
       usuario.cantidad_strikes += 1;
       
@@ -85,14 +80,58 @@ export class UsuariosService {
       await this.usuarioRepository.save(usuario);
     }
 
-    // CA1: Generar el Payload (los datos que irán dentro del Pase VIP)
     const payload = { email: usuario.email, sub: usuario.id_usuario };
     return {
       access_token: this.jwtService.sign(payload),
       id_usuario: usuario.id_usuario,
-      //discutir si para el home tambien pondremos un bienvendio + nombre de usuario.
       nombre: usuario.nombre
     };
   }
 
+  async solicitarRecuperacion(solicitarRecuperacionDto: SolicitarRecuperacionDto) {
+    const { email } = solicitarRecuperacionDto;
+    const usuario = await this.usuarioRepository.findOne({ where: { email } });
+
+    if (!usuario) {
+      return { message: 'Si el correo existe, se ha enviado un enlace de recuperación.' };
+    }
+
+    const payload = { sub: usuario.id_usuario, email: usuario.email };
+    const tokenRecuperacion = this.jwtService.sign(payload, { 
+      secret: 'secreto-recuperacion-dogchat', 
+      expiresIn: '15m' 
+    });
+
+    const linkSimulado = `http://localhost:3000/restablecer?token=${tokenRecuperacion}`;
+    console.log('=============================================');
+    console.log(`📧 ENVIANDO CORREO A: ${email}`);
+    console.log(`🔗 LINK DE RECUPERACIÓN: ${linkSimulado}`);
+    console.log('=============================================');
+
+    return { message: 'Si el correo existe, se ha enviado un enlace de recuperación.',
+      dev_token: tokenRecuperacion
+    };
+  }
+
+  async restablecerPassword(restablecerPasswordDto: RestablecerPasswordDto) {
+    const { token, nueva_contrasena } = restablecerPasswordDto;
+
+    try {
+      const payload = this.jwtService.verify(token, { secret: 'secreto-recuperacion-dogchat' });
+      
+      const usuario = await this.usuarioRepository.findOne({ where: { id_usuario: payload.sub } });
+      if (!usuario) {
+        throw new BadRequestException('Usuario no encontrado');
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      usuario.contrasena_hash = await bcrypt.hash(nueva_contrasena, salt);
+
+      await this.usuarioRepository.save(usuario);
+
+      return { message: 'Contraseña actualizada correctamente. Ya puedes iniciar sesión.' };
+    } catch (error) {
+      throw new BadRequestException('El token es inválido o ha expirado');
+    }
+  }
 }

@@ -1,6 +1,8 @@
-import { Controller, Post, Body, Get, Param, Patch, Delete, ParseIntPipe } from '@nestjs/common';import { PetsService } from '../service/pets.service';
+import { Controller, Post, Body, Get, Param, Patch, Delete, ParseIntPipe, UseGuards, Req } from '@nestjs/common';
+import { PetsService } from '../service/pets.service';
 import { CreatePetDto } from '../dto/create-pet.dto';
 import { UpdatePetDto } from '../dto/update-pet.dto';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 @Controller('pets')
 export class PetsController {
@@ -34,5 +36,12 @@ export class PetsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.petsService.remove(id);
   }
-
+  
+  @UseGuards(JwtAuthGuard) 
+  @Get('my-pets')
+  findMyPets(@Req() req: any) {
+    const userId = req.user.userId;
+    
+    return this.petsService.findMyPets(userId);
+  }
 }
