@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 interface Mascota {
@@ -31,36 +31,46 @@ export class ListPetsComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.obtenerMascotas();
   }
-
   obtenerMascotas(): void {
-    const idUsuario = localStorage.getItem('id_usuario');
+  const idUsuario = localStorage.getItem('id_usuario');
+  console.log('id_usuario recuperado:', idUsuario);
 
-    if (!idUsuario) {
-      this.error = 'No se encontró un usuario logeado';
-      return;
-    }
-
-    this.cargando = true;
-    this.error = '';
-
-    this.http.get<Mascota[]>(`http://localhost:3000/pets/user/${idUsuario}`).subscribe({
-      next: (respuesta) => {
-        this.mascotas = respuesta;
-        this.cargando = false;
-      },
-      error: (error) => {
-        console.error('Error al obtener mascotas:', error);
-        this.error = 'No se pudieron cargar tus mascotas';
-        this.cargando = false;
-      }
-    });
+  if (!idUsuario) {
+    this.error = 'No se encontró un usuario logeado';
+    return;
   }
+
+  this.cargando = true;
+  this.error = '';
+
+  this.http.get<Mascota[] | Mascota>(
+    `http://localhost:3000/pets/user/${idUsuario}?t=${Date.now()}`
+  ).subscribe({
+    next: (respuesta) => {
+      console.log('Mascotas recibidas:', respuesta);
+
+      this.mascotas = Array.isArray(respuesta) ? respuesta : [respuesta];
+      this.cargando = false;
+      this.cdr.detectChanges();
+    },
+    error: (error) => {
+      console.error('Error al obtener mascotas:', error);
+      this.error = 'No se pudieron cargar tus mascotas';
+      this.cargando = false;
+      this.cdr.detectChanges();
+    },
+    complete: () => {
+      console.log('Request finalizado');
+    }
+  });
+}
 
   editarMascota(idMascota: number): void {
     console.log('Editar mascota con id:', idMascota);
