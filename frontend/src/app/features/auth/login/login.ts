@@ -9,9 +9,9 @@ interface LoginUsuarioRequest {
 
 interface LoginUsuarioResponse {
   access_token: string;
-  id_usuario: number;
   nombre: string;
   email: string;
+  id_usuario: number;
 }
 
 @Component({
@@ -69,10 +69,13 @@ constructor(
     this.http.post<LoginUsuarioResponse>('http://localhost:3000/usuarios/login', body).subscribe({
       next: (respuesta) => {
         console.log('Login exitoso:', respuesta);
-        localStorage.setItem('id_usuario', `${respuesta.id_usuario}`);
-        this.enviando = false;
-        sessionStorage.setItem('usuarioNombre', respuesta.nombre);
+ 
         sessionStorage.setItem('usuarioEmail', respuesta.email || email);
+        localStorage.setItem('id_usuario', String(respuesta.id_usuario));
+        localStorage.setItem('access_token', respuesta.access_token);
+        sessionStorage.setItem('usuarioNombre', respuesta.nombre);
+
+        this.enviando = false;       
         this.router.navigate(['/dashboard-owner']);
       },
       error: (error) => {
