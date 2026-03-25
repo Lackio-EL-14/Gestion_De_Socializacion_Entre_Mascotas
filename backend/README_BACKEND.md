@@ -172,7 +172,55 @@ export class User {
 
 }
 ```
-# 9. Extras generados automaticamente
+# 9. Sistema de Telemetría y Auditoría de Dogchat
+
+Este documento detalla la arquitectura de logging implementada en el backend de Dogchat, diseñada para proveer observabilidad, análisis forense y trazabilidad en entornos de desarrollo y producción en la nube.
+
+## 1. Justificación Técnica: ¿Por qué Winston?
+
+Para el sistema de telemetría de Dogchat, se evaluaron tres de las librerías más estandarizadas en el ecosistema Node.js: **Morgan**, **Pino** y **Winston**. La elección de Winston se fundamenta en los siguientes criterios arquitectónicos:
+
+* **Frente a Morgan:** Morgan es un "HTTP Request Logger". Aunque excelente para registrar qué rutas se consumen, carece de la capacidad de inyectarse en la lógica de negocio (Servicios) para registrar eventos internos (ej. una falla en la validación de un hash Bcrypt). Winston es un "Application Logger" completo.
+* **Frente a Pino:** Pino prioriza el rendimiento extremo y emite logs exclusivamente en formato JSON por defecto, lo que dificulta la lectura humana durante la etapa de desarrollo local sin herramientas de transformación adicionales.
+* **La Ventaja Competitiva de Winston (Transportes):** Winston utiliza una arquitectura basada en **Transportes (Transports)**. Esto nos permite enrutar un mismo log a múltiples destinos con formatos distintos de manera simultánea. Podemos tener logs formateados y coloreados en la terminal para el equipo de desarrollo, y paralelamente generar archivos JSON estructurados para auditorías, todo con una sola línea de código.
+
+## 2. Comportamiento en Entornos Cloud (Despliegue)
+
+
+
+Los servidores en la nube (Render, Railway, AWS) utilizan contenedores efímeros. Si el logger únicamente escribiera en archivos locales (`.log`), el historial se destruiría cada vez que el servidor se reinicie. 
+
+Para solucionar esto, nuestra configuración de Winston emite logs estructurados hacia la salida estándar (Console/Stdout). Las plataformas Cloud modernas interceptan automáticamente este flujo y lo almacenan en sus propios paneles de persistencia. Esto garantiza que el historial del equipo esté siempre accesible, centralizado y a salvo de reinicios del contenedor.
+
+*(Nota: Localmente se generará una carpeta `/logs` para desarrollo, la cual ya se encuentra en el `.gitignore` para proteger información sensible).*
+
+## 3. Guía de Uso para el Equipo Backend
+
+El logger ha sido inyectado globalmente y reemplaza al logger por defecto de NestJS. Para utilizarlo en cualquier Servicio o Controlador, se debe instanciar la clase nativa `Logger` de NestJS.
+
+### Configuración en tu archivo:
+\`\`\`typescript
+import { Logger } from '@nestjs/common';
+
+export class TuServicio {
+  // Inyectamos el contexto (el nombre de la clase) para saber de dónde viene el error
+  private readonly logger = new Logger(TuServicio.name);
+}
+\`\`\`
+
+### Taxonomía y Niveles de Severidad:
+Es estrictamente necesario utilizar el nivel adecuado según el evento:
+
+* **\`this.logger.log('Mensaje')\`**: Para operaciones exitosas del *Happy Path*.
+  * *Ejemplo:* \`[AUDIT-PETS] Entidad mascota creada exitosamente.\`
+* **\`this.logger.warn('Mensaje')\`**: Para anomalías, intentos fallidos o comportamientos sospechosos que no detienen el sistema pero requieren atención.
+  * *Ejemplo:* \`[AUDIT-AUTH] Intento de intrusión por fuerza bruta.\`
+* **\`this.logger.error('Mensaje', trace)\`**: Exclusivo para caídas del sistema, excepciones no controladas o fallos de base de datos (Errores 500).
+  * *Ejemplo:* \`[ERROR-DB] Conexión perdida con el cluster Aiven.\`
+* **\`this.logger.debug('Mensaje')\`**: Información detallada temporal útil solo para el desarrollador cazando un bug.
+
+
+# 10. Extras generados automaticamente
 
 ## TESTING
 
