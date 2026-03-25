@@ -95,7 +95,8 @@ export class UsuariosService {
     return {
       access_token: this.jwtService.sign(payload),
       id_usuario: usuario.id_usuario,
-      nombre: usuario.nombre
+      nombre: usuario.nombre,
+      email: usuario.email
     };
   }
 

@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // ============================================================
 // VARIABLES
 // ============================================================
@@ -306,7 +308,7 @@ body {
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
-    border-color: darken($color-border, 8%);
+    border-color: color.adjust($color-border, $lightness: -8%);
   }
 
   // Círculo con ícono
