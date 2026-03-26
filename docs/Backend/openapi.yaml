@@ -1,0 +1,294 @@
+
+openapi: 3.0.3
+info:
+  title: Pets API
+  description: API para gestión de perfiles de mascotas
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+
+  /usuarios/registro:
+    post:
+      tags:
+        - Users
+      summary: Registrar nuevo usuario dueño
+      description: Permite registrar un nuevo usuario en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsuarioDto'
+      responses:
+        '201':
+          description: Usuario registrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '409':
+          description: El correo electrónico ya está en uso
+        '500':
+          description: Error interno del servidor
+
+  /usuarios/login:
+    post:
+      tags:
+        - Users
+      summary: Autenticación de usuario
+      description: Permite autenticar un usuario y obtener un token JWT.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUsuarioDto'
+      responses:
+        '200':
+          description: Autenticación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Credenciales inválidas o cuenta bloqueada
+
+  /pets:
+    post:
+      tags:
+        - Pets
+      summary: Crear nueva mascota
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePetDto'
+      responses:
+        '201':
+          description: Mascota creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Error de validación o límite alcanzado
+
+    get:
+      tags:
+        - Pets
+      summary: Obtener todas las mascotas
+      responses:
+        '200':
+          description: Lista de mascotas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+  /pets/user/{id}:
+    get:
+      tags:
+        - Pets
+      summary: Obtener mascotas por usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de mascotas del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+  /pets/{id}:
+    patch:
+      tags:
+        - Pets
+      summary: Actualizar mascota
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePetDto'
+      responses:
+        '200':
+          description: Mascota actualizada
+
+    delete:
+      tags:
+        - Pets
+      summary: Eliminar mascota
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Mascota eliminada
+        '404':
+          description: Mascota no encontrada
+
+components:
+  schemas:
+    
+    Usuario:
+      type: object
+      properties:
+        id_usuario:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Luis Salazar
+        email:
+          type: string
+          example: luis@email.com
+        telefono:
+          type: string
+          example: "77777777"
+        foto_perfil_url:
+          type: string
+          example: https://example.com/foto.jpg
+        cantidad_strikes:
+          type: integer
+          example: 0
+        fecha_registro:
+          type: string
+          format: date-time
+        esta_activo:
+          type: boolean
+          example: true
+    
+    CreateUsuarioDto:
+      type: object
+      required:
+        - nombre
+        - email
+        - contrasena_hash
+        - telefono
+      properties:
+        nombre:
+          type: string
+          example: Carlos Perez
+        email:
+          type: string
+          example: carlos@email.com
+        contrasena_hash:
+          type: string
+          example: "123456"
+        telefono:
+          type: string
+          example: "76543210"
+    
+    LoginUsuarioDto:
+      type: object
+      required:
+        - email
+        - contrasena
+      properties:
+        email:
+          type: string
+          example: usuario@email.com
+        contrasena:
+          type: string
+          example: "123456"
+    
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: JWT_TOKEN
+
+    Pet:
+      type: object
+      properties:
+        id_mascota:
+          type: integer
+        nombre:
+          type: string
+        raza:
+          type: string
+        tamano:
+          type: string
+        edad:
+          type: integer
+        genero:
+          type: string
+        estado_salud:
+          type: string
+        vacuna_imagen_url:
+          type: string
+        fecha_registro:
+          type: string
+          format: date-time
+        id_usuario:
+          type: integer
+
+    CreatePetDto:
+      type: object
+      required:
+        - nombre
+        - raza
+        - tamano
+        - edad
+        - genero
+        - estado_salud
+        - id_usuario
+      properties:
+        nombre:
+          type: string
+        raza:
+          type: string
+        tamano:
+          type: string
+        edad:
+          type: integer
+        genero:
+          type: string
+        estado_salud:
+          type: string
+        vacuna_imagen_url:
+          type: string
+        id_usuario:
+          type: integer
+
+    UpdatePetDto:
+      type: object
+      properties:
+        nombre:
+          type: string
+        raza:
+          type: string
+        tamano:
+          type: string
+        edad:
+          type: integer
+        genero:
+          type: string
+        estado_salud:
+          type: string
+        vacuna_imagen_url:
+          type: string
+        id_usuario:
+          type: integer

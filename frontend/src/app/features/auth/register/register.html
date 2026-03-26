@@ -65,6 +65,7 @@
             autocomplete="tel"
             [(ngModel)]="telefono"
             required
+            maxlength="15"
           />
         </div>
 
@@ -79,7 +80,7 @@
             autocomplete="new-password"
             [(ngModel)]="contrasena"
             required
-            minlength="8"
+            minlength="6"
           />
         </div>
 
@@ -107,8 +108,23 @@
       <!-- Footer del card -->
       <p class="login-redirect">
         ¿Ya tienes cuenta?
-        <a href="login.html" class="login-link">Inicia sesión</a>
+        <a routerLink="/login" class="login-link">Inicia sesión</a>
       </p>
 
     </div>
   </div>
+  <div class="modal-overlay" *ngIf="modalVisible">
+  <div class="modal-card">
+    <div class="modal-icon" [ngClass]="modalTipo">
+      <span *ngIf="modalTipo === 'success'">✓</span>
+      <span *ngIf="modalTipo === 'error'">!</span>
+    </div>
+
+    <h2 class="modal-title">{{ modalTitulo }}</h2>
+    <p class="modal-message">{{ modalMensaje }}</p>
+
+    <button type="button" class="modal-btn" (click)="cerrarModal()">
+      Aceptar
+    </button>
+  </div>
+</div>

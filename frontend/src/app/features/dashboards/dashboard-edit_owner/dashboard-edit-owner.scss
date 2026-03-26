@@ -1,0 +1,678 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:             #2563eb;
+$color-primary-hover:       #1d4ed8;
+$color-primary-light:       rgba(#2563eb, 0.08);
+$color-danger:              #dc2626;
+$color-danger-hover:        #b91c1c;
+$color-danger-light:        rgba(#dc2626, 0.08);
+
+$color-sidebar-bg:          #0f172a;
+$color-sidebar-text:        #cbd5e1;
+$color-sidebar-hover:       rgba(255, 255, 255, 0.07);
+$color-sidebar-active-bg:   rgba(#2563eb, 0.15);
+$color-sidebar-active-text: #2563eb;
+
+$color-main-bg:             #f1f5f9;
+$color-card-bg:             #ffffff;
+$color-text-dark:           #0f172a;
+$color-text-muted:          #64748b;
+$color-text-light:          #94a3b8;
+$color-border:              #e2e8f0;
+$color-input-bg:            #f8fafc;
+
+$color-strength-weak:       #ef4444;
+$color-strength-fair:       #f59e0b;
+$color-strength-good:       #3b82f6;
+$color-strength-strong:     #10b981;
+
+$font-family:               'Segoe UI', system-ui, -apple-system, sans-serif;
+$sidebar-width:             260px;
+$border-radius-card:        16px;
+$border-radius-input:       10px;
+$transition:                0.2s ease;
+
+// ============================================================
+// MIXINS
+// ============================================================
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+}
+
+@mixin card-shadow-hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.07);
+}
+
+@mixin input-focus {
+  outline: none;
+  border-color: $color-primary;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+}
+
+// ============================================================
+// RESET
+// ============================================================
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a    { text-decoration: none; color: inherit; }
+ul   { list-style: none; }
+button { cursor: pointer; font-family: $font-family; }
+
+// ============================================================
+// BASE
+// ============================================================
+body {
+  font-family: $font-family;
+  background: $color-main-bg;
+  min-height: 100vh;
+  color: $color-text-dark;
+}
+
+// ============================================================
+// LAYOUT
+// ============================================================
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+// ============================================================
+// SIDEBAR  (idéntico al dashboard)
+// ============================================================
+.sidebar {
+  width: $sidebar-width;
+  min-width: $sidebar-width;
+  background: $color-sidebar-bg;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  &__brand {
+    padding: 0 24px 28px;
+
+    &-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: $color-primary;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 12px;
+    }
+
+    &-item {
+      border-radius: 10px;
+      transition: background $transition;
+
+      &:hover { background: $color-sidebar-hover; }
+
+      &--active {
+        background: $color-sidebar-active-bg;
+
+        .sidebar__nav-link {
+          color: $color-sidebar-active-text;
+          font-weight: 600;
+        }
+        .sidebar__icon { color: $color-sidebar-active-text; }
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    color: $color-sidebar-text;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: color $transition;
+
+    &:hover { color: #fff; }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+
+  &__footer {
+    padding: 12px 12px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 8px;
+
+    .sidebar__nav-link {
+      color: $color-sidebar-text;
+      &:hover { color: #f87171; }
+    }
+  }
+
+  &__logout {
+    border-radius: 10px;
+    transition: background $transition;
+    &:hover { background: rgba(248, 113, 113, 0.1); }
+  }
+}
+
+// ============================================================
+// CONTENIDO PRINCIPAL
+// ============================================================
+.main-content {
+  flex: 1;
+  padding: 36px 40px;
+  overflow-y: auto;
+}
+
+// ============================================================
+// ENCABEZADO DE PÁGINA
+// ============================================================
+.page-header {
+  margin-bottom: 32px;
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    letter-spacing: -0.4px;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: $color-text-muted;
+    margin-top: 4px;
+  }
+}
+
+// ============================================================
+// GRID PRINCIPAL — avatar | formularios
+// ============================================================
+.profile-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+// ============================================================
+// COLUMNA IZQUIERDA: AVATAR CARD
+// ============================================================
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 36px;
+}
+
+.avatar-card {
+  background: $color-card-bg;
+  border-radius: $border-radius-card;
+  @include card-shadow;
+  padding: 32px 24px 28px;
+  @include flex-center(column);
+  gap: 10px;
+  text-align: center;
+  border: 1px solid $color-border;
+
+  &__photo-wrap {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 8px;
+  }
+
+  &__photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid $color-border;
+    display: block;
+
+    // Ocultar si src está vacío
+    &[src=""] { display: none; }
+  }
+
+  // Círculo con iniciales cuando no hay foto
+  &__initials {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $color-primary 0%, #7c3aed 100%);
+    @include flex-center(row);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    border: 3px solid $color-border;
+
+    // Se oculta cuando hay foto — manejado por JS/backend
+    &:empty { display: flex; }
+  }
+
+  // Botón de cámara flotante
+  &__change-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 30px;
+    height: 30px;
+    background: $color-primary;
+    border-radius: 50%;
+    @include flex-center(row);
+    cursor: pointer;
+    border: 2px solid #fff;
+    transition: background $transition, transform $transition;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      stroke: #fff;
+    }
+
+    &:hover {
+      background: $color-primary-hover;
+      transform: scale(1.1);
+    }
+  }
+
+  &__file-input {
+    display: none;
+  }
+
+  &__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $color-text-dark;
+
+    // Placeholder cuando está vacío
+    &:empty::before {
+      content: '';
+      display: inline-block;
+      width: 120px;
+      height: 1em;
+      background: $color-border;
+      border-radius: 4px;
+    }
+  }
+
+  &__email {
+    font-size: 0.82rem;
+    color: $color-text-muted;
+
+    &:empty::before {
+      content: '';
+      display: inline-block;
+      width: 150px;
+      height: 0.85em;
+      background: $color-border;
+      border-radius: 4px;
+    }
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    padding: 5px 12px;
+    background: $color-primary-light;
+    color: $color-primary;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    svg { stroke: currentColor; }
+  }
+}
+
+// Aviso de seguridad
+.security-notice {
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  @include card-shadow;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    stroke: $color-text-muted;
+  }
+
+  p {
+    font-size: 0.78rem;
+    color: $color-text-muted;
+    line-height: 1.5;
+  }
+}
+
+// ============================================================
+// COLUMNA DERECHA: FORMULARIOS
+// ============================================================
+.profile-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+// Sección de formulario
+.form-section {
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-card;
+  padding: 32px 36px;
+  @include card-shadow;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: $color-primary-light;
+    @include flex-center(row);
+    flex-shrink: 0;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke: $color-primary;
+    }
+
+    &--red {
+      background: $color-danger-light;
+      svg { stroke: $color-danger; }
+    }
+  }
+
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $color-text-dark;
+  }
+
+  &__desc {
+    font-size: 0.82rem;
+    color: $color-text-muted;
+    margin-top: 2px;
+  }
+}
+
+// Divisor entre secciones
+.section-divider {
+  height: 20px;
+}
+
+// ============================================================
+// FORMULARIO
+// ============================================================
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// Fila de dos columnas
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+// Grupo de campo
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+// Label
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-text-dark;
+
+  &__required {
+    color: $color-danger;
+    margin-left: 2px;
+  }
+}
+
+// Contenedor del input con ícono
+.input-wrap {
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    stroke: $color-text-light;
+    pointer-events: none;
+    transition: stroke $transition;
+  }
+
+  // Botón ojo (contraseña)
+  &__toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 4px;
+    color: $color-text-light;
+    transition: color $transition;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      display: block;
+    }
+
+    &:hover { color: $color-text-muted; }
+  }
+
+  // Cuando el input tiene foco, el ícono cambia de color
+  &:focus-within {
+    .input-wrap__icon { stroke: $color-primary; }
+  }
+}
+
+// Input base
+.form-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: $color-input-bg;
+  border: 1.5px solid $color-border;
+  border-radius: $border-radius-input;
+  font-size: 0.9rem;
+  font-family: $font-family;
+  color: $color-text-dark;
+  transition: border-color $transition, background $transition, box-shadow $transition;
+
+  &::placeholder { color: $color-text-light; }
+
+  &:focus { @include input-focus; }
+
+  // Input con toggle necesita padding derecho extra
+  .input-wrap--password & {
+    padding-right: 42px;
+  }
+}
+
+// ============================================================
+// INDICADOR DE FORTALEZA DE CONTRASEÑA
+// ============================================================
+.password-strength {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &__bars {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__bar {
+    width: 48px;
+    height: 4px;
+    border-radius: 2px;
+    background: $color-border;
+    transition: background 0.3s ease;
+
+    // Estados — se activan con clases JS: .active--weak / fair / good / strong
+    &.active--weak   { background: $color-strength-weak; }
+    &.active--fair   { background: $color-strength-fair; }
+    &.active--good   { background: $color-strength-good; }
+    &.active--strong { background: $color-strength-strong; }
+  }
+
+  &__label {
+    font-size: 0.78rem;
+    color: $color-text-light;
+  }
+}
+
+// ============================================================
+// ACCIONES DEL FORMULARIO
+// ============================================================
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+// Botones
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  transition: background $transition, transform $transition, box-shadow $transition;
+
+  &:active { transform: translateY(0) !important; }
+
+  &--primary {
+    background: $color-primary;
+    color: #fff;
+
+    &:hover {
+      background: $color-primary-hover;
+      box-shadow: 0 4px 14px rgba($color-primary, 0.35);
+      transform: translateY(-1px);
+    }
+  }
+
+  &--secondary {
+    background: $color-input-bg;
+    color: $color-text-muted;
+    border: 1.5px solid $color-border;
+
+    &:hover {
+      background: $color-border;
+      color: $color-text-dark;
+    }
+  }
+
+  &--danger {
+    background: $color-danger;
+    color: #fff;
+
+    &:hover {
+      background: $color-danger-hover;
+      box-shadow: 0 4px 14px rgba($color-danger, 0.3);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 1100px) {
+  .profile-grid {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .form-section {
+    padding: 24px 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-sidebar {
+    position: static;
+  }
+
+  .avatar-card {
+    flex-direction: row;
+    text-align: left;
+    gap: 20px;
+    padding: 24px;
+
+    &__photo-wrap { flex-shrink: 0; }
+    &__badge { align-self: flex-start; }
+  }
+}
+
+@media (max-width: 640px) {
+  .main-content { padding: 24px 16px; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .sidebar { display: none; }
+
+  .form-actions { flex-direction: column-reverse; }
+
+  .btn { justify-content: center; }
+}

@@ -7,5 +7,5 @@ export class LoginUsuarioDto {
 
   @IsNotEmpty({ message: 'La contraseña es obligatoria' })
   @IsString()
-  contrasena_hash: string; 
+  contrasena: string; 
 }

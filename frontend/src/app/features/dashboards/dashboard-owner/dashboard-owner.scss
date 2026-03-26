@@ -1,0 +1,374 @@
+@use 'sass:color';
+
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:        #2563eb;
+$color-sidebar-bg:     #0f172a;
+$color-sidebar-text:   #cbd5e1;
+$color-sidebar-hover:  rgba(255, 255, 255, 0.07);
+$color-sidebar-active-bg:   rgba($color-primary, 0.15);
+$color-sidebar-active-text: $color-primary;
+
+$color-main-bg:        #f1f5f9;
+$color-card-bg:        #ffffff;
+$color-text-dark:      #0f172a;
+$color-text-muted:     #64748b;
+$color-border:         #e2e8f0;
+
+// Colores de íconos de acceso rápido
+$color-icon-blue:      #dbeafe;
+$color-icon-blue-fg:   #2563eb;
+$color-icon-green:     #d1fae5;
+$color-icon-green-fg:  #059669;
+$color-icon-purple:    #ede9fe;
+$color-icon-purple-fg: #7c3aed;
+$color-icon-orange:    #ffedd5;
+$color-icon-orange-fg: #ea580c;
+
+$font-family:          'Segoe UI', system-ui, -apple-system, sans-serif;
+$sidebar-width:        260px;
+$border-radius-card:   14px;
+$border-radius-icon:   50%;
+$transition:           0.2s ease;
+
+// ============================================================
+// MIXINS
+// ============================================================
+
+/// Centrado flex
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+/// Sombra suave para cards
+@mixin card-shadow {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+/// Íconos de acceso rápido — recibe bg y color de trazo
+@mixin quick-icon($bg, $fg) {
+  background: $bg;
+  color: $fg;
+}
+
+// ============================================================
+// RESET MÍNIMO
+// ============================================================
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+// ============================================================
+// BASE
+// ============================================================
+body {
+  font-family: $font-family;
+  background: $color-main-bg;
+  min-height: 100vh;
+  color: $color-text-dark;
+}
+
+// ============================================================
+// LAYOUT — sidebar fijo + contenido
+// ============================================================
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+.sidebar {
+  width: $sidebar-width;
+  min-width: $sidebar-width;
+  background: $color-sidebar-bg;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  // Marca / logo
+  &__brand {
+    padding: 0 24px 28px;
+
+    &-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: $color-primary;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  // Navegación
+  &__nav {
+    flex: 1;
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 12px;
+    }
+
+    &-item {
+      border-radius: 10px;
+      transition: background $transition;
+
+      &:hover {
+        background: $color-sidebar-hover;
+      }
+
+      // Estado activo
+      &--active {
+        background: $color-sidebar-active-bg;
+
+        .sidebar__nav-link {
+          color: $color-sidebar-active-text;
+          font-weight: 600;
+        }
+
+        .sidebar__icon {
+          color: $color-sidebar-active-text;
+        }
+      }
+    }
+  }
+
+  // Link genérico de nav
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    color: $color-sidebar-text;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: color $transition;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  // Ícono SVG dentro del nav
+  &__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+
+  // Pie del sidebar — Cerrar Sesión
+  &__footer {
+    padding: 12px 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 8px;
+
+    .sidebar__nav-link {
+      color: $color-sidebar-text;
+
+      &:hover {
+        color: #f87171;
+      }
+    }
+  }
+
+  &__logout {
+    border-radius: 10px;
+    transition: background $transition;
+
+    &:hover {
+      background: rgba(248, 113, 113, 0.1);
+    }
+  }
+}
+
+// ============================================================
+// CONTENIDO PRINCIPAL
+// ============================================================
+.main-content {
+  flex: 1;
+  padding: 36px 40px;
+  overflow-y: auto;
+}
+
+// ============================================================
+// ENCABEZADO
+// ============================================================
+.main-header {
+  margin-bottom: 28px;
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    letter-spacing: -0.4px;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: $color-text-muted;
+    margin-top: 4px;
+  }
+}
+
+// ============================================================
+// BANNER DE BIENVENIDA
+// ============================================================
+.welcome-banner {
+  background: linear-gradient(120deg, #3b5bdb 0%, #9b59b6 45%, #e67e22 100%);
+  border-radius: $border-radius-card;
+  padding: 32px 36px;
+  margin-bottom: 36px;
+  color: #fff;
+
+  &__greeting {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  // Espacio reservado para el nombre del usuario
+  &__username {
+    // El nombre será inyectado aquí por el backend / componente
+    &:empty::before {
+      content: '';
+      display: inline-block;
+      width: 80px;
+      height: 1em;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+  }
+
+  &__text {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    max-width: 640px;
+    line-height: 1.5;
+  }
+}
+
+// ============================================================
+// ACCESOS RÁPIDOS
+// ============================================================
+.quick-access {
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    margin-bottom: 16px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+// Tarjeta individual de acceso rápido
+.quick-card {
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-card;
+  padding: 28px 20px 24px;
+  @include flex-center(column);
+  gap: 12px;
+  cursor: pointer;
+  transition: transform $transition, box-shadow $transition, border-color $transition;
+  @include card-shadow;
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    border-color: color.adjust($color-border, $lightness: -8%);
+  }
+
+  // Círculo con ícono
+  &__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: $border-radius-icon;
+    @include flex-center(row);
+
+    svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+    }
+
+    // Variantes de color
+    &--blue   { @include quick-icon($color-icon-blue,   $color-icon-blue-fg); }
+    &--green  { @include quick-icon($color-icon-green,  $color-icon-green-fg); }
+    &--purple { @include quick-icon($color-icon-purple, $color-icon-purple-fg); }
+    &--orange { @include quick-icon($color-icon-orange, $color-icon-orange-fg); }
+  }
+
+  &__name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $color-text-dark;
+  }
+
+  &__desc {
+    font-size: 0.8rem;
+    color: $color-text-muted;
+    line-height: 1.4;
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 1100px) {
+  .quick-access__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; // En mobile se ocultaría con un toggle — pendiente de implementar
+  }
+
+  .main-content {
+    padding: 24px 20px;
+  }
+
+  .quick-access__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-access__grid {
+    grid-template-columns: 1fr;
+  }
+}

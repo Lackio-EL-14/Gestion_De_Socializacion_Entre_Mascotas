@@ -1,0 +1,67 @@
+<div class="page">
+  <div class="sidebar">
+
+  </div>
+  <div class="content">
+    <button class="back-button">← Volver a mis mascotas </button>
+    <h1 class="page-title">Crear Mascota</h1>
+    <p class="page-subtitle">Registra la información de tu nuevo perrito</p>
+    <div class="pet-card">
+      <form class="pet-form" (ngSubmit)="submit()">
+        <div class="photo-upload">
+          <label for="image">Imagen</label>
+          <input type="file" id="image" (change)="onImageSelected($event)" />
+        </div>
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" [(ngModel)]="nombre" name="nombre" />
+        </div>
+        <div class="form-group">
+          <label for="breed">Raza</label>
+          <input type="text" id="breed" [(ngModel)]="raza" name="raza" />
+        </div>
+        <div class="form-group">
+          <label for="size">Tamaño</label>
+          <select id="size" [(ngModel)]="tamano" name="tamano">
+            <option value="">Seleccionar</option>
+            <option value="small">Pequeño</option>
+            <option value="medium">Mediano</option>
+            <option value="large">Grande</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="gender">Género</label>
+          <select id="gender" [(ngModel)]="genero" name="genero">
+            <option value="">Seleccionar</option>
+            <option value="male">Macho</option>
+            <option value="female">Hembra</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="age">Edad</label>
+          <input type="number" id="age" [(ngModel)]="edad" name="edad" />
+        </div>
+        <div class="file-upload">
+          <label for="vaccineFile">Archivo de vacunas</label>
+          <input type="file" id="vaccineFile" (change)="onVaccineSelected($event)" />
+        </div>
+        <button type="submit" class="btn-save">Crear Mascota</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="modalVisible">
+  <div class="modal-card">
+    <div class="modal-icon" [ngClass]="modalTipo">
+      <span *ngIf="modalTipo === 'success'">✓</span>
+      <span *ngIf="modalTipo === 'error'">!</span>
+    </div>
+
+    <h2 class="modal-title">{{ modalTitulo }}</h2>
+    <p class="modal-message">{{ modalMensaje }}</p>
+
+    <button type="button" class="modal-btn" (click)="cerrarModal()">
+      Aceptar
+    </button>
+  </div>
+</div>

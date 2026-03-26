@@ -1,1 +1,79 @@
-<p>login works!</p>
+<div class="page-wrapper">
+  <div class="card">
+
+    <!-- Logo -->
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="white" width="44" height="44" aria-hidden="true">
+        <ellipse cx="16" cy="18" rx="8" ry="11" transform="rotate(-15 16 18)" />
+        <ellipse cx="48" cy="18" rx="8" ry="11" transform="rotate(15 48 18)" />
+        <circle cx="32" cy="36" r="20" />
+        <circle cx="24" cy="31" r="3" fill="#2563eb" />
+        <circle cx="40" cy="31" r="3" fill="#2563eb" />
+        <ellipse cx="32" cy="38" rx="5" ry="3.5" fill="#2563eb" />
+        <path d="M27 42 Q32 47 37 42" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Título -->
+    <h1 class="brand-name">DogChat Admin</h1>
+    <p class="brand-subtitle">Panel de Administración</p>
+
+    <!-- Formulario -->
+    <form class="login-form" (ngSubmit)="iniciarSesion()" novalidate>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email o Nombre de Usuario</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          class="form-input"
+          placeholder="admin@dogchat.com"
+          autocomplete="username"
+          [(ngModel)]="email"
+          required
+          maxlength="150"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="contrasena" class="form-label">Contraseña</label>
+        <input
+          type="password"
+          id="contrasena"
+          name="contrasena"
+          class="form-input"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          [(ngModel)]="contrasena"
+          required
+          minlength="6"
+          maxlength="64"
+        />
+      </div>
+
+      <a href="#" class="forgot-link">¿Te olvidaste? Recuperar contraseña</a>
+
+      <button type="submit" class="btn-submit" [disabled]="enviando">
+        {{ enviando ? 'Ingresando...' : 'Iniciar Sesión' }}
+      </button>
+
+    </form>
+
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="modalVisible">
+  <div class="modal-card">
+    <div class="modal-icon" [ngClass]="modalTipo">
+      <span *ngIf="modalTipo === 'success'">✓</span>
+      <span *ngIf="modalTipo === 'error'">!</span>
+    </div>
+
+    <h2 class="modal-title">{{ modalTitulo }}</h2>
+    <p class="modal-message">{{ modalMensaje }}</p>
+
+    <button type="button" class="modal-btn" (click)="cerrarModal()">
+      Aceptar
+    </button>
+  </div>
+</div>

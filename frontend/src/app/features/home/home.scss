@@ -1,0 +1,278 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:       #2563eb;
+$color-primary-hover: #1d4ed8;
+$color-bg-card:       #ffffff;
+$color-text-dark:     #111827;
+$color-text-muted:    #475569;
+$color-text-subtitle: #6b7280;
+$color-border-soft:   rgba(17, 24, 39, 0.08);
+
+$color-owner-bg:      #dbeafe;
+$color-worker-bg:     #ffedd5;
+$color-worker-icon:   #ea580c;
+
+$font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+$border-radius-shell: 10px;
+$border-radius-card:  16px;
+$border-radius-btn:   10px;
+
+$transition-speed: 0.2s;
+
+// ============================================================
+// MIXINS
+// ============================================================
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  } @else if $level == 2 {
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// ============================================================
+// BASE
+// ============================================================
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: $font-family;
+  background: linear-gradient(90deg, #eef3fb 0%, #f7f7f8 55%, #f8f4ef 100%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// ============================================================
+// WRAPPER
+// ============================================================
+.page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 4px;
+}
+
+.home-shell {
+  min-height: calc(100vh - 8px);
+  width: 100%;
+  border-radius: $border-radius-shell;
+  overflow: hidden;
+}
+
+// ============================================================
+// TOPBAR
+// ============================================================
+.topbar {
+  width: 100%;
+  padding: 0px 32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  .logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: $color-primary;
+    @include flex-center;
+    flex-shrink: 0;
+  }
+
+  .brand-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    letter-spacing: -0.4px;
+  }
+}
+
+.btn-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border: 1px solid rgba($color-primary, 0.35);
+  border-radius: $border-radius-btn;
+  background: rgba(255, 255, 255, 0.45);
+  color: $color-text-dark;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background $transition-speed ease,
+    border-color $transition-speed ease,
+    transform $transition-speed ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba($color-primary, 0.55);
+    transform: translateY(-1px);
+  }
+}
+
+// ============================================================
+// HERO
+// ============================================================
+.hero {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 150px 24px 60px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: $color-text-dark;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: $color-text-muted;
+  max-width: 760px;
+  margin: 0 auto 48px;
+  line-height: 1.55;
+}
+
+// ============================================================
+// ROLE CARDS
+// ============================================================
+.role-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.role-card {
+  width: 100%;
+  max-width: 320px;
+  min-height: 300px;
+  background: $color-bg-card;
+  border: 1px solid $color-border-soft;
+  border-radius: $border-radius-card;
+  @include card-shadow(1);
+  padding: 30px 28px;
+  cursor: pointer;
+  transition:
+    transform $transition-speed ease,
+    box-shadow $transition-speed ease,
+    border-color $transition-speed ease;
+
+  @include flex-center(column);
+
+  &:hover {
+    transform: translateY(-4px);
+    @include card-shadow(2);
+    border-color: rgba($color-primary, 0.16);
+  }
+}
+
+.icon-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  @include flex-center;
+  margin-bottom: 18px;
+}
+
+.icon-owner {
+  background: $color-owner-bg;
+}
+
+.icon-worker {
+  background: $color-worker-bg;
+}
+
+.role-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: $color-text-dark;
+  line-height: 1.35;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.role-text {
+  font-size: 0.95rem;
+  color: $color-text-muted;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 240px;
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 900px) {
+  .hero {
+    padding-top: 110px;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 20px 18px 0;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .brand {
+    .logo {
+      width: 48px;
+      height: 48px;
+    }
+
+    .brand-name {
+      font-size: 1.6rem;
+    }
+  }
+
+  .btn-login {
+    padding: 9px 14px;
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    padding: 90px 18px 40px;
+  }
+
+  .hero-title {
+    font-size: 2.35rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 34px;
+  }
+
+  .role-card {
+    min-height: 280px;
+    padding: 26px 22px;
+  }
+}
