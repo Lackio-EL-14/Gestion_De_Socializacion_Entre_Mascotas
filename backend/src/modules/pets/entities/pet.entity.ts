@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeor
 
 @Entity('MASCOTA')
 export class Pet {
-
   @PrimaryGeneratedColumn()
   id_mascota: number;
 

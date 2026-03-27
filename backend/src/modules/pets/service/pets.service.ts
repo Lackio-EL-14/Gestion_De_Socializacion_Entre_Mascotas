@@ -15,20 +15,32 @@ export class PetsService {
   ) {}
 
   async create(createPetDto: CreatePetDto) {
+    const { id_mascota, ...data } = createPetDto as any;
+
     const count = await this.petsRepository
       .createQueryBuilder('pet')
-      .where('pet.id_usuario = :id', { id: createPetDto.id_usuario })
+      .where('pet.id_usuario = :id', { id: data.id_usuario })
       .getCount();
 
-    if (count >= 19) {
-      this.logger.warn(`[AUDIT-PETS] Rechazo de creación. El usuario ID: ${createPetDto.id_usuario} ha intentado exceder el límite máximo de 20 mascotas.`);
-      throw new BadRequestException('Has alcanzado el límite máximo de 20 mascotas');
+    if (count >= 20) {
+      this.logger.warn(
+        `[AUDIT-PETS] Rechazo de creación. El usuario ID: ${createPetDto.id_usuario} ha intentado exceder el límite máximo de 20 mascotas.`
+      );
+      throw new BadRequestException(
+        'Has alcanzado el límite máximo de 20 mascotas'
+      );
     }
 
-    const pet = this.petsRepository.create(createPetDto);
-    const savedPet = await this.petsRepository.save(pet);
+    const pet = this.petsRepository.create(data);
 
-    this.logger.log(`[AUDIT-PETS] Entidad mascota creada exitosamente. ID Mascota: ${savedPet.id_mascota}, Propietario ID: ${createPetDto.id_usuario}`);
+    const saved = await this.petsRepository.save(pet);
+
+    const savedPet = Array.isArray(saved) ? saved[0] : saved;
+
+    this.logger.log(
+      `[AUDIT-PETS] Entidad mascota creada exitosamente. ID Mascota: ${savedPet.id_mascota}, Propietario ID: ${createPetDto.id_usuario}`
+    );
+
     return savedPet;
   }
 
@@ -45,12 +57,19 @@ export class PetsService {
   }
 
   async update(id: number, updatePetDto: UpdatePetDto) {
-    await this.petsRepository.update(id, updatePetDto);
-    this.logger.log(`[AUDIT-PETS] Modificación de entidad mascota procesada. ID Mascota: ${id}`);
-    
-    return this.petsRepository.findOne({
+    const pet = await this.petsRepository.findOne({
       where: { id_mascota: id }
     });
+
+    if (!pet) {
+      return { message: 'Mascota no encontrada' };
+    }
+    Object.assign(pet, updatePetDto);
+    const updated = await this.petsRepository.save(pet);
+
+    this.logger.log(`[AUDIT-PETS] Modificación segura. ID Mascota: ${id}`);
+
+    return updated;
   }
 
   async remove(id: number) {

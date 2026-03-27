@@ -1,7 +1,6 @@
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt } from 'class-validator';
 
 export class CreatePetDto {
-
   @IsNotEmpty()
   @IsString()
   nombre: string;
@@ -15,7 +14,7 @@ export class CreatePetDto {
   tamano: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsInt()
   edad: number;
 
   @IsNotEmpty()
@@ -30,6 +29,6 @@ export class CreatePetDto {
   vacuna_imagen_url: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsInt()
   id_usuario: number;
 }

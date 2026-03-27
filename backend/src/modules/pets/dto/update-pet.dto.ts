@@ -1,7 +1,6 @@
 import { IsString, IsInt, IsOptional } from 'class-validator';
 
 export class UpdatePetDto {
-
   @IsOptional()
   @IsString()
   nombre?: string;
@@ -33,5 +32,4 @@ export class UpdatePetDto {
   @IsOptional()
   @IsInt()
   id_usuario?: number;
-
 }
