@@ -34,4 +34,9 @@ export class PetsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.petsService.remove(id);
   }
+
+  @Get('random/:userId')
+  findRandom(@Param('userId', ParseIntPipe) userId: number) {
+    return this.petsService.findRandomExcludingUser(userId);
+  }
 }

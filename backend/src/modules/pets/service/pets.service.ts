@@ -94,4 +94,13 @@ export class PetsService {
       where: { id_usuario: userId },
     });
   }
+
+  async findRandomExcludingUser(userId: number): Promise<Pet | null> {
+    return await this.petsRepository
+      .createQueryBuilder('pet')
+      .where('pet.id_usuario != :userId', { userId })
+      .orderBy('RAND()')
+      .limit(1)
+      .getOne();
+  }
 }
