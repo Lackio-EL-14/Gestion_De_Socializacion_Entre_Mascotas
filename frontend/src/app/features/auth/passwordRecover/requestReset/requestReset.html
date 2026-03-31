@@ -1,0 +1,30 @@
+<div class="page-wrapper">
+  <div class="card">
+
+    <div class="brand-name">Recuperar contraseña</div>
+    <div class="brand-subtitle">
+      Ingresa tu correo y te enviaremos un código
+    </div>
+
+    <form class="login-form" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label class="form-label" for="email">Correo electrónico</label>
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="ejemplo@email.com"
+          required
+        />
+      </div>
+
+      <button class="btn-submit" type="submit">
+        Enviar código
+      </button>
+
+    </form>
+  </div>
+</div>
