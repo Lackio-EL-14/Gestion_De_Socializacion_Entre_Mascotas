@@ -73,9 +73,7 @@ export class ListPetsComponent implements OnInit {
 }
 
   editarMascota(idMascota: number): void {
-    console.log('Editar mascota con id:', idMascota);
-    // en el sig feat:
-    // this.router.navigate(['/editar-mascota', idMascota]);
+    this.router.navigate(['/pets/edit-pet', idMascota]);
   }
 
   getNombreSeguro(nombre: string): string {
