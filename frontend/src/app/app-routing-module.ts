@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'pets',
     loadChildren: () =>
       import('./features/pets/pets-module').then(m => m.PetsModule)
+  },
+  {
+    path: 'feed',
+    loadChildren: () =>
+      import('./features/feed/feed-module').then(m => m.FeedModule)
   }
 ];
 
