@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 
 interface RegistroUsuarioRequest {
   nombre: string;
@@ -12,8 +12,7 @@ interface RegistroUsuarioRequest {
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: false,
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -24,46 +23,96 @@ export class Register {
   contrasena = '';
   confirmarContrasena = '';
   enviando = false;
+  modalVisible = false;
+  modalTitulo = '';
+  modalMensaje = '';
+  modalTipo: 'success' | 'error' = 'success';
 
-  private readonly http = inject(HttpClient);
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   registro(): void {
-    if (
-      !this.nombre ||
-      !this.email ||
-      !this.telefono ||
-      !this.contrasena ||
-      !this.confirmarContrasena
-    ) {
-      alert('Todos los campos son obligatorios');
+    const nombre = this.nombre.trim();
+    const email = this.email.trim();
+    const telefono = this.telefono.trim();
+    const contrasena = this.contrasena;
+
+    if (!nombre) {
+      this.mostrarModal('Error de validación', 'El nombre es obligatorio', 'error');
+      return;
+    }
+
+    if (!email) {
+      this.mostrarModal('Error de validación', 'El correo electrónico es obligatorio', 'error');
+      return;
+    }
+
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailValido.test(email)) {
+      this.mostrarModal('Error de validación', 'El formato del correo no es válido', 'error');
+      return;
+    }
+
+    if (!telefono) {
+      this.mostrarModal('Error de validación', 'El teléfono es obligatorio', 'error');
+      return;
+    }
+
+    if (telefono.length > 15) {
+      this.mostrarModal('Error de validación', 'El teléfono es demasiado largo', 'error');
+      return;
+    }
+
+    if (contrasena.length < 6) {
+      this.mostrarModal('Error de validación', 'La contraseña debe tener al menos 6 caracteres', 'error');
+      return;
+    }
+
+    if (!contrasena) {
+      this.mostrarModal('Error de validación', 'La contraseña es obligatoria', 'error');
+      return;
+    }
+
+    if (!this.confirmarContrasena) {
+      this.mostrarModal('Error de validación', 'Debes confirmar la contraseña', 'error');
       return;
     }
 
     if (this.contrasena !== this.confirmarContrasena) {
-      alert('Las contrasenas no coinciden');
+      this.mostrarModal('Error de validación', 'Las contraseñas no coinciden', 'error');
       return;
     }
 
     const body: RegistroUsuarioRequest = {
-      nombre: this.nombre.trim(),
-      email: this.email.trim(),
-      contrasena_hash: this.contrasena,
-      telefono: this.telefono.trim(),
+      nombre,
+      email,
+      contrasena_hash: contrasena,
+      telefono,
     };
 
     this.enviando = true;
 
     this.http.post('http://localhost:3000/usuarios/registro', body).subscribe({
       next: () => {
-        alert('Cuenta creada correctamente');
         this.limpiarFormulario();
         this.enviando = false;
+        this.mostrarModal('Registro exitoso', 'Cuenta creada correctamente', 'success');
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al registrar:', error);
         const mensaje = error?.error?.message;
-        alert(Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || 'Hubo un error al registrar');
+
         this.enviando = false;
+        this.mostrarModal(
+          'Error de registro',
+          Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || 'Hubo un error al registrar',
+          'error'
+        );
+        this.cdr.detectChanges();
       },
     });
   }
@@ -75,4 +124,18 @@ export class Register {
     this.contrasena = '';
     this.confirmarContrasena = '';
   }
+  mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {
+  this.modalTitulo = titulo;
+  this.modalMensaje = mensaje;
+  this.modalTipo = tipo;
+  this.modalVisible = true;
+}
+
+cerrarModal(): void {
+  this.modalVisible = false;
+
+  if (this.modalTipo === 'success') {
+    this.router.navigate(['/login']);
+  }
+}
 }

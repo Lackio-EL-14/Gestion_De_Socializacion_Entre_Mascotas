@@ -1,0 +1,43 @@
+<div class="pets-page">
+
+  <div class="top-link"> 
+    <button type="button" class="back-btn" routerLink="/dashboard-owner"> ← Volver a Home </button> 
+  </div>
+
+  <div class="pets-header">
+    <h1>Mis Mascotas</h1>
+    <p>Administra la información de tus perritos</p>
+  </div>
+
+  <div *ngIf="cargando" class="state-message">
+    Cargando mascotas...
+  </div>
+
+  <div *ngIf="error" class="state-message error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!cargando && !error && mascotas.length === 0" class="state-message">
+    No tienes mascotas registradas todavía.
+  </div>
+
+  <div *ngIf="!cargando && !error && mascotas.length > 0" class="pets-grid">
+    <div class="pet-card" *ngFor="let mascota of mascotas">
+      <img
+        class="pet-image"
+        [src]="imagenPlaceholder"
+        [alt]="getNombreSeguro(mascota.nombre)"
+      />
+
+      <div class="pet-info">
+        <h2 class="pet-name">{{ getNombreSeguro(mascota.nombre) }}</h2>
+        <p class="pet-breed">{{ getRazaSegura(mascota.raza) }}</p>
+        <p class="pet-age">{{ mascota.edad }} años</p>
+
+        <button class="edit-btn" (click)="editarMascota(mascota.id_mascota)">
+          Editar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
