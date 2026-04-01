@@ -85,7 +85,7 @@ cargarMascota(): void {
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
   this.http.get<Mascota[] | Mascota>(
-    'http://localhost:3000/pets/my-pets',
+    'https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/my-pets',
     { headers }
   ).subscribe({
     next: (respuesta) => {
@@ -165,7 +165,7 @@ cargarMascota(): void {
 
     this.enviando = true;
 
-    this.http.patch(`http://localhost:3000/pets/${this.idMascota}`, body).subscribe({
+    this.http.patch(`https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/${this.idMascota}`, body).subscribe({
       next: () => {
         this.enviando = false;
         this.mostrarModal('Éxito', 'La mascota ha sido actualizada exitosamente', 'success');
