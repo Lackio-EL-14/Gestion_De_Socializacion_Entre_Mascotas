@@ -1,1 +1,285 @@
-<p>No feed items to display yet.</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DogChat – Buscar Match</title>
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-name">DogChat</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <ul class="sidebar__nav-list">
+
+          <li class="sidebar__nav-item">
+              <a routerLink="/dashboard-owner" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item sidebar__nav-item--active">
+            <a routerLink="/feed" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+              <span>Tarjetas</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="#" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              <span>Huesitos</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="#" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              <span>Publicaciones</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="#" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Mis Publicaciones</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="#" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Chats</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="#" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span>Usuarios</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="#" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/>
+                <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>
+              </svg>
+              <span>Mascotas</span>
+            </a>
+          </li>
+
+          <li class="sidebar__nav-item">
+            <a href="perfil.html" class="sidebar__nav-link">
+              <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              <span>Configurar Perfil</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+
+      <div class="sidebar__footer">
+        <a href="#" class="sidebar__nav-link sidebar__logout">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Cerrar Sesión</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ===================== CONTENIDO PRINCIPAL ===================== -->
+    <main class="main-content">
+
+      <header class="page-header">
+        <h1 class="page-header__title">Buscar Match</h1>
+        <p class="page-header__subtitle">Encuentra el amigo perfecto para tu perrito 🐾</p>
+      </header>
+
+      <!-- Área centrada de la tarjeta -->
+      <div class="match-stage">
+
+        <!-- TARJETA DEL PERRITO -->
+        <!-- data-id se llenará con id_mascota desde el backend -->
+        <article class="dog-card" id="dogCard" [class.is-leaving]="isLeaving" [attr.data-id]="pet?.id_mascota ?? ''">
+
+          <!-- ── Zona de foto ── -->
+          <div class="dog-card__photo-wrap">
+
+            <!-- Imagen del perrito — src se inyecta por backend cuando esté disponible -->
+            <img
+              [src]="photoUrl"
+              alt="Foto del perrito"
+              class="dog-card__photo"
+              id="dogPhoto"
+            />
+
+            <!-- Placeholder mientras no hay foto -->
+            <div class="dog-card__photo-placeholder" id="dogPhotoPlaceholder" [class.hidden]="hasPhoto">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/>
+                <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>
+              </svg>
+              <span>Foto próximamente</span>
+            </div>
+
+            <!-- Gradiente + nombre superpuesto sobre la foto -->
+            <div class="dog-card__photo-overlay">
+              <h2 class="dog-card__name" id="dogName">{{ pet?.nombre || 'Sin nombre' }}</h2>
+            </div>
+
+            <!-- Badge de estado de salud — esquina superior derecha -->
+            <div class="dog-card__health-badge" id="dogHealthBadge" [ngClass]="healthBadgeClass">{{ pet?.estado_salud || '' }}</div>
+
+          </div>
+
+          <!-- ── Información del perrito ── -->
+          <div class="dog-card__body">
+
+            <div class="dog-card__info-grid">
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">Raza</span>
+                <span class="dog-card__info-value" id="dogRaza">
+                  {{ pet?.raza || '--' }}
+                </span>
+              </div>
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">Tamaño</span>
+                <span class="dog-card__info-value" id="dogTamano">
+                  {{ pet?.tamano || '--' }}
+                </span>
+              </div>
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">Género</span>
+                <span class="dog-card__info-value" id="dogGenero">
+                  {{ pet?.genero || '--' }}
+                </span>
+              </div>
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">Edad</span>
+                <span class="dog-card__info-value" id="dogEdad">
+                  {{ pet?.edad !== undefined && pet?.edad !== null ? pet?.edad + ' anos' : '--' }}
+                </span>
+              </div>
+
+            </div>
+
+            <!-- Botón cartilla de vacunas -->
+            <!-- href se llena con vacuna_imagen_url desde el backend -->
+            <a
+              [href]="vaccineCardUrl || '#'"
+              class="dog-card__btn-outline"
+              [class.is-disabled]="!vaccineCardUrl"
+              [attr.aria-disabled]="!vaccineCardUrl"
+              id="btnCartilla"
+              target="_blank"
+              rel="noopener noreferrer"
+              (click)="onVaccineCardClick($event)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              Ver Cartilla de Vacunas
+            </a>
+
+            <!-- Botón ver perfil completo -->
+            <button type="button" class="dog-card__btn-outline" id="btnPerfil">
+              Ver Perfil Completo
+            </button>
+
+            <!-- Acciones principales: Huesito + Next -->
+            <div class="dog-card__actions">
+
+              <!-- Botón Huesito (like) -->
+              <!-- Al conectar backend: envía POST con id_mascota para registrar el like -->
+              <button
+                type="button"
+                class="btn-huesito"
+                id="btnHuesito"
+                aria-label="Dar huesito"
+                data-liked="false"
+              >
+                <svg class="btn-huesito__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span>Huesito</span>
+              </button>
+
+              <!-- Botón Next (carga el siguiente perrito desde el backend) -->
+              <button
+                type="button"
+                class="btn-next"
+                id="btnNext"
+                aria-label="Ver siguiente perrito"
+                [disabled]="isLoading || !currentUserId"
+                (click)="loadNextPet()"
+              >
+                <span>Next</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+
+            </div>
+
+            <p class="dog-card__status" *ngIf="isLoading">Cargando perrito aleatorio...</p>
+            <p class="dog-card__status dog-card__status--error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+            <!-- Botón Reportar -->
+            <div class="dog-card__report-wrap">
+              <button type="button" class="btn-report" id="btnReport">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                  <line x1="4" y1="22" x2="4" y2="15"/>
+                </svg>
+                Reportar
+              </button>
+            </div>
+
+          </div>
+        </article>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
