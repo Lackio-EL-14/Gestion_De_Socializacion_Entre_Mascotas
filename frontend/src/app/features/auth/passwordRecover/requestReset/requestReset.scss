@@ -62,185 +62,164 @@ $transition-speed: 0.2s;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14);
   }
 }
+
 // ============================================================
-// PAGE LAYOUT
+// BASE
 // ============================================================
-.page {
-  display: flex;
+:host {
+  display: block;
   min-height: 100vh;
-  background: linear-gradient(90deg, #eef3fb 0%, #f7f7f8 55%, #f8f4ef 100%);
   font-family: $font-family;
+  background: linear-gradient(90deg, #eef3fb 0%, #f7f7f8 55%, #f8f4ef 100%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 // ============================================================
-// SIDEBAR
+// PAGE WRAPPER
 // ============================================================
-.sidebar {
-  width: 260px;
-  background: #ffffff;
-  border-right: 1px solid rgba(17, 24, 39, 0.06);
-  padding: 24px;
-}
-
-// ============================================================
-// CONTENT
-// ============================================================
-.content {
-  flex: 1;
-  padding: 40px 48px;
-}
-
-// ============================================================
-// HEADER
-// ============================================================
-.back-btn {
-  background: none;
-  border: none;
-  color: $color-link;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 18px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.page-title {
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: $color-text-dark;
-  margin-bottom: 6px;
-}
-
-.page-subtitle {
-  font-size: 0.95rem;
-  color: $color-text-subtitle;
-  margin-bottom: 32px;
+.page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px 16px;
+  @include flex-center(row);
 }
 
 // ============================================================
 // CARD
 // ============================================================
-.pet-card {
+.card {
   background: $color-bg-card;
   border-radius: $border-radius-card;
-  padding: 36px 40px;
-  max-width: 600px;
+  @include card-shadow(1);
+  width: 100%;
+  max-width: $card-max-width;
+  padding: 40px 48px 36px;
+  @include flex-center(column);
   border: 1px solid rgba(17, 24, 39, 0.06);
 
-  @include card-shadow(1);
-}
+  .logo {
+    width: 72px;
+    height: 72px;
+    background: $color-primary;
+    border-radius: 50%;
+    @include flex-center(row);
+    margin-bottom: 18px;
 
-// ============================================================
-// FORM
-// ============================================================
-.pet-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    svg {
+      display: block;
+    }
+  }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  label {
-    font-size: 0.9rem;
+  .brand-name {
+    font-size: 2.2rem;
     font-weight: 700;
     color: $color-text-dark;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    text-align: center;
   }
 
-  input,
-  select {
-    @include input-base;
+  .brand-subtitle {
+    font-size: 0.95rem;
+    color: $color-text-subtitle;
+    margin-bottom: 30px;
+    text-align: center;
   }
 }
 
 // ============================================================
-// FOTO
+// FORMULARIO
 // ============================================================
-.photo-upload {
+.login-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 22px;
 
-  input[type="file"] {
-    @include input-base;
-    padding: 10px;
-    background: white;
-  }
-}
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 
-// ============================================================
-// VACUNACIÓN
-// ============================================================
-.file-upload {
-  input {
-    @include input-base;
-    padding: 10px;
-    background: white;
-  }
-}
+    .form-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $color-text-dark;
+    }
 
-// ============================================================
-// BUTTON
-// ============================================================
-.btn-save {
-  width: 100%;
-  margin-top: 10px;
-  padding: 15px;
-  background: $color-primary;
-  color: white;
-  border: none;
-  border-radius: $border-radius-btn;
-  font-weight: 700;
-  cursor: pointer;
-
-  transition:
-    background $transition-speed ease,
-    transform $transition-speed ease,
-    box-shadow $transition-speed ease;
-
-  &:hover {
-    background: $color-primary-hover;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba($color-primary, 0.35);
+    .form-input {
+      @include input-base;
+    }
   }
 
-  &:active {
-    transform: translateY(0);
-    box-shadow: none;
+  .forgot-link {
+    display: block;
+    text-align: center;
+    color: $color-link;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-top: -4px;
+    margin-bottom: 2px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: $color-primary;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: $font-family;
+    border: none;
+    border-radius: $border-radius-btn;
+    cursor: pointer;
+    transition:
+      background $transition-speed ease,
+      transform $transition-speed ease,
+      box-shadow $transition-speed ease;
+
+    &:hover {
+      background: $color-primary-hover;
+      box-shadow: 0 4px 16px rgba($color-primary, 0.35);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
   }
 }
 
 // ============================================================
 // RESPONSIVE
 // ============================================================
-@media (max-width: 900px) {
-  .page {
-    flex-direction: column;
-  }
+@media (max-width: 560px) {
+  .card {
+    padding: 32px 24px 28px;
 
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid rgba(17, 24, 39, 0.06);
-  }
-
-  .content {
-    padding: 24px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
+    .brand-name {
+      font-size: 1.8rem;
+    }
   }
 }
-
-//modal
-
+//Modal
 .modal-overlay {
   position: fixed;
   inset: 0;

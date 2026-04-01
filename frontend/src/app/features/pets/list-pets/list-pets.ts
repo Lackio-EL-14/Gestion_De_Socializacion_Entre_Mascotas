@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -38,44 +38,39 @@ export class ListPetsComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerMascotas();
   }
-  obtenerMascotas(): void {
-  const idUsuario = localStorage.getItem('id_usuario');
-  console.log('id_usuario recuperado:', idUsuario);
+obtenerMascotas(): void {
+    const idUsuario = localStorage.getItem('id_usuario');
+    const token = localStorage.getItem('access_token');
 
-  if (!idUsuario) {
-    this.error = 'No se encontró un usuario logeado';
-    return;
-  }
-
-  this.cargando = true;
-  this.error = '';
-
-  this.http.get<Mascota[] | Mascota>(
-    `https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/user/${idUsuario}?t=${Date.now()}`
-  ).subscribe({
-    next: (respuesta) => {
-      console.log('Mascotas recibidas:', respuesta);
-
-      this.mascotas = Array.isArray(respuesta) ? respuesta : [respuesta];
-      this.cargando = false;
-      this.cdr.detectChanges();
-    },
-    error: (error) => {
-      console.error('Error al obtener mascotas:', error);
-      this.error = 'No se pudieron cargar tus mascotas';
-      this.cargando = false;
-      this.cdr.detectChanges();
-    },
-    complete: () => {
-      console.log('Request finalizado');
+    if (!idUsuario || !token) {
+      this.error = 'No se encontró un usuario logeado o falta el token de seguridad';
+      return;
     }
-  });
-}
 
+    this.cargando = true;
+    this.error = '';
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.get<Mascota[] | Mascota>(
+      `https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/my-pets`,
+      { headers }
+    ).subscribe({
+      next: (respuesta) => {
+        this.mascotas = Array.isArray(respuesta) ? respuesta : [respuesta];
+        this.cargando = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al obtener mascotas:', error);
+        this.error = 'No se pudieron cargar tus mascotas. Verifica tu sesión.';
+        this.cargando = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
   editarMascota(idMascota: number): void {
-    console.log('Editar mascota con id:', idMascota);
-    // en el sig feat:
-    // this.router.navigate(['/editar-mascota', idMascota]);
+    this.router.navigate(['/pets/edit-pet', idMascota]);
   }
 
   getNombreSeguro(nombre: string): string {

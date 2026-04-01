@@ -1,0 +1,629 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:           #2563eb;
+$color-primary-hover:     #1d4ed8;
+$color-orange:            #ea580c;
+$color-orange-hover:      #c2410c;
+$color-orange-light:      rgba(#ea580c, 0.1);
+$color-danger:            #dc2626;
+$color-danger-light:      rgba(#dc2626, 0.08);
+$color-green:             #16a34a;
+$color-green-light:       rgba(#16a34a, 0.12);
+
+$color-sidebar-bg:        #0f172a;
+$color-sidebar-text:      #cbd5e1;
+$color-sidebar-hover:     rgba(255, 255, 255, 0.07);
+$color-sidebar-active-bg: rgba(#2563eb, 0.15);
+$color-sidebar-active:    #2563eb;
+
+$color-main-bg:           #f1f5f9;
+$color-card-bg:           #ffffff;
+$color-text-dark:         #0f172a;
+$color-text-muted:        #64748b;
+$color-text-light:        #94a3b8;
+$color-border:            #e2e8f0;
+
+$font-family:             'Segoe UI', system-ui, -apple-system, sans-serif;
+$sidebar-width:           260px;
+$card-width:              420px;
+$border-radius-card:      20px;
+$border-radius-btn:       12px;
+$transition:              0.2s ease;
+
+// ============================================================
+// MIXINS
+// ============================================================
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+@mixin card-shadow-hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+// ============================================================
+// KEYFRAMES
+// ============================================================
+
+// Latido del botón Huesito al hacer like
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.35); }
+  40%  { transform: scale(0.9); }
+  60%  { transform: scale(1.2); }
+  80%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+// Partículas flotantes al dar like
+@keyframes burst {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+// Entrada suave de la tarjeta (siguiente perrito)
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Salida de la tarjeta al presionar Next
+@keyframes cardSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(80px) rotate(6deg);
+  }
+}
+
+// Swipe hacia la izquierda (skip)
+@keyframes cardSwipeLeft {
+  to {
+    opacity: 0;
+    transform: translateX(-80px) rotate(-6deg);
+  }
+}
+
+// Flash de like sobre la foto
+@keyframes likeFlash {
+  0%   { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+// ============================================================
+// RESET
+// ============================================================
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+a    { text-decoration: none; color: inherit; }
+ul   { list-style: none; }
+button { cursor: pointer; font-family: $font-family; border: none; background: none; }
+
+// ============================================================
+// BASE
+// ============================================================
+body {
+  font-family: $font-family;
+  background: $color-main-bg;
+  min-height: 100vh;
+  color: $color-text-dark;
+}
+
+// ============================================================
+// LAYOUT
+// ============================================================
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+.sidebar {
+  width: $sidebar-width;
+  min-width: $sidebar-width;
+  background: $color-sidebar-bg;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  &__brand {
+    padding: 0 24px 28px;
+
+    &-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: $color-primary;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 12px;
+    }
+
+    &-item {
+      border-radius: 10px;
+      transition: background $transition;
+
+      &:hover { background: $color-sidebar-hover; }
+
+      &--active {
+        background: $color-sidebar-active-bg;
+
+        .sidebar__nav-link {
+          color: $color-sidebar-active;
+          font-weight: 600;
+        }
+        .sidebar__icon { color: $color-sidebar-active; }
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    color: $color-sidebar-text;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: color $transition;
+
+    &:hover { color: #fff; }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+
+  &__footer {
+    padding: 12px 12px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 8px;
+
+    .sidebar__nav-link {
+      color: $color-sidebar-text;
+      &:hover { color: #f87171; }
+    }
+  }
+
+  &__logout {
+    border-radius: 10px;
+    transition: background $transition;
+    &:hover { background: rgba(248, 113, 113, 0.1); }
+  }
+}
+
+// ============================================================
+// CONTENIDO PRINCIPAL
+// ============================================================
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 40px;
+  overflow-y: auto;
+}
+
+// ============================================================
+// ENCABEZADO
+// ============================================================
+.page-header {
+  margin-bottom: 32px;
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    letter-spacing: -0.4px;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: $color-text-muted;
+    margin-top: 4px;
+  }
+}
+
+// ============================================================
+// STAGE — centra la tarjeta
+// ============================================================
+.match-stage {
+  flex: 1;
+  @include flex-center(row);
+  align-items: flex-start;
+  padding-bottom: 40px;
+}
+
+// ============================================================
+// TARJETA DEL PERRITO
+// ============================================================
+.dog-card {
+  width: $card-width;
+  background: $color-card-bg;
+  border-radius: $border-radius-card;
+  @include card-shadow;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  animation: cardSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  // Estado: animación de salida al presionar Next
+  &.is-leaving {
+    animation: cardSlideOut 0.3s ease forwards;
+    pointer-events: none;
+  }
+
+  // Estado: animación de like (corazón en la foto)
+  &.is-liked .dog-card__like-flash {
+    animation: likeFlash 0.5s ease forwards;
+  }
+
+  // ── Zona foto ──
+  &__photo-wrap {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    background: #1e293b;
+    overflow: hidden;
+  }
+
+  &__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+
+    &[src=""] { display: none; }
+
+    .dog-card:hover & { transform: scale(1.03); }
+  }
+
+  // Placeholder sin foto
+  &__photo-placeholder {
+    position: absolute;
+    inset: 0;
+    @include flex-center(column);
+    gap: 12px;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: $color-text-light;
+
+    svg {
+      width: 56px;
+      height: 56px;
+      stroke: currentColor;
+      opacity: 0.5;
+    }
+
+    span {
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    // Se oculta cuando hay imagen — manejado por JS/backend
+    &.hidden { display: none; }
+  }
+
+  // Gradiente oscuro inferior para legibilidad del nombre
+  &__photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 48px 20px 18px;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  &__name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+
+    &:empty::before {
+      content: '';
+      display: inline-block;
+      width: 100px;
+      height: 1.6rem;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      vertical-align: middle;
+    }
+  }
+
+  // Badge de salud — esquina superior derecha
+  &__health-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: capitalize;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+
+    // Estado por defecto (saludable)
+    background: rgba(#16a34a, 0.8);
+    color: #fff;
+
+    // Si el backend devuelve otro estado, añadirle la clase correspondiente
+    &.enfermo    { background: rgba(#dc2626, 0.8); }
+    &.en-tratamiento { background: rgba(#d97706, 0.8); }
+
+    &:empty { display: none; }
+  }
+
+  // Flash de corazón al dar like
+  &__like-flash {
+    position: absolute;
+    inset: 0;
+    background: rgba($color-orange, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 0;
+  }
+
+  // ── Cuerpo de la tarjeta ──
+  &__body {
+    padding: 24px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  // Grid 2x2 de datos
+  &__info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 12px;
+  }
+
+  &__info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__info-label {
+    font-size: 0.75rem;
+    color: $color-text-light;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  &__info-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $color-text-dark;
+
+    &:empty::before {
+      content: '';
+      display: inline-block;
+      width: 80px;
+      height: 0.9rem;
+      background: $color-border;
+      border-radius: 4px;
+    }
+  }
+
+  // Botones outline (Cartilla / Perfil completo)
+  &__btn-outline {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1.5px solid $color-border;
+    border-radius: $border-radius-btn;
+    background: transparent;
+    color: $color-text-dark;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: $font-family;
+    @include flex-center(row);
+    gap: 8px;
+    transition: border-color $transition, background $transition, color $transition;
+    cursor: pointer;
+    text-align: center;
+
+    svg { stroke: $color-text-muted; transition: stroke $transition; }
+
+    &:hover {
+      border-color: $color-primary;
+      background: rgba($color-primary, 0.04);
+      color: $color-primary;
+      svg { stroke: $color-primary; }
+    }
+  }
+
+  // Zona de acciones principales
+  &__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 2px;
+  }
+
+  // Zona del botón reportar
+  &__report-wrap {
+    @include flex-center(row);
+    margin-top: 2px;
+  }
+
+  &__status {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: $color-text-muted;
+    text-align: center;
+
+    &--error {
+      color: $color-danger;
+    }
+  }
+}
+
+// ============================================================
+// BOTÓN HUESITO (like)
+// ============================================================
+.btn-huesito {
+  @include flex-center(row);
+  gap: 8px;
+  padding: 13px 20px;
+  background: $color-orange;
+  color: #fff;
+  border-radius: $border-radius-btn;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: $font-family;
+  border: none;
+  position: relative;
+  overflow: visible;
+  transition: background $transition, transform $transition, box-shadow $transition;
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    transition: fill 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: $color-orange-hover;
+    box-shadow: 0 4px 16px rgba($color-orange, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: translateY(0); }
+
+  // Estado: ya dio like
+  &[data-liked="true"] {
+    background: $color-orange-hover;
+
+    .btn-huesito__icon {
+      fill: #fff;
+      animation: heartbeat 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+  }
+}
+
+// ============================================================
+// BOTÓN NEXT
+// ============================================================
+.btn-next {
+  @include flex-center(row);
+  gap: 8px;
+  padding: 13px 20px;
+  background: $color-card-bg;
+  color: $color-text-dark;
+  border-radius: $border-radius-btn;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: $font-family;
+  border: 1.5px solid $color-border;
+  transition: border-color $transition, background $transition, color $transition, transform $transition;
+
+  svg { stroke: currentColor; flex-shrink: 0; }
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+    background: rgba($color-primary, 0.04);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: translateY(0); }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.dog-card__btn-outline.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+// ============================================================
+// BOTÓN REPORTAR
+// ============================================================
+.btn-report {
+  @include flex-center(row);
+  gap: 6px;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $color-danger;
+  font-family: $font-family;
+  transition: background $transition;
+
+  svg { stroke: currentColor; }
+
+  &:hover {
+    background: $color-danger-light;
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 860px) {
+  .match-stage { padding: 0 0 32px; }
+
+  .dog-card { width: 100%; max-width: $card-width; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-content { padding: 24px 20px; }
+}
+
+@media (max-width: 480px) {
+  .dog-card {
+    &__photo-wrap { height: 280px; }
+    &__body { padding: 18px 18px 16px; }
+    &__name { font-size: 1.5rem; }
+  }
+}

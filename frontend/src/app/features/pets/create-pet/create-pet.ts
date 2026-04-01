@@ -11,7 +11,7 @@ interface CreatePetRequest {
   edad: number;
   estado_salud: string;
   vacuna_imagen_url: string;
-  id_usuario: string | null;
+  id_usuario: number | null;
 }
 @Component({
   selector: "app-create-pet",
@@ -80,7 +80,7 @@ export class CreatePetComponent {
       estado_salud: "saludable",
       vacuna_imagen_url: "",
       //imagen: imagen
-      id_usuario: localStorage.getItem("id_usuario")
+      id_usuario: localStorage.getItem("id_usuario") ? Number(localStorage.getItem("id_usuario")) : null
     };
 
     this.enviando = true;
@@ -135,7 +135,7 @@ onVaccineSelected(event: Event) {
   cerrarModal(): void {
     this.modalVisible = false;
     if(this.modalTipo === 'success') {
-      this.router.navigate(['']);
+      this.router.navigate(['/dashboard-owner']);
     }
   }
 }
