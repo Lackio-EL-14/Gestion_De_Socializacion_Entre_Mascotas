@@ -9,7 +9,7 @@ async function bootstrap() {
     logger: WinstonModule.createLogger(winstonConfig),
   });
   app.enableCors({
-    origin: '*',
+    origin: 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
