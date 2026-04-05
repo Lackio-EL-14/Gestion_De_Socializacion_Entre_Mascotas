@@ -5,14 +5,8 @@ import { DashboardOwner } from './features/dashboards/dashboard-owner/dashboard-
 import { DashboardEditOwner } from './features/dashboards/dashboard-edit_owner/dashboard-edit-owner';
 
 const routes: Routes = [
-  { path: '', component: Home },
   { path: 'dashboard-owner', component: DashboardOwner },
   { path: 'dashboard-edit-owner', component: DashboardEditOwner },
-  {
-    path: '',
-    loadChildren: () =>
-      import('./features/auth/auth-module').then(m => m.AuthModule)
-  },
   {
     path: 'pets',
     loadChildren: () =>
@@ -22,6 +16,16 @@ const routes: Routes = [
     path: 'feed',
     loadChildren: () =>
       import('./features/feed/feed-module').then(m => m.FeedModule)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: Home,
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/auth/auth-module').then(m => m.AuthModule)
   }
 ];
 

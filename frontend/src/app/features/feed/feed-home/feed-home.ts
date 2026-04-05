@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { finalize, TimeoutError, timeout } from 'rxjs';
 
 interface RandomPetResponse {
   id_mascota: number;
@@ -25,14 +25,20 @@ interface RandomPetResponse {
 })
 export class FeedHome implements OnInit {
   private readonly apiBaseUrl = 'http://localhost:3000';
+  private huesitoReactionTimer: ReturnType<typeof setTimeout> | null = null;
 
   currentUserId: number | null = null;
   pet: RandomPetResponse | null = null;
   isLoading = false;
   isLeaving = false;
+  isHuesitoLiked = false;
+  showHuesitoReaction = false;
   errorMessage = '';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.currentUserId = this.getCurrentUserId();
@@ -40,10 +46,12 @@ export class FeedHome implements OnInit {
     if (!this.currentUserId) {
       this.errorMessage =
         'No se encontro tu id de usuario en la sesion. Inicia sesion nuevamente.';
+      this.cdr.detectChanges();
       return;
     }
 
     this.loadRandomPet();
+    this.cdr.detectChanges();
   }
 
   loadNextPet(): void {
@@ -52,10 +60,32 @@ export class FeedHome implements OnInit {
     }
 
     this.isLeaving = true;
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
     setTimeout(() => {
       this.isLeaving = false;
+      this.pet = null;
+      this.cdr.detectChanges();
       this.loadRandomPet();
     }, 250);
+  }
+
+  onHuesitoClick(): void {
+    this.isHuesitoLiked = true;
+    this.showHuesitoReaction = true;
+    this.cdr.detectChanges();
+
+    if (this.huesitoReactionTimer) {
+      clearTimeout(this.huesitoReactionTimer);
+    }
+
+    this.huesitoReactionTimer = setTimeout(() => {
+      this.showHuesitoReaction = false;
+      this.isHuesitoLiked = false;
+      this.cdr.detectChanges();
+    }, 850);
   }
 
   get photoUrl(): string {
@@ -100,12 +130,19 @@ export class FeedHome implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = '';
+    this.cdr.detectChanges();
 
     this.http
       .get<RandomPetResponse | null>(
         `${this.apiBaseUrl}/pets/random/${this.currentUserId}`,
       )
-      .pipe(finalize(() => (this.isLoading = false)))
+      .pipe(
+        timeout(10000),
+        finalize(() => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }),
+      )
       .subscribe({
         next: (pet) => {
           this.pet = pet;
@@ -114,13 +151,26 @@ export class FeedHome implements OnInit {
             this.errorMessage =
               'No hay perritos disponibles para mostrar en este momento.';
           }
+
+          this.cdr.detectChanges();
         },
-        error: (error: HttpErrorResponse) => {
+        error: (error: HttpErrorResponse | TimeoutError) => {
           this.pet = null;
+
+          if (error instanceof TimeoutError) {
+            this.errorMessage =
+              'La solicitud tardo demasiado. Verifica que el backend este encendido e intenta nuevamente.';
+            return;
+          }
+
           this.errorMessage =
             error.status === 404
               ? 'No hay perritos disponibles para mostrar en este momento.'
-              : 'No se pudo cargar el perrito aleatorio. Intenta de nuevo.';
+              : error.status === 0
+                ? 'No se pudo conectar con el backend en http://localhost:3000.'
+                : 'No se pudo cargar el perrito aleatorio. Intenta de nuevo.';
+
+          this.cdr.detectChanges();
         },
       });
   }

@@ -9,3 +9,4 @@ import { FeedHome } from './feed-home/feed-home';
   imports: [CommonModule, FeedRoutingModule],
 })
 export class FeedModule {}
+  
