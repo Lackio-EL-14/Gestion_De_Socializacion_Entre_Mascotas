@@ -46,7 +46,7 @@ export class RequestResetComponent {
 
     this.enviando = true;
 
-    this.http.post('http://localhost:3000/usuarios/recuperar-password', body).subscribe({
+    this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/recuperar-password', body).subscribe({
       next: (res: any) => {
     console.log('RESPUESTA BACKEND:', res);
 
