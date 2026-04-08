@@ -24,8 +24,9 @@ interface RandomPetResponse {
   styleUrl: './feed-home.scss',
 })
 export class FeedHome implements OnInit {
-  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
+  private readonly apiBaseUrl = 'http://localhost:3000';
   private huesitoReactionTimer: ReturnType<typeof setTimeout> | null = null;
+
   currentUserId: number | null = null;
   pet: RandomPetResponse | null = null;
   isLoading = false;
@@ -166,7 +167,7 @@ export class FeedHome implements OnInit {
             error.status === 404
               ? 'No hay perritos disponibles para mostrar en este momento.'
               : error.status === 0
-                ? 'No se pudo conectar con el backend en https://gestion-de-socializacion-entre-mascotas.onrender.com.'
+                ? 'No se pudo conectar con el backend en http://localhost:3000.'
                 : 'No se pudo cargar el perrito aleatorio. Intenta de nuevo.';
 
           this.cdr.detectChanges();
