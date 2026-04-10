@@ -100,6 +100,17 @@ export class UsuariosService {
     };
   }
 
+  // =====================================================================
+  // EL NUEVO MÉTODO ESTÁ EXACTAMENTE AQUÍ, SEPARADO DE LOS DEMÁS
+  // =====================================================================
+  async findByEmail(email: string) {
+    return this.usuarioRepository.findOne({ 
+      where: { email },
+      relations: ['rol'] 
+    });
+  }
+  // =====================================================================
+
   async solicitarRecuperacion(solicitarRecuperacionDto: SolicitarRecuperacionDto) {
     const { email } = solicitarRecuperacionDto;
     const usuario = await this.usuarioRepository.findOne({ where: { email } });

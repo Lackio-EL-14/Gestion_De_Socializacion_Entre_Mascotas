@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'; 
 import { Usuario } from './entities/usuario.entity';
 import { Rol } from './entities/rol.entity';
@@ -12,28 +12,26 @@ import { Interaccion } from './entities/interaccion.entity';
 import { Mascota } from './entities/mascota.entity';
 import { UsuariosController } from './controller/usuarios.controller';
 import { UsuariosService } from './service/usuarios.service';
-import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from '../auth/auth.module'; 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    Usuario, 
-    Rol,
-    Reporte,
-    Publicacion,
-    PerfilProfesional,
-    Notificacion,
-    Mensaje,
-    Match,
-    Interaccion,
-    Mascota,
-  ]),
-   JwtModule.register({
-      secret: 'super-secreto-dogchat-2026', 
-      signOptions: { expiresIn: '48h' }, // El token expirará en 2 díaSSS
-    }),
+  imports: [
+    TypeOrmModule.forFeature([
+      Usuario, 
+      Rol,
+      Reporte,
+      Publicacion,
+      PerfilProfesional,
+      Notificacion,
+      Mensaje,
+      Match,
+      Interaccion,
+      Mascota,
+    ]),
+    forwardRef(() => AuthModule) 
   ],
-
   controllers: [UsuariosController],
   providers: [UsuariosService],
+  exports: [UsuariosService] 
 })
 export class UsersModule {}
