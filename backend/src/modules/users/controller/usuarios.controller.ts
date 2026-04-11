@@ -1,9 +1,10 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards } from '@nestjs/common';
 import { UsuariosService } from '../service/usuarios.service';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -45,5 +46,12 @@ export class UsuariosController {
   @Post('restablecer-password')
   async restablecerPassword(@Body() restablecerPasswordDto: RestablecerPasswordDto) {
     return this.usuariosService.restablecerPassword(restablecerPasswordDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getMyProfile(@Req() req: any) {
+    const userId = req.user.userId;
+    return this.usuariosService.findMyProfile(userId);
   }
 }

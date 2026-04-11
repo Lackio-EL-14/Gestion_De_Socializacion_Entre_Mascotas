@@ -162,4 +162,29 @@ export class UsuariosService {
       throw new BadRequestException('El token es inválido o ha expirado');
     }
   }
+
+  async findMyProfile(userId: number) {
+    this.logger?.log?.(
+      `[AUDIT-USERS] Consulta de perfil propio por usuario ID: ${userId}`
+    );
+
+    const usuario = await this.usuarioRepository
+      .createQueryBuilder('usuario')
+      .select([
+        'usuario.id_usuario',
+        'usuario.nombre',
+        'usuario.email',
+        'usuario.telefono',
+        'usuario.foto_perfil_url',
+        'usuario.fecha_registro',
+      ])
+      .where('usuario.id_usuario = :id', { id: userId })
+      .getOne();
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return usuario;
+  }
 }
