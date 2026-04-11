@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException, Logger } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
@@ -161,5 +161,30 @@ export class UsuariosService {
       this.logger.warn(`[AUDIT-SEC] Rechazo de token de recuperación. Firma inválida, manipulada o expirada.`);
       throw new BadRequestException('El token es inválido o ha expirado');
     }
+  }
+
+  async findMyProfile(userId: number) {
+    this.logger?.log?.(
+      `[AUDIT-USERS] Consulta de perfil propio por usuario ID: ${userId}`
+    );
+
+    const usuario = await this.usuarioRepository
+      .createQueryBuilder('usuario')
+      .select([
+        'usuario.id_usuario',
+        'usuario.nombre',
+        'usuario.email',
+        'usuario.telefono',
+        'usuario.foto_perfil_url',
+        'usuario.fecha_registro',
+      ])
+      .where('usuario.id_usuario = :id', { id: userId })
+      .getOne();
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return usuario;
   }
 }
