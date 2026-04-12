@@ -118,10 +118,14 @@ body {
     border-radius: 50%;
     @include flex-center(row);
     margin-bottom: 18px;
-    @include card-shadow(1);
+    overflow: hidden;
 
-    svg {
+    .logo-image {
+      width: 72%;
+      height: 72%;
+      object-fit: contain;
       display: block;
+      filter: invert(1) brightness(2);
     }
   }
 
