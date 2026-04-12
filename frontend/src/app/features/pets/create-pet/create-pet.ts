@@ -42,7 +42,11 @@ export class CreatePetComponent {
     private readonly translate: TranslateService
   ) {}
 
-  submit() {
+  submit() {  
+    if (this.enviando) {
+      return;
+    }
+
     console.log("Submit mascota ejecutado")
     const nombre = this.nombre.trim();
     const raza = this.raza.trim();

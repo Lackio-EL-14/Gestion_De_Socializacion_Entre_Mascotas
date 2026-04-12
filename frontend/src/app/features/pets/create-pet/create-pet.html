@@ -47,7 +47,9 @@
           <label for="vaccineFile">{{ 'pets.create.form.vaccineLabel' | translate }}</label>
           <input type="file" id="vaccineFile" (change)="onVaccineSelected($event)" />
         </div>
-        <button type="submit" class="btn-save">{{ 'pets.create.form.submit' | translate }}</button>
+        <button type="submit" class="btn-save" [disabled]="enviando">
+          {{ enviando ? ('pets.common.sending' | translate) : ('pets.create.form.submit' | translate) }}
+        </button>
       </form>
     </div>
   </div>

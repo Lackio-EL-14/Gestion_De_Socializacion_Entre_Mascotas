@@ -216,6 +216,7 @@
   }
   ,"pets": {
     "common": {
+      "sending": "Saving...",
       "accept": "Accept",
       "errorTitle": "Error",
       "validationTitle": "Validation error",
