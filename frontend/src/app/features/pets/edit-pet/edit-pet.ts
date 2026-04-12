@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 interface UpdatePetRequest {
   nombre?: string;
@@ -57,14 +58,15 @@ export class EditPetComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id || isNaN(Number(id))) {
-      this.mostrarModal('Error', 'ID de mascota inválido', 'error');
+      this.mostrarModalByKey('pets.common.errorTitle', 'pets.edit.errors.invalidId', 'error');
       return;
     }
 
@@ -76,7 +78,7 @@ cargarMascota(): void {
   const token = localStorage.getItem('access_token');
 
   if (!token) {
-    this.mostrarModal('Error', 'No se encontró el token de seguridad', 'error');
+    this.mostrarModalByKey('pets.common.errorTitle', 'pets.edit.errors.missingToken', 'error');
     return;
   }
 
@@ -94,7 +96,7 @@ cargarMascota(): void {
 
       if (!mascota) {
         this.cargando = false;
-        this.mostrarModal('Error', 'Mascota no encontrada', 'error');
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.edit.errors.notFound', 'error');
         this.cdr.detectChanges();
         return;
       }
@@ -113,7 +115,7 @@ cargarMascota(): void {
     error: (error) => {
       console.error('Error al cargar la mascota:', error);
       this.cargando = false;
-      this.mostrarModal('Error', 'No se pudo cargar la mascota', 'error');
+      this.mostrarModalByKey('pets.common.errorTitle', 'pets.edit.errors.loadFailed', 'error');
       this.cdr.detectChanges();
     }
   });
@@ -121,7 +123,7 @@ cargarMascota(): void {
 
   submit(): void {
     if (!this.idMascota) {
-      this.mostrarModal('Error', 'ID de mascota inválido', 'error');
+      this.mostrarModalByKey('pets.common.errorTitle', 'pets.edit.errors.invalidId', 'error');
       return;
     }
 
@@ -133,23 +135,23 @@ cargarMascota(): void {
     const estado_salud = this.estado_salud.trim();
 
     if (!nombre) {
-      this.mostrarModal('Error de validación', 'El nombre es obligatorio', 'error');
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.edit.validation.nameRequired', 'error');
       return;
     }
     if (!raza) {
-      this.mostrarModal('Error de validación', 'La raza es obligatoria', 'error');
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.edit.validation.breedRequired', 'error');
       return;
     }
     if (!tamano) {
-      this.mostrarModal('Error de validación', 'El tamaño es obligatorio', 'error');
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.edit.validation.sizeRequired', 'error');
       return;
     }
     if (!genero) {
-      this.mostrarModal('Error de validación', 'El género es obligatorio', 'error');
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.edit.validation.genderRequired', 'error');
       return;
     }
     if (edad === null || isNaN(edad)) {
-      this.mostrarModal('Error de validación', 'La edad es obligatoria y debe ser un número válido', 'error');
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.edit.validation.ageRequired', 'error');
       return;
     }
 
@@ -168,17 +170,25 @@ cargarMascota(): void {
     this.http.patch(`http://localhost:3000/pets/${this.idMascota}`, body).subscribe({
       next: () => {
         this.enviando = false;
-        this.mostrarModal('Éxito', 'La mascota ha sido actualizada exitosamente', 'success');
+        this.mostrarModalByKey('pets.edit.modal.successTitle', 'pets.edit.modal.successMessage', 'success');
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al actualizar la mascota:', error);
-        const mensaje = error?.error?.message || 'Hubo un error al actualizar la mascota';
+        const mensaje = error?.error?.message || this.t('pets.edit.modal.errorMessage');
         this.enviando = false;
-        this.mostrarModal('Error', Array.isArray(mensaje) ? mensaje.join('\n') : mensaje, 'error');
+        this.mostrarModal(this.t('pets.common.errorTitle'), Array.isArray(mensaje) ? mensaje.join('\n') : mensaje, 'error');
         this.cdr.detectChanges();
       }
     });
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
+  }
+
+  private mostrarModalByKey(titleKey: string, messageKey: string, tipo: 'success' | 'error'): void {
+    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
   }
 
   mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {

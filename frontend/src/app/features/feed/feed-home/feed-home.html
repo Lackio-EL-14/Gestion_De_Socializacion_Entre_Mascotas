@@ -123,8 +123,8 @@
     <main class="main-content">
 
       <header class="page-header">
-        <h1 class="page-header__title">Buscar Match</h1>
-        <p class="page-header__subtitle">Encuentra el amigo perfecto para tu perrito 🐾</p>
+        <h1 class="page-header__title">{{ 'feed.title' | translate }}</h1>
+        <p class="page-header__subtitle">{{ 'feed.subtitle' | translate }}</p>
       </header>
 
       <!-- Área centrada de la tarjeta -->
@@ -140,7 +140,7 @@
             <!-- Imagen del perrito — src se inyecta por backend cuando esté disponible -->
             <img
               [src]="photoUrl"
-              alt="Foto del perrito"
+              [alt]="'feed.petCard.photoAlt' | translate"
               class="dog-card__photo"
               id="dogPhoto"
             />
@@ -151,12 +151,12 @@
                 <circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/>
                 <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>
               </svg>
-              <span>Foto próximamente</span>
+              <span>{{ 'feed.petCard.photoPlaceholder' | translate }}</span>
             </div>
 
             <!-- Gradiente + nombre superpuesto sobre la foto -->
             <div class="dog-card__photo-overlay">
-              <h2 class="dog-card__name" id="dogName">{{ pet?.nombre || 'Sin nombre' }}</h2>
+              <h2 class="dog-card__name" id="dogName">{{ pet?.nombre || ('feed.petCard.noName' | translate) }}</h2>
             </div>
 
             <!-- Badge de estado de salud — esquina superior derecha -->
@@ -170,30 +170,30 @@
             <div class="dog-card__info-grid">
 
               <div class="dog-card__info-item">
-                <span class="dog-card__info-label">Raza</span>
+                <span class="dog-card__info-label">{{ 'feed.petCard.breed' | translate }}</span>
                 <span class="dog-card__info-value" id="dogRaza">
                   {{ pet?.raza || '--' }}
                 </span>
               </div>
 
               <div class="dog-card__info-item">
-                <span class="dog-card__info-label">Tamaño</span>
+                <span class="dog-card__info-label">{{ 'feed.petCard.size' | translate }}</span>
                 <span class="dog-card__info-value" id="dogTamano">
                   {{ pet?.tamano || '--' }}
                 </span>
               </div>
 
               <div class="dog-card__info-item">
-                <span class="dog-card__info-label">Género</span>
+                <span class="dog-card__info-label">{{ 'feed.petCard.gender' | translate }}</span>
                 <span class="dog-card__info-value" id="dogGenero">
                   {{ pet?.genero || '--' }}
                 </span>
               </div>
 
               <div class="dog-card__info-item">
-                <span class="dog-card__info-label">Edad</span>
+                <span class="dog-card__info-label">{{ 'feed.petCard.age' | translate }}</span>
                 <span class="dog-card__info-value" id="dogEdad">
-                  {{ pet?.edad !== undefined && pet?.edad !== null ? pet?.edad + ' anos' : '--' }}
+                  {{ pet?.edad !== undefined && pet?.edad !== null ? pet?.edad + ' ' + ('feed.petCard.years' | translate) : '--' }}
                 </span>
               </div>
 
@@ -216,12 +216,12 @@
                 <polyline points="14 2 14 8 20 8"/>
                 <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
               </svg>
-              Ver Cartilla de Vacunas
+              {{ 'feed.petCard.vaccineCard' | translate }}
             </a>
 
             <!-- Botón ver perfil completo -->
             <button type="button" class="dog-card__btn-outline" id="btnPerfil">
-              Ver Perfil Completo
+              {{ 'feed.petCard.fullProfile' | translate }}
             </button>
 
             <!-- Acciones principales: Huesito + Next -->
@@ -233,7 +233,7 @@
                 type="button"
                 class="btn-huesito"
                 id="btnHuesito"
-                aria-label="Dar huesito"
+                [attr.aria-label]="'feed.petCard.boneButtonLabel' | translate"
                 [attr.data-liked]="isHuesitoLiked"
                 (click)="onHuesitoClick()"
               >
@@ -243,12 +243,12 @@
                     <path d="M18 24h-4c-2.2 0-4 1.8-4 4s1.8 4 4 4h4" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
                     <path d="M46 24h4c2.2 0 4 1.8 4 4s-1.8 4-4 4h-4" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
                   </svg>
-                  <span>Match</span>
+                  <span>{{ 'feed.petCard.match' | translate }}</span>
                 </span>
                 <svg class="btn-huesito__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
-                <span>Huesito</span>
+                <span>{{ 'feed.petCard.bone' | translate }}</span>
               </button>
 
               <!-- Botón Next (carga el siguiente perrito desde el backend) -->
@@ -256,11 +256,11 @@
                 type="button"
                 class="btn-next"
                 id="btnNext"
-                aria-label="Ver siguiente perrito"
+                [attr.aria-label]="'feed.petCard.nextButtonLabel' | translate"
                 [disabled]="isLoading || !currentUserId"
                 (click)="loadNextPet()"
               >
-                <span>Next</span>
+                <span>{{ 'feed.petCard.next' | translate }}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
                   <line x1="5" y1="12" x2="19" y2="12"/>
                   <polyline points="12 5 19 12 12 19"/>
@@ -269,7 +269,7 @@
 
             </div>
 
-            <p class="dog-card__status" *ngIf="isLoading">Cargando perrito aleatorio...</p>
+            <p class="dog-card__status" *ngIf="isLoading">{{ 'feed.petCard.loading' | translate }}</p>
             <p class="dog-card__status dog-card__status--error" *ngIf="errorMessage">{{ errorMessage }}</p>
 
             <!-- Botón Reportar -->
@@ -279,7 +279,7 @@
                   <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
                   <line x1="4" y1="22" x2="4" y2="15"/>
                 </svg>
-                Reportar
+                {{ 'feed.petCard.report' | translate }}
               </button>
             </div>
 

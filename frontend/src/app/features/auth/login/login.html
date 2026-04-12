@@ -16,19 +16,19 @@
 
     <!-- Título -->
     <h1 class="brand-name">DogChat Admin</h1>
-    <p class="brand-subtitle">Panel de Administración</p>
+    <p class="brand-subtitle">{{ 'auth.login.subtitle' | translate }}</p>
 
     <!-- Formulario -->
     <form class="login-form" (ngSubmit)="iniciarSesion()" novalidate>
 
       <div class="form-group">
-        <label for="email" class="form-label">Email o Nombre de Usuario</label>
+        <label for="email" class="form-label">{{ 'auth.login.form.emailLabel' | translate }}</label>
         <input
           type="text"
           id="email"
           name="email"
           class="form-input"
-          placeholder="admin@dogchat.com"
+          [placeholder]="'auth.login.form.emailPlaceholder' | translate"
           autocomplete="username"
           [(ngModel)]="email"
           required
@@ -37,7 +37,7 @@
       </div>
 
       <div class="form-group">
-        <label for="contrasena" class="form-label">Contraseña</label>
+        <label for="contrasena" class="form-label">{{ 'auth.login.form.passwordLabel' | translate }}</label>
         <input
           type="password"
           id="contrasena"
@@ -52,10 +52,10 @@
         />
       </div>
 
-      <a href="/request-reset" class="forgot-link">¿Te olvidaste? Recuperar contraseña</a>
+      <a href="/request-reset" class="forgot-link">{{ 'auth.login.form.forgotPassword' | translate }}</a>
 
       <button type="submit" class="btn-submit" [disabled]="enviando">
-        {{ enviando ? 'Ingresando...' : 'Iniciar Sesión' }}
+        {{ enviando ? ('auth.login.form.submitting' | translate) : ('auth.login.form.submit' | translate) }}
       </button>
 
     </form>
@@ -73,7 +73,7 @@
     <p class="modal-message">{{ modalMensaje }}</p>
 
     <button type="button" class="modal-btn" (click)="cerrarModal()">
-      Aceptar
+      {{ 'auth.common.accept' | translate }}
     </button>
   </div>
 </div>

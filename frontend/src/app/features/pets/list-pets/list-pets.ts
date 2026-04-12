@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 interface Mascota {
   id_mascota: number;
@@ -32,7 +33,8 @@ export class ListPetsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +45,7 @@ obtenerMascotas(): void {
     const token = localStorage.getItem('access_token');
 
     if (!idUsuario || !token) {
-      this.error = 'No se encontró un usuario logeado o falta el token de seguridad';
+      this.error = this.t('pets.list.errors.noSession');
       return;
     }
 
@@ -63,7 +65,7 @@ obtenerMascotas(): void {
       },
       error: (error) => {
         console.error('Error al obtener mascotas:', error);
-        this.error = 'No se pudieron cargar tus mascotas. Verifica tu sesión.';
+        this.error = this.t('pets.list.errors.loadFailed');
         this.cargando = false;
         this.cdr.detectChanges();
       }
@@ -78,6 +80,10 @@ obtenerMascotas(): void {
   }
 
   getRazaSegura(raza: string): string {
-    return raza?.trim() ? raza : 'Raza no especificada';
+    return raza?.trim() ? raza : this.t('pets.list.noBreed');
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }

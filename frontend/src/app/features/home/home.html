@@ -19,14 +19,30 @@
         <h1 class="brand-name">DogChat</h1>
       </div>
 
-      <a routerLink="/login" class="btn-login">Iniciar sesión</a>
+      <div class="topbar-actions">
+        <label class="language-switch" for="lang-switch">
+          <span class="language-switch__label">{{ 'language.label' | translate }}</span>
+          <select
+            id="lang-switch"
+            class="language-switch__select"
+            [value]="selectedLanguage"
+            (change)="onLanguageChange($any($event.target).value)"
+          >
+            <option *ngFor="let lang of languageOptions" [value]="lang">
+              {{ ('language.' + lang) | translate }}
+            </option>
+          </select>
+        </label>
+
+        <a routerLink="/login" class="btn-login">{{ 'home.login' | translate }}</a>
+      </div>
     </header>
 
     <!-- Hero -->
     <main class="hero">
-      <h2 class="hero-title">Bienvenido a DogChat</h2>
+      <h2 class="hero-title">{{ 'home.heroTitle' | translate }}</h2>
       <p class="hero-subtitle">
-        Conecta con otros dueños de mascotas y encuentra el match perfecto para tu perrito
+        {{ 'home.heroSubtitle' | translate }}
       </p>
 
       <!-- Cards -->
@@ -39,9 +55,9 @@
             </svg>
           </div>
 
-          <h3 class="role-title">Registrarse como<br>Dueño</h3>
+          <h3 class="role-title" [innerHTML]="('home.registerOwnerTitle' | translate).replace('\n', '<br>')"></h3>
           <p class="role-text">
-            Encuentra amigos peludos para tu mascota y conecta con otros dueños
+            {{ 'home.registerOwnerText' | translate }}
           </p>
         </article>
 
@@ -53,9 +69,9 @@
             </svg>
           </div>
 
-          <h3 class="role-title">Registrarse como<br>Trabajador</h3>
+          <h3 class="role-title" [innerHTML]="('home.registerWorkerTitle' | translate).replace('\n', '<br>')"></h3>
           <p class="role-text">
-            Promociona tus servicios y conecta con dueños de mascotas
+            {{ 'home.registerWorkerText' | translate }}
           </p>
         </article>
       </section>

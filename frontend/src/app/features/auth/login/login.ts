@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 interface LoginUsuarioRequest {
   email: string;
@@ -28,10 +29,12 @@ export class Login {
   modalTitulo = '';
   modalMensaje = '';
   modalTipo: 'success' | 'error' = 'success';
-constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-    private router: Router
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router,
+    private readonly translate: TranslateService,
   ) {}
 
   iniciarSesion(): void {
@@ -39,23 +42,39 @@ constructor(
     const contrasena = this.contrasena;
 
     if (!email) {
-      this.mostrarModal('Error de validación', 'El correo electrónico es obligatorio', 'error');
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.login.validation.emailRequired',
+        'error',
+      );
       return;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(email)) {
-      this.mostrarModal('Error de validación', 'El formato del correo no es válido', 'error');
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.common.validation.invalidEmail',
+        'error',
+      );
       return;
     }
 
     if (!contrasena) {
-      this.mostrarModal('Error de validación', 'La contraseña es obligatoria', 'error');
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.common.validation.passwordRequired',
+        'error',
+      );
       return;
     }
 
     if (contrasena.length < 6) {
-      this.mostrarModal('Error de validación', 'La contraseña debe tener al menos 6 caracteres', 'error');
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.common.validation.passwordMinLength',
+        'error',
+      );
       return;
     }
 
@@ -84,16 +103,29 @@ constructor(
 
         this.enviando = false;
         this.mostrarModal(
-          'Error de inicio de sesión',
+          this.t('auth.login.modal.loginErrorTitle'),
           Array.isArray(mensaje)
             ? mensaje.join('\n')
-            : mensaje || 'Credenciales inválidas o error al iniciar sesión',
-          'error'
+            : mensaje || this.t('auth.login.modal.loginErrorMessage'),
+          'error',
         );
         this.cdr.detectChanges();
       },
     });
   }
+
+  t(key: string): string {
+    return this.translate.instant(key);
+  }
+
+  private mostrarModalByKey(
+    titleKey: string,
+    messageKey: string,
+    tipo: 'success' | 'error',
+  ): void {
+    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
+  }
+
   mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {
     this.modalTitulo = titulo;
     this.modalMensaje = mensaje;
@@ -101,7 +133,7 @@ constructor(
     this.modalVisible = true;
   }
 
-cerrarModal(): void {
-  this.modalVisible = false;
-}
+  cerrarModal(): void {
+    this.modalVisible = false;
+  }
 }

@@ -19,21 +19,21 @@
         </svg>
       </div>
 
-      <!-- Título -->
+      <!-- Titulo -->
       <h1 class="brand-name">DogChat</h1>
-      <p class="brand-subtitle">Crear cuenta de Dueño</p>
+      <p class="brand-subtitle">{{ 'auth.register.subtitle' | translate }}</p>
 
       <!-- Formulario -->
       <form class="register-form" (ngSubmit)="registro()" novalidate>
 
         <div class="form-group">
-          <label for="nombre" class="form-label">Nombre</label>
+          <label for="nombre" class="form-label">{{ 'auth.register.form.nameLabel' | translate }}</label>
           <input
             type="text"
             id="nombre"
             name="nombre"
             class="form-input"
-            placeholder="Juan Pérez"
+            [placeholder]="'auth.register.form.namePlaceholder' | translate"
             autocomplete="name"
             [(ngModel)]="nombre"
             required
@@ -41,13 +41,13 @@
         </div>
 
         <div class="form-group">
-          <label for="email" class="form-label">Email</label>
+          <label for="email" class="form-label">{{ 'auth.register.form.emailLabel' | translate }}</label>
           <input
             type="email"
             id="email"
             name="email"
             class="form-input"
-            placeholder="juan@example.com"
+            [placeholder]="'auth.register.form.emailPlaceholder' | translate"
             autocomplete="email"
             [(ngModel)]="email"
             required
@@ -55,13 +55,13 @@
         </div>
 
         <div class="form-group">
-          <label for="telefono" class="form-label">Teléfono</label>
+          <label for="telefono" class="form-label">{{ 'auth.register.form.phoneLabel' | translate }}</label>
           <input
             type="tel"
             id="telefono"
             name="telefono"
             class="form-input"
-            placeholder="+34 612 345 678"
+            [placeholder]="'auth.register.form.phonePlaceholder' | translate"
             autocomplete="tel"
             [(ngModel)]="telefono"
             required
@@ -70,7 +70,7 @@
         </div>
 
         <div class="form-group">
-          <label for="contrasena" class="form-label">Contraseña</label>
+          <label for="contrasena" class="form-label">{{ 'auth.register.form.passwordLabel' | translate }}</label>
           <input
             type="password"
             id="contrasena"
@@ -85,7 +85,7 @@
         </div>
 
         <div class="form-group">
-          <label for="confirmar-contrasena" class="form-label">Confirmar Contraseña</label>
+          <label for="confirmar-contrasena" class="form-label">{{ 'auth.register.form.confirmPasswordLabel' | translate }}</label>
           <input
             type="password"
             id="confirmar-contrasena"
@@ -100,15 +100,15 @@
         </div>
 
         <button type="submit" class="btn-submit" [disabled]="enviando">
-          {{ enviando ? 'Creando cuenta...' : 'Crear Cuenta' }}
+          {{ enviando ? ('auth.register.form.submitting' | translate) : ('auth.register.form.submit' | translate) }}
         </button>
 
       </form>
 
       <!-- Footer del card -->
       <p class="login-redirect">
-        ¿Ya tienes cuenta?
-        <a routerLink="/login" class="login-link">Inicia sesión</a>
+        {{ 'auth.register.footer.hasAccount' | translate }}
+        <a routerLink="/login" class="login-link">{{ 'auth.register.footer.loginLink' | translate }}</a>
       </p>
 
     </div>
@@ -124,7 +124,7 @@
     <p class="modal-message">{{ modalMensaje }}</p>
 
     <button type="button" class="modal-btn" (click)="cerrarModal()">
-      Aceptar
+      {{ 'auth.common.accept' | translate }}
     </button>
   </div>
 </div>

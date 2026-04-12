@@ -1,16 +1,16 @@
 <div class="pets-page">
 
   <div class="top-link"> 
-    <button type="button" class="back-btn" routerLink="/dashboard-owner"> ← Volver a Home </button> 
+    <button type="button" class="back-btn" routerLink="/dashboard-owner"> ← {{ 'pets.common.backToDashboard' | translate }} </button> 
   </div>
 
   <div class="pets-header">
-    <h1>Mis Mascotas</h1>
-    <p>Administra la información de tus perritos</p>
+    <h1>{{ 'pets.list.title' | translate }}</h1>
+    <p>{{ 'pets.list.subtitle' | translate }}</p>
   </div>
 
   <div *ngIf="cargando" class="state-message">
-    Cargando mascotas...
+    {{ 'pets.list.loading' | translate }}
   </div>
 
   <div *ngIf="error" class="state-message error">
@@ -18,7 +18,7 @@
   </div>
 
   <div *ngIf="!cargando && !error && mascotas.length === 0" class="state-message">
-    No tienes mascotas registradas todavía.
+    {{ 'pets.list.empty' | translate }}
   </div>
 
   <div *ngIf="!cargando && !error && mascotas.length > 0" class="pets-grid">
@@ -32,10 +32,10 @@
       <div class="pet-info">
         <h2 class="pet-name">{{ getNombreSeguro(mascota.nombre) }}</h2>
         <p class="pet-breed">{{ getRazaSegura(mascota.raza) }}</p>
-        <p class="pet-age">{{ mascota.edad }} años</p>
+        <p class="pet-age">{{ mascota.edad }} {{ 'pets.common.years' | translate }}</p>
 
         <button class="edit-btn" (click)="editarMascota(mascota.id_mascota)">
-          Editar
+          {{ 'pets.list.edit' | translate }}
         </button>
       </div>
     </div>

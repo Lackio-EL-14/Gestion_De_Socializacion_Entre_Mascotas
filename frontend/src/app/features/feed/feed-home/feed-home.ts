@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { finalize, TimeoutError, timeout } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 interface RandomPetResponse {
   id_mascota: number;
@@ -38,20 +39,24 @@ export class FeedHome implements OnInit {
   constructor(
     private readonly http: HttpClient,
     private readonly cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
     this.currentUserId = this.getCurrentUserId();
 
     if (!this.currentUserId) {
-      this.errorMessage =
-        'No se encontro tu id de usuario en la sesion. Inicia sesion nuevamente.';
+      this.errorMessage = this.t('feed.errors.userIdNotFound');
       this.cdr.detectChanges();
       return;
     }
 
     this.loadRandomPet();
     this.cdr.detectChanges();
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 
   loadNextPet(): void {
@@ -148,8 +153,7 @@ export class FeedHome implements OnInit {
           this.pet = pet;
 
           if (!pet) {
-            this.errorMessage =
-              'No hay perritos disponibles para mostrar en este momento.';
+            this.errorMessage = this.t('feed.errors.noPetsAvailable');
           }
 
           this.cdr.detectChanges();
@@ -158,17 +162,16 @@ export class FeedHome implements OnInit {
           this.pet = null;
 
           if (error instanceof TimeoutError) {
-            this.errorMessage =
-              'La solicitud tardo demasiado. Verifica que el backend este encendido e intenta nuevamente.';
+            this.errorMessage = this.t('feed.errors.requestTimeout');
             return;
           }
 
           this.errorMessage =
             error.status === 404
-              ? 'No hay perritos disponibles para mostrar en este momento.'
+              ? this.t('feed.errors.noPetsAvailable')
               : error.status === 0
-                ? 'No se pudo conectar con el backend en http://localhost:3000.'
-                : 'No se pudo cargar el perrito aleatorio. Intenta de nuevo.';
+                ? this.t('feed.errors.connectionFailed')
+                : this.t('feed.errors.loadFailed');
 
           this.cdr.detectChanges();
         },

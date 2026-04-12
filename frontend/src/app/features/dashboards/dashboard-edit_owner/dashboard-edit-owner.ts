@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-dashboard-edit-owner',
@@ -9,4 +10,10 @@ import { Component } from '@angular/core';
 export class DashboardEditOwner {
 	nombreUsuario = sessionStorage.getItem('usuarioNombre') || 'Usuario';
 	emailUsuario = sessionStorage.getItem('usuarioEmail') || 'correo@no-disponible.com';
+
+	constructor(private readonly translate: TranslateService) {}
+
+	private t(key: string): string {
+		return this.translate.instant(key);
+	}
 }
