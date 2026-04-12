@@ -1,6 +1,14 @@
+@use 'sass:color';
+
 $color-primary: #2563eb;
 $color-primary-hover: #1d4ed8;
-$color-bg-page: #f8fafc;
+$color-sidebar-bg: #0f172a;
+$color-sidebar-text: #cbd5e1;
+$color-sidebar-hover: rgba(255, 255, 255, 0.07);
+$color-sidebar-active-bg: rgba($color-primary, 0.15);
+$color-sidebar-active-text: $color-primary;
+
+$color-main-bg: #f8fafc;
 $color-bg-card: #ffffff;
 $color-text-dark: #0f172a;
 $color-text-muted: #475569;
@@ -8,6 +16,7 @@ $color-border: #dbe2ea;
 $color-error: #dc2626;
 
 $font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+$sidebar-width: 260px;
 $border-radius-card: 14px;
 $border-radius-btn: 10px;
 $transition-speed: 0.2s;
@@ -21,13 +30,149 @@ $transition-speed: 0.2s;
 :host {
   display: block;
   min-height: 100vh;
-  background: $color-bg-page;
+  background: $color-main-bg;
   font-family: $font-family;
 }
 
-.pets-page {
-  padding: 32px;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.layout {
+  display: flex;
   min-height: 100vh;
+}
+
+.sidebar {
+  width: $sidebar-width;
+  min-width: $sidebar-width;
+  background: $color-sidebar-bg;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  &__brand {
+    padding: 0 24px 28px;
+
+    &-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: $color-primary;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 12px;
+    }
+
+    &-item {
+      border-radius: 10px;
+      transition: background $transition-speed ease;
+
+      &:hover {
+        background: $color-sidebar-hover;
+      }
+
+      &--active {
+        background: $color-sidebar-active-bg;
+
+        .sidebar__nav-link {
+          color: $color-sidebar-active-text;
+          font-weight: 600;
+        }
+
+        .sidebar__icon {
+          color: $color-sidebar-active-text;
+        }
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    color: $color-sidebar-text;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: color $transition-speed ease;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+
+  &__footer {
+    padding: 12px 12px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 8px;
+
+    .sidebar__nav-link:hover {
+      color: #f87171;
+    }
+  }
+
+  &__logout {
+    border-radius: 10px;
+
+    &:hover {
+      background: rgba(248, 113, 113, 0.1);
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.top-link {
+  margin-bottom: 20px;
+
+  .back-btn {
+    background: transparent;
+    border: none;
+    color: $color-text-dark;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color $transition-speed ease;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
 }
 
 .pets-header {
@@ -131,9 +276,19 @@ $transition-speed: 0.2s;
   }
 }
 
-@media (max-width: 900px) {
-  .pets-page {
-    padding: 24px;
+@media (max-width: 1100px) {
+  .pets-grid {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    padding: 24px 20px;
   }
 
   .pets-grid {
@@ -142,7 +297,7 @@ $transition-speed: 0.2s;
 }
 
 @media (max-width: 480px) {
-  .pets-page {
+  .main-content {
     padding: 18px;
   }
 
@@ -156,27 +311,5 @@ $transition-speed: 0.2s;
 
   .pet-name {
     font-size: 1.5rem;
-  }
-}
-
-.top-link {
-  margin-bottom: 20px;
-
-  .back-btn {
-    background: transparent;
-    border: none;
-    color: $color-text-dark;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 6px 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: color $transition-speed ease;
-
-    &:hover {
-      color: $color-primary;
-    }
   }
 }
