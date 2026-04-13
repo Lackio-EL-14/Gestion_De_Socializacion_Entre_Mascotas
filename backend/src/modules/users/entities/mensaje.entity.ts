@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Match } from './match.entity';
+import { Match } from '../../matches/entities/match.entity';
 import { Usuario } from './usuario.entity';
 
 @Entity('MENSAJE')

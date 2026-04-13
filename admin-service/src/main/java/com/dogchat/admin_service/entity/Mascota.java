@@ -28,6 +28,8 @@ public class Mascota {
     @Column(name = "id_usuario")
     private Integer idUsuario;
 
+    @Column(name = "estado_verificacion_medica")
+    private String estadoVerificacionMedica;
 
     public Integer getIdMascota() { return idMascota; }
     public void setIdMascota(Integer idMascota) { this.idMascota = idMascota; }
@@ -46,4 +48,7 @@ public class Mascota {
 
     public Integer getIdUsuario() { return idUsuario; }
     public void setIdUsuario(Integer idUsuario) { this.idUsuario = idUsuario; }
+
+    public String getEstadoVerificacionMedica() { return estadoVerificacionMedica; }
+    public void setEstadoVerificacionMedica(String estadoVerificacionMedica) { this.estadoVerificacionMedica = estadoVerificacionMedica; }
 }

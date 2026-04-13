@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException, Logger } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pet } from '../entities/pet.entity';
@@ -103,4 +103,24 @@ export class PetsService {
       .limit(1)
       .getOne();
   }
+
+  async getFeed(idMascotaActual: number) {
+   const mascotaActual = await this.petsRepository.findOne({
+     where: { id_mascota: idMascotaActual }
+   });
+
+   if (!mascotaActual) {
+     throw new NotFoundException('Mascota no encontrada');
+   }
+
+   const feed = await this.petsRepository.createQueryBuilder('mascota')
+     .where('mascota.id_usuario != :idDueno', { idDueno: mascotaActual.id_usuario })
+     .andWhere(`mascota.id_mascota NOT IN (
+       SELECT id_mascota_destino FROM INTERACCION WHERE id_mascota_origen = :idMascotaActual
+     )`, { idMascotaActual })
+     .limit(20)
+     .getMany();
+
+   return feed;
+ } 
 }
