@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { finalize, TimeoutError, timeout } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 interface RandomPetResponse {
   id_mascota: number;
@@ -40,6 +41,7 @@ export class FeedHome implements OnInit {
     private readonly http: HttpClient,
     private readonly cdr: ChangeDetectorRef,
     private readonly translate: TranslateService,
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -177,4 +179,13 @@ export class FeedHome implements OnInit {
         },
       });
   }
+  goToReport(): void {
+    if (!this.pet?.id_usuario) {
+      return;
+    }
+
+    this.router.navigate(['/reports/create-report'], {
+      state: { id_usuario_reported: this.pet.id_usuario }
+    });
+}
 }

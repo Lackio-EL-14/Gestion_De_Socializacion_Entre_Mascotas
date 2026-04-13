@@ -1,0 +1,72 @@
+<div class="report-page">
+  <div class="report-overlay">
+    <div class="report-card">
+
+      <button type="button" class="close-btn" (click)="cancelar()" aria-label="Cerrar">
+        ×
+      </button>
+
+      <h1 class="report-title">Reportar Usuario</h1>
+
+      <form class="report-form" (ngSubmit)="submit()" novalidate>
+        <div class="form-group">
+          <label for="motivo">Asunto</label>
+          <input
+            type="text"
+            id="motivo"
+            name="motivo"
+            [(ngModel)]="motivo"
+            placeholder="Conducta inapropiada..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="usuario-reportado">Usuario Acusado</label>
+          <input
+            type="text"
+            id="usuario-reportado"
+            [value]="idUsuarioReported ?? ''"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="comentario">Comentario</label>
+          <textarea
+            id="comentario"
+            name="comentario"
+            [(ngModel)]="comentario"
+            rows="4"
+            placeholder="Describe el motivo del reporte..."
+          ></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-send" [disabled]="enviando">
+            {{ enviando ? 'Enviando...' : 'Enviar' }}
+          </button>
+
+          <button type="button" class="btn-cancel" (click)="cancelar()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="modalVisible">
+  <div class="modal-card">
+    <div class="modal-icon" [ngClass]="modalTipo">
+      <span *ngIf="modalTipo === 'success'">✓</span>
+      <span *ngIf="modalTipo === 'error'">!</span>
+    </div>
+
+    <h2 class="modal-title">{{ modalTitulo }}</h2>
+    <p class="modal-message">{{ modalMensaje }}</p>
+
+    <button type="button" class="modal-btn" (click)="cerrarModal()">
+      Aceptar
+    </button>
+  </div>
+</div>
