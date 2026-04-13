@@ -14,7 +14,7 @@ export class Interaccion {
   @JoinColumn({ name: 'id_mascota_destino' })
   mascota_destino: Mascota; 
   
-  @Column({ type: 'enum', enum: ['Me gusta', 'Duérmanlo'] })
+  @Column({ type: 'enum', enum: ['LIKE', 'REJECT'] })
   tipo_interaccion: string;
 
   @CreateDateColumn()

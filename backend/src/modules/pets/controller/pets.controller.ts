@@ -49,4 +49,9 @@ export class PetsController {
   findRandom(@Param('userId', ParseIntPipe) userId: number) {
     return this.petsService.findRandomExcludingUser(userId);
   }
+
+  @Get('feed/:id')
+  async getFeed(@Param('id') idMascota: number) {
+    return this.petsService.getFeed(idMascota);
+  }
 }

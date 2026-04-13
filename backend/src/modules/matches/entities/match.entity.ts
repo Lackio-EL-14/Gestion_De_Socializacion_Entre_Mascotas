@@ -1,18 +1,18 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Mascota } from './mascota.entity';
+import { Pet } from '../../pets/entities/pet.entity';
 
 @Entity('MATCH_MASCOTA') 
 export class Match {
   @PrimaryGeneratedColumn()
   id_match: number;
 
-  @ManyToOne(() => Mascota)
+  @ManyToOne(() => Pet)
   @JoinColumn({ name: 'id_mascota_1' })
-  mascota_1: Mascota;
+  mascota_1: Pet;
 
-  @ManyToOne(() => Mascota)
+  @ManyToOne(() => Pet)
   @JoinColumn({ name: 'id_mascota_2' })
-  mascota_2: Mascota;
+  mascota_2: Pet;
 
   @CreateDateColumn()
   fecha_match: Date;
