@@ -7,9 +7,10 @@ import { PetsRoutingModule } from './pets-routing-module';
 import { CreatePetComponent } from './create-pet/create-pet';
 import { ListPetsComponent } from './list-pets/list-pets';
 import { EditPetComponent } from './edit-pet/edit-pet';
+import { SharedModule } from '../../shared/shared-module';
 
 @NgModule({
   declarations: [CreatePetComponent, ListPetsComponent, EditPetComponent],
-  imports: [CommonModule, PetsRoutingModule, FormsModule, TranslateModule],
+  imports: [CommonModule, PetsRoutingModule, FormsModule, TranslateModule, SharedModule],
 })
 export class PetsModule {}
