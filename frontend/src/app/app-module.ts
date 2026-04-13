@@ -14,6 +14,7 @@ import { LanguageService } from './core/services/language.service';
 import { Home } from './features/home/home';
 import { DashboardOwner } from './features/dashboards/dashboard-owner/dashboard-owner';
 import { DashboardEditOwner } from './features/dashboards/dashboard-edit_owner/dashboard-edit-owner';
+import { SharedModule } from './shared/shared-module';
 
 class AppTranslateLoader implements TranslateLoader {
   constructor(private readonly http: HttpClient) {}
@@ -47,6 +48,7 @@ export function initializeLanguage(languageService: LanguageService): () => void
         deps: [HttpClient],
       },
     }),
+    SharedModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
