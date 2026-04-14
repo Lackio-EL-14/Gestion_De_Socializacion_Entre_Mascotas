@@ -54,4 +54,9 @@ export class UsuariosController {
     const userId = req.user.userId;
     return this.usuariosService.findMyProfile(userId);
   }
+
+  @Get()
+  async findAll() {
+    return this.usuariosService.findAll();
+  }
 }

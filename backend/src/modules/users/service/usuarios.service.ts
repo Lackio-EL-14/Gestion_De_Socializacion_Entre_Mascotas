@@ -187,4 +187,22 @@ export class UsuariosService {
 
     return usuario;
   }
+  
+  async findAll() {
+    this.logger.log(`[AUDIT-USERS] Consulta de lista general de usuarios`);
+
+    return this.usuarioRepository.find({
+      select: {
+        id_usuario: true,
+        nombre: true,
+        email: true,
+        telefono: true,
+        foto_perfil_url: true,
+        cantidad_strikes: true,
+        fecha_registro: true,
+        esta_activo: true,
+      },
+      relations: ['rol'] // Traemos el rol asociado para mayor contexto
+    });
+  }
 }
