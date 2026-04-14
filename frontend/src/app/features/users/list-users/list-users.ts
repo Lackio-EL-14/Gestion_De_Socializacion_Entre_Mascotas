@@ -102,7 +102,6 @@ export class ListUsersComponent implements OnInit {
 
   verPerfil(idUsuario: number): void {
     console.log('Ver perfil de usuario:', idUsuario);
-    // Futuro:
-    // this.router.navigate(['/users/profile', idUsuario]);
+    this.router.navigate(['/users/profile', idUsuario]);
   }
 }

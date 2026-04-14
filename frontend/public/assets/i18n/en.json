@@ -310,4 +310,19 @@
       }
     }
   }
+  , "users": {
+    "publicProfile": {
+      "back": "Back to Users",
+      "loading": "Loading profile...",
+      "photoAlt": "User profile photo",
+      "phone": "Phone",
+      "registerDate": "Registration date",
+      "reportUser": "Report user",
+      "errors": {
+        "invalidId": "Invalid user ID",
+        "noSession": "There is no active session",
+        "loadFailed": "Could not load the user profile"
+      }
+    }
+  }
 }

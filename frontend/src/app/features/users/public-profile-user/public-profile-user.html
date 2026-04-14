@@ -1,0 +1,48 @@
+<div class="layout">
+  <app-sidebar-owner></app-sidebar-owner>
+
+  <main class="main-content">
+    <div class="top-link">
+      <button class="back-btn" (click)="volver()">
+        ← {{ 'users.publicProfile.back' | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="cargando" class="state-message">
+      {{ 'users.publicProfile.loading' | translate }}
+    </div>
+
+    <div *ngIf="error" class="state-message error">
+      {{ error }}
+    </div>
+
+    <div *ngIf="!cargando && usuario" class="profile-card">
+      <div class="profile-header">
+        <img class="profile-photo" [src]="getFoto()" [alt]="'users.publicProfile.photoAlt' | translate" />
+
+        <div class="profile-main">
+          <h1 class="profile-name">{{ usuario.nombre }}</h1>
+          <p class="profile-email">{{ usuario.email }}</p>
+        </div>
+      </div>
+
+      <div class="profile-body">
+        <div class="profile-item">
+          <span class="label">{{ 'users.publicProfile.phone' | translate }}</span>
+          <span class="value">{{ usuario.telefono }}</span>
+        </div>
+
+        <div class="profile-item">
+          <span class="label">{{ 'users.publicProfile.registerDate' | translate }}</span>
+          <span class="value">{{ usuario.fecha_registro | date:'medium' }}</span>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button type="button" class="report-btn" (click)="reportarUsuario()">
+          {{ 'users.publicProfile.reportUser' | translate }}
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

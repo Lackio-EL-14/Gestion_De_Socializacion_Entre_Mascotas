@@ -310,4 +310,19 @@
       }
     }
   }
+  , "users": {
+    "publicProfile": {
+      "back": "Volver a Usuarios",
+      "loading": "Cargando perfil...",
+      "photoAlt": "Foto de perfil del usuario",
+      "phone": "Teléfono",
+      "registerDate": "Fecha de registro",
+      "reportUser": "Reportar usuario",
+      "errors": {
+        "invalidId": "ID de usuario no válido",
+        "noSession": "No hay sesión activa",
+        "loadFailed": "No se pudo cargar el perfil del usuario"
+      }
+    }
+  }
 }
