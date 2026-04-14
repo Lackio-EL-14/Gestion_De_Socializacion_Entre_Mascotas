@@ -26,7 +26,7 @@ interface RandomPetResponse {
   styleUrl: './feed-home.scss',
 })
 export class FeedHome implements OnInit {
-  private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
   private huesitoReactionTimer: ReturnType<typeof setTimeout> | null = null;
 
   currentUserId: number | null = null;
