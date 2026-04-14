@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 interface RolUsuario {
   id_rol: number;
@@ -39,7 +40,8 @@ export class ListUsersComponent implements OnInit {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +61,7 @@ export class ListUsersComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
-        this.error = 'No se pudieron cargar los usuarios.';
+        this.error = this.t('users.list.errors.loadFailed');
         this.cargando = false;
         this.cdr.detectChanges();
       }
@@ -89,7 +91,9 @@ export class ListUsersComponent implements OnInit {
   }
 
   getEstadoTexto(usuario: Usuario): string {
-    return usuario.esta_activo ? 'Activo' : 'Inactivo';
+    return usuario.esta_activo
+      ? this.t('users.list.status.active')
+      : this.t('users.list.status.inactive');
   }
 
   getEstadoClase(usuario: Usuario): string {
@@ -101,7 +105,10 @@ export class ListUsersComponent implements OnInit {
   }
 
   verPerfil(idUsuario: number): void {
-    console.log('Ver perfil de usuario:', idUsuario);
     this.router.navigate(['/users/profile', idUsuario]);
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }

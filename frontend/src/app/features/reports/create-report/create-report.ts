@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 interface CreateReportRequest {
   motivo: string;
@@ -29,7 +30,7 @@ interface CreateReportResponse {
 export class CreateReportComponent {
   motivo = '';
   comentario = '';
-  idUsuarioReported: number | null = null;
+  idUsuarioReportado: number | null = null;
 
   enviando = false;
   modalVisible = false;
@@ -40,10 +41,11 @@ export class CreateReportComponent {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translate: TranslateService
   ) {
     const rawId = history.state?.id_usuario_reported;
-    this.idUsuarioReported =
+    this.idUsuarioReportado =
       Number.isInteger(Number(rawId)) && Number(rawId) > 0 ? Number(rawId) : null;
   }
 
@@ -57,29 +59,29 @@ export class CreateReportComponent {
     const token = localStorage.getItem('access_token');
 
     if (!token) {
-      this.mostrarModal('Error', 'No se encontró el token de sesión. Inicia sesión nuevamente.', 'error');
+      this.mostrarModalByKey('reports.common.errorTitle', 'reports.create.errors.noSession', 'error');
       return;
     }
 
-    if (!this.idUsuarioReported) {
-      this.mostrarModal('Error', 'No se encontró el usuario a reportar.', 'error');
+    if (!this.idUsuarioReportado) {
+      this.mostrarModalByKey('reports.common.errorTitle', 'reports.create.errors.noReportedUser', 'error');
       return;
     }
 
     if (!motivo) {
-      this.mostrarModal('Error de validación', 'El motivo es obligatorio.', 'error');
+      this.mostrarModalByKey('reports.common.validationTitle', 'reports.create.validation.subjectRequired', 'error');
       return;
     }
 
     if (!comentario) {
-      this.mostrarModal('Error de validación', 'El comentario es obligatorio.', 'error');
+      this.mostrarModalByKey('reports.common.validationTitle', 'reports.create.validation.commentRequired', 'error');
       return;
     }
 
     const body: CreateReportRequest = {
       motivo,
       comentario,
-      id_usuario_reportado: this.idUsuarioReported
+      id_usuario_reportado: this.idUsuarioReportado
     };
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -89,15 +91,15 @@ export class CreateReportComponent {
     this.http.post<CreateReportResponse>('http://localhost:3000/reports', body, { headers }).subscribe({
       next: () => {
         this.enviando = false;
-        this.mostrarModal('Éxito', 'El reporte fue enviado correctamente.', 'success');
+        this.mostrarModalByKey('reports.create.modal.successTitle', 'reports.create.modal.successMessage', 'success');
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al crear el reporte:', error);
-        const mensaje = error?.error?.message || 'No se pudo enviar el reporte.';
+        const mensaje = error?.error?.message || this.t('reports.create.modal.errorMessage');
         this.enviando = false;
         this.mostrarModal(
-          'Error',
+          this.t('reports.common.errorTitle'),
           Array.isArray(mensaje) ? mensaje.join('\n') : mensaje,
           'error'
         );
@@ -123,5 +125,13 @@ export class CreateReportComponent {
     this.modalMensaje = mensaje;
     this.modalTipo = tipo;
     this.modalVisible = true;
+  }
+
+  private mostrarModalByKey(titleKey: string, messageKey: string, tipo: 'success' | 'error'): void {
+    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }

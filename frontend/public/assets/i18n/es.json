@@ -324,5 +324,61 @@
         "loadFailed": "No se pudo cargar el perfil del usuario"
       }
     }
+    , "list": {
+      "title": "Usuarios",
+      "subtitle": "Explora otros dueños de mascotas en la plataforma",
+      "searchPlaceholder": "Buscar por nombre...",
+      "loading": "Cargando usuarios...",
+      "empty": "No se encontraron usuarios.",
+      "viewProfile": "Ver Perfil",
+      "table": {
+        "photo": "Foto",
+        "name": "Nombre",
+        "email": "Email",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
+      "errors": {
+        "loadFailed": "No se pudieron cargar los usuarios."
+      }
+    }
+  }
+  , "reports": {
+    "common": {
+      "accept": "Aceptar",
+      "cancel": "Cancelar",
+      "sending": "Enviando...",
+      "errorTitle": "Error",
+      "validationTitle": "Error de validación"
+    },
+    "create": {
+      "title": "Reportar Usuario",
+      "close": "Cerrar",
+      "form": {
+        "subjectLabel": "Asunto",
+        "subjectPlaceholder": "Conducta inapropiada...",
+        "reportedUserLabel": "Usuario Acusado",
+        "commentLabel": "Comentario",
+        "commentPlaceholder": "Describe el motivo del reporte...",
+        "submit": "Enviar"
+      },
+      "validation": {
+        "subjectRequired": "El motivo es obligatorio.",
+        "commentRequired": "El comentario es obligatorio."
+      },
+      "errors": {
+        "noSession": "No se encontró el token de sesión. Inicia sesión nuevamente.",
+        "noReportedUser": "No se encontró el usuario a reportar."
+      },
+      "modal": {
+        "successTitle": "Éxito",
+        "successMessage": "El reporte fue enviado correctamente.",
+        "errorMessage": "No se pudo enviar el reporte."
+      }
+    }
   }
 }

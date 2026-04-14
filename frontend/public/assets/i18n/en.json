@@ -324,5 +324,61 @@
         "loadFailed": "Could not load the user profile"
       }
     }
+    , "list": {
+      "title": "Users",
+      "subtitle": "Explore other pet owners on the platform",
+      "searchPlaceholder": "Search by name...",
+      "loading": "Loading users...",
+      "empty": "No users found.",
+      "viewProfile": "View Profile",
+      "table": {
+        "photo": "Photo",
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "errors": {
+        "loadFailed": "Could not load users."
+      }
+    }
+  }
+  , "reports": {
+    "common": {
+      "accept": "Accept",
+      "cancel": "Cancel",
+      "sending": "Sending...",
+      "errorTitle": "Error",
+      "validationTitle": "Validation error"
+    },
+    "create": {
+      "title": "Report User",
+      "close": "Close",
+      "form": {
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "Inappropriate behavior...",
+        "reportedUserLabel": "Reported User",
+        "commentLabel": "Comment",
+        "commentPlaceholder": "Describe the reason for the report...",
+        "submit": "Send"
+      },
+      "validation": {
+        "subjectRequired": "The subject is required.",
+        "commentRequired": "The comment is required."
+      },
+      "errors": {
+        "noSession": "Session token was not found. Please sign in again.",
+        "noReportedUser": "The reported user was not found."
+      },
+      "modal": {
+        "successTitle": "Success",
+        "successMessage": "The report was sent successfully.",
+        "errorMessage": "The report could not be sent."
+      }
+    }
   }
 }

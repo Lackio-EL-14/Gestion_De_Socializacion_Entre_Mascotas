@@ -2,52 +2,52 @@
   <div class="report-overlay">
     <div class="report-card">
 
-      <button type="button" class="close-btn" (click)="cancelar()" aria-label="Cerrar">
+      <button type="button" class="close-btn" (click)="cancelar()" [attr.aria-label]="'reports.create.close' | translate">
         ×
       </button>
 
-      <h1 class="report-title">Reportar Usuario</h1>
+      <h1 class="report-title">{{ 'reports.create.title' | translate }}</h1>
 
       <form class="report-form" (ngSubmit)="submit()" novalidate>
         <div class="form-group">
-          <label for="motivo">Asunto</label>
+          <label for="motivo">{{ 'reports.create.form.subjectLabel' | translate }}</label>
           <input
             type="text"
             id="motivo"
             name="motivo"
             [(ngModel)]="motivo"
-            placeholder="Conducta inapropiada..."
+            [placeholder]="'reports.create.form.subjectPlaceholder' | translate"
           />
         </div>
 
         <div class="form-group">
-          <label for="usuario-reportado">Usuario Acusado</label>
+          <label for="usuario-reportado">{{ 'reports.create.form.reportedUserLabel' | translate }}</label>
           <input
             type="text"
             id="usuario-reportado"
-            [value]="idUsuarioReported ?? ''"
+            [value]="idUsuarioReportado ?? ''"
             readonly
           />
         </div>
 
         <div class="form-group">
-          <label for="comentario">Comentario</label>
+          <label for="comentario">{{ 'reports.create.form.commentLabel' | translate }}</label>
           <textarea
             id="comentario"
             name="comentario"
             [(ngModel)]="comentario"
             rows="4"
-            placeholder="Describe el motivo del reporte..."
+            [placeholder]="'reports.create.form.commentPlaceholder' | translate"
           ></textarea>
         </div>
 
         <div class="actions">
           <button type="submit" class="btn-send" [disabled]="enviando">
-            {{ enviando ? 'Enviando...' : 'Enviar' }}
+            {{ enviando ? ('reports.common.sending' | translate) : ('reports.create.form.submit' | translate) }}
           </button>
 
           <button type="button" class="btn-cancel" (click)="cancelar()">
-            Cancelar
+            {{ 'reports.common.cancel' | translate }}
           </button>
         </div>
       </form>
@@ -66,7 +66,7 @@
     <p class="modal-message">{{ modalMensaje }}</p>
 
     <button type="button" class="modal-btn" (click)="cerrarModal()">
-      Aceptar
+      {{ 'reports.common.accept' | translate }}
     </button>
   </div>
 </div>
