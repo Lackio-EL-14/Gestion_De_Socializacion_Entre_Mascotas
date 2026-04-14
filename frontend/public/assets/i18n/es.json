@@ -347,4 +347,38 @@
       }
     }
   }
+  , "reports": {
+    "common": {
+      "accept": "Aceptar",
+      "cancel": "Cancelar",
+      "sending": "Enviando...",
+      "errorTitle": "Error",
+      "validationTitle": "Error de validación"
+    },
+    "create": {
+      "title": "Reportar Usuario",
+      "close": "Cerrar",
+      "form": {
+        "subjectLabel": "Asunto",
+        "subjectPlaceholder": "Conducta inapropiada...",
+        "reportedUserLabel": "Usuario Acusado",
+        "commentLabel": "Comentario",
+        "commentPlaceholder": "Describe el motivo del reporte...",
+        "submit": "Enviar"
+      },
+      "validation": {
+        "subjectRequired": "El motivo es obligatorio.",
+        "commentRequired": "El comentario es obligatorio."
+      },
+      "errors": {
+        "noSession": "No se encontró el token de sesión. Inicia sesión nuevamente.",
+        "noReportedUser": "No se encontró el usuario a reportar."
+      },
+      "modal": {
+        "successTitle": "Éxito",
+        "successMessage": "El reporte fue enviado correctamente.",
+        "errorMessage": "No se pudo enviar el reporte."
+      }
+    }
+  }
 }
