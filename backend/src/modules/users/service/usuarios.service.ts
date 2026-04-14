@@ -205,4 +205,24 @@ export class UsuariosService {
       relations: ['rol'] // Traemos el rol asociado para mayor contexto
     });
   }
+
+  async findPublicProfile(id: number) {
+    const usuario = await this.usuarioRepository.findOne({
+      where: { id_usuario: id },
+      select: [
+        'id_usuario',
+        'nombre',
+        'email',
+        'telefono',
+        'foto_perfil_url',
+        'fecha_registro'
+      ]
+    });
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return usuario;
+  }
 }

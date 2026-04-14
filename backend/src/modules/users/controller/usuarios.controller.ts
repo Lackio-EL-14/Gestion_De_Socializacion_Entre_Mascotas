@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards, Param, ParseIntPipe } from '@nestjs/common';
 import { UsuariosService } from '../service/usuarios.service';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
@@ -58,5 +58,11 @@ export class UsuariosController {
   @Get()
   async findAll() {
     return this.usuariosService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  findPublicProfile(@Param('id', ParseIntPipe) id: number) {
+    return this.usuariosService.findPublicProfile(id);
   }
 }
