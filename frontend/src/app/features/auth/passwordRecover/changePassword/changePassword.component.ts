@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AlertModalComponent } from '../../../../shared/components/alert-modal/alert-modal.component';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-reset-password',
   standalone: true, // ¡Cambio clave!
-  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent],
+  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, TranslateModule],
   templateUrl: './changePassword.component.html',
   styleUrls: ['./changePassword.component.scss'],
 })
@@ -38,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
       console.log('TOKEN RECIBIDO:', this.token);
 
       if (!this.token) {
-        this.mostrarModal('Error', 'Token inválido o expirado', 'error');
+        this.mostrarModal('Error', "{{ 'auth.passwordRecover.change.modal.missingToken' | translate }}", 'error');
 
         setTimeout(() => {
           this.router.navigate(['/login']);
@@ -49,7 +50,7 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.token) {
-      this.mostrarModal('Error', 'Token de verificación faltante', 'error');
+      this.mostrarModal('Error', "{{ 'auth.passwordRecover.change.modal.missingToken' | translate }}", 'error');
       return;
     }
 
@@ -57,17 +58,17 @@ export class ResetPasswordComponent implements OnInit {
     const confirmPassword = this.confirmPassword;
 
     if (!password || !confirmPassword) {
-      this.mostrarModal('Error', 'Todos los campos son obligatorios', 'error');
+      this.mostrarModal('Error', "{{ 'auth.passwordRecover.change.modal.allFieldsRequired' | translate }}", 'error');
       return;
     }
 
     if (password.length < 6) {
-      this.mostrarModal('Error', 'Mínimo 6 caracteres', 'error');
+      this.mostrarModal('Error', "{{ 'auth.passwordRecover.change.modal.passwordTooShort' | translate }}", 'error');
       return;
     }
 
     if (password !== confirmPassword) {
-      this.mostrarModal('Error', 'Las contraseñas no coinciden', 'error');
+      this.mostrarModal('Error', "{{ 'auth.passwordRecover.change.modal.passwordsDoNotMatch' | translate }}", 'error');
       return;
     }
 
@@ -84,7 +85,7 @@ export class ResetPasswordComponent implements OnInit {
 
         this.mostrarModal(
           'Contraseña actualizada',
-          'Ahora puedes iniciar sesión',
+          "{{ 'auth.passwordRecover.change.modal.successMessage' | translate }}",
           'success'
         );
 
@@ -101,7 +102,7 @@ export class ResetPasswordComponent implements OnInit {
           'Error',
           Array.isArray(mensaje)
             ? mensaje.join('\n')
-            : mensaje || 'No se pudo cambiar la contraseña',
+            : mensaje || "{{ 'auth.passwordRecover.change.modal.updateError' | translate }}",
           'error'
         );
 

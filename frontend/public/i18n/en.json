@@ -1,0 +1,406 @@
+{
+  "home": {
+    "login": "Log in",
+    "heroTitle": "Welcome to DogChat",
+    "heroSubtitle": "Connect with other pet owners and find the perfect match for your dog",
+    "registerOwnerTitle": "Sign up as\nOwner",
+    "registerOwnerText": "Find furry friends for your pet and connect with other owners",
+    "registerWorkerTitle": "Sign up as\nWorker",
+    "registerWorkerText": "Promote your services and connect with pet owners"
+  },
+  "language": {
+    "label": "Language",
+    "es": "Spanish",
+    "en": "English",
+    "fr": "French"
+  },
+  "auth": {
+    "common": {
+      "accept": "Accept",
+      "validationErrorTitle": "Validation error",
+      "validation": {
+        "invalidEmail": "Email format is invalid",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 6 characters",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
+    },
+    "login": {
+      "subtitle": "Administration panel",
+      "form": {
+        "emailLabel": "Email or Username",
+        "emailPlaceholder": "admin@dogchat.com",
+        "passwordLabel": "Password",
+        "forgotPassword": "Forgot your password? Recover password",
+        "submitting": "Signing in...",
+        "submit": "Log in"
+      },
+      "validation": {
+        "emailRequired": "Email is required"
+      },
+      "modal": {
+        "loginErrorTitle": "Login error",
+        "loginErrorMessage": "Invalid credentials or login error"
+      }
+    },
+    "register": {
+      "subtitle": "Create owner account",
+      "form": {
+        "nameLabel": "Name",
+        "namePlaceholder": "John Doe",
+        "emailLabel": "Email",
+        "emailPlaceholder": "john@example.com",
+        "phoneLabel": "Phone",
+        "phonePlaceholder": "+34 612 345 678",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm password",
+        "submitting": "Creating account...",
+        "submit": "Create account"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Email format is invalid",
+        "phoneRequired": "Phone is required",
+        "phoneTooLong": "Phone number is too long",
+        "passwordRequired": "Password is required",
+        "passwordTooShort": "Password must be at least 6 characters",
+        "confirmPasswordRequired": "You must confirm your password",
+        "passwordsDoNotMatch": "Passwords do not match"
+      },
+      "modal": {
+        "successTitle": "Registration successful",
+        "successMessage": "Account created successfully",
+        "errorTitle": "Registration error",
+        "errorMessage": "An error occurred while registering"
+      },
+      "footer": {
+        "hasAccount": "Already have an account?",
+        "loginLink": "Log in"
+      }
+    },
+    "passwordRecover": {
+      "common": {
+        "errorTitle": "Error"
+      },
+      "request": {
+        "title": "Recover password",
+        "subtitle": "Enter your email and we will send you a code",
+        "form": {
+          "emailLabel": "Email",
+          "emailPlaceholder": "example@email.com",
+          "submitting": "Sending code...",
+          "submit": "Send code"
+        },
+        "validation": {
+          "emailRequired": "Email is required",
+          "emailInvalid": "Email format is invalid",
+          "noToken": "No recovery token was received",
+          "invalidToken": "Invalid or expired token"
+        },
+        "modal": {
+          "missingToken": "Recovery token was not received",
+          "successTitle": "Email sent",
+          "successMessage": "Redirecting to change password...",
+          "sendEmailError": "Could not send email"
+        }
+      },
+      "change": {
+        "title": "New password",
+        "subtitle": "Enter and confirm your new password",
+        "form": {
+          "passwordLabel": "New password",
+          "confirmPasswordLabel": "Confirm password",
+          "submitting": "Updating...",
+          "submit": "Change password"
+        },
+        "validation": {
+          "allFieldsRequired": "All fields are required"
+        },
+        "modal": {
+          "invalidToken": "Invalid or expired token",
+          "missingToken": "Missing verification token",
+          "successTitle": "Password updated",
+          "successMessage": "You can now log in",
+          "updateError": "Could not change password",
+          "passwordTooShort": "Password must be at least 6 characters",
+          "passwordsDoNotMatch": "Passwords do not match"
+        }
+      }
+    }
+  },
+  "feed": {
+    "title": "Find a Match",
+    "subtitle": "Find the perfect friend for your dog",
+    "petCard": {
+      "photoAlt": "Dog photo",
+      "photoPlaceholder": "Photo coming soon",
+      "noName": "No name",
+      "breed": "Breed",
+      "size": "Size",
+      "gender": "Gender",
+      "age": "Age",
+      "years": "years",
+      "vaccineCard": "View Vaccine Card",
+      "fullProfile": "View Full Profile",
+      "boneButtonLabel": "Give a bone",
+      "match": "Match",
+      "bone": "Bone",
+      "nextButtonLabel": "View next dog",
+      "next": "Next",
+      "loading": "Loading random dog...",
+      "report": "Report"
+    },
+    "errors": {
+      "userIdNotFound": "Your user ID was not found in the session. Log in again.",
+      "noPetsAvailable": "There are no dogs available to show at the moment.",
+      "requestTimeout": "The request took too long. Check that the backend is running and try again.",
+      "connectionFailed": "Could not connect to the backend at http://localhost:3000.",
+      "loadFailed": "Could not load random dog. Try again."
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "cards": "Cards",
+    "bones": "Bones",
+    "publications": "Publications",
+    "myPublications": "My Publications",
+    "chats": "Chats",
+    "users": "Users",
+    "pets": "Pets",
+    "configProfile": "Configure Profile",
+    "logout": "Log out",
+    "manageUsers": "User Management",
+    "manageReports": "Report Management",
+    "manageContent": "Content Management"
+  },
+  "dashboard": {
+    "admin": {
+      "title": "Dashboard",
+      "subtitle": "Welcome to the administration panel",
+      "metrics": {
+        "totalUsers": "Total Users",
+        "activeUsers": "Active Users",
+        "suspendedUsers": "Suspended Users",
+        "pendingReports": "Pending Reports"
+      }
+    },
+    "owner": {
+      "welcome": "Welcome to DogChat",
+      "subtitle": "Your platform for pet socialization",
+      "greeting": "Hello, {{name}}!",
+      "banner": "Find the perfect match for your dog and connect with other pet owners in your area",
+      "quickAccess": "Quick Access",
+      "cards": {
+        "findMatch": "Find a Match",
+        "findMatchDesc": "Find friends for your dog",
+        "publications": "Publications",
+        "publicationsDesc": "Explore the community feed",
+        "chats": "Chats",
+        "chatsDesc": "Chat with your matches",
+        "myPets": "My Pets",
+        "myPetsDesc": "Manage your dogs"
+      }
+    },
+    "edit": {
+      "title": "Configure Profile",
+      "subtitle": "Keep your information up to date",
+      "avatar": {
+        "altText": "Profile photo",
+        "changeBtn": "Change photo",
+        "badge": "Pet owner"
+      },
+      "securityNotice": "Your information is protected and will never be shared without your consent.",
+      "personalInfo": {
+        "title": "Personal Information",
+        "desc": "Update your name and contact details",
+        "fullName": "Full name",
+        "fullNamePlaceholder": "John Doe",
+        "phone": "Phone",
+        "phonePlaceholder": "+34 612 345 678",
+        "email": "Email",
+        "emailPlaceholder": "john@example.com",
+        "cancel": "Cancel",
+        "save": "Save changes"
+      },
+      "password": {
+        "title": "Change Password",
+        "desc": "Use a secure password of at least 8 characters",
+        "current": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "toggleVisibility": "Show password",
+        "strengthLabel": "Password strength",
+        "cancel": "Cancel",
+        "update": "Update password"
+      }
+    }
+  }
+  ,"pets": {
+    "common": {
+      "sending": "Saving...",
+      "accept": "Accept",
+      "errorTitle": "Error",
+      "validationTitle": "Validation error",
+      "backToMyPets": "Back to My Pets",
+      "backToDashboard": "Back to Home",
+      "selectPlaceholder": "Select",
+      "years": "years",
+      "size": {
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large"
+      },
+      "gender": {
+        "male": "Male",
+        "female": "Female"
+      }
+    },
+    "list": {
+      "title": "My Pets",
+      "subtitle": "Manage your dogs' information",
+      "loading": "Loading pets...",
+      "empty": "You do not have any registered pets yet.",
+      "edit": "Edit",
+      "noBreed": "Breed not specified",
+      "errors": {
+        "noSession": "No logged-in user was found or the security token is missing",
+        "loadFailed": "Could not load your pets. Check your session."
+      }
+    },
+    "create": {
+      "title": "Create Pet",
+      "subtitle": "Register the information for your new dog",
+      "form": {
+        "imageLabel": "Image",
+        "nameLabel": "Name",
+        "breedLabel": "Breed",
+        "sizeLabel": "Size",
+        "genderLabel": "Gender",
+        "ageLabel": "Age",
+        "vaccineLabel": "Vaccination file",
+        "submit": "Create Pet"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "breedRequired": "Breed is required",
+        "sizeRequired": "Size is required",
+        "genderRequired": "Gender is required",
+        "ageRequired": "Age is required and must be a valid number"
+      },
+      "modal": {
+        "successTitle": "Success",
+        "successMessage": "The pet has been created successfully",
+        "errorMessage": "There was an error creating the pet. Please try again."
+      }
+    },
+    "edit": {
+      "title": "Edit Pet",
+      "subtitle": "Update your dog's information",
+      "loading": "Loading pet information...",
+      "photoLabel": "Pet photo",
+      "changePhoto": "Change",
+      "form": {
+        "nameLabel": "Name",
+        "breedLabel": "Breed",
+        "sizeLabel": "Size",
+        "genderLabel": "Gender",
+        "ageLabel": "Age",
+        "vaccineLabel": "Update Vaccination File",
+        "vaccineHelp": "PDF or image of the vaccination card",
+        "submitting": "Saving changes...",
+        "submit": "Save Changes",
+        "cancel": "Cancel"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "breedRequired": "Breed is required",
+        "sizeRequired": "Size is required",
+        "genderRequired": "Gender is required",
+        "ageRequired": "Age is required and must be a valid number"
+      },
+      "errors": {
+        "invalidId": "Invalid pet ID",
+        "missingToken": "Security token was not found",
+        "notFound": "Pet not found",
+        "loadFailed": "Could not load the pet"
+      },
+      "modal": {
+        "successTitle": "Success",
+        "successMessage": "The pet has been updated successfully",
+        "errorMessage": "There was an error updating the pet"
+      }
+    }
+  }
+  , "users": {
+    "publicProfile": {
+      "back": "Back to Users",
+      "loading": "Loading profile...",
+      "photoAlt": "User profile photo",
+      "phone": "Phone",
+      "registerDate": "Registration date",
+      "reportUser": "Report user",
+      "errors": {
+        "invalidId": "Invalid user ID",
+        "noSession": "There is no active session",
+        "loadFailed": "Could not load the user profile"
+      }
+    }
+    , "list": {
+      "title": "Users",
+      "subtitle": "Explore other pet owners on the platform",
+      "searchPlaceholder": "Search by name...",
+      "loading": "Loading users...",
+      "empty": "No users found.",
+      "viewProfile": "View Profile",
+      "table": {
+        "photo": "Photo",
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "errors": {
+        "loadFailed": "Could not load users."
+      }
+    }
+  }
+  , "reports": {
+    "common": {
+      "accept": "Accept",
+      "cancel": "Cancel",
+      "sending": "Sending...",
+      "errorTitle": "Error",
+      "validationTitle": "Validation error"
+    },
+    "create": {
+      "title": "Report User",
+      "close": "Close",
+      "form": {
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "Inappropriate behavior...",
+        "reportedUserLabel": "Reported User",
+        "commentLabel": "Comment",
+        "commentPlaceholder": "Describe the reason for the report...",
+        "submit": "Send"
+      },
+      "validation": {
+        "subjectRequired": "The subject is required.",
+        "commentRequired": "The comment is required."
+      },
+      "errors": {
+        "noSession": "Session token was not found. Please sign in again.",
+        "noReportedUser": "The reported user was not found."
+      },
+      "modal": {
+        "successTitle": "Success",
+        "successMessage": "The report was sent successfully.",
+        "errorMessage": "The report could not be sent."
+      }
+    }
+  }
+}

@@ -1,40 +1,40 @@
 <h1 class="brand-name">DogChat</h1>
-<p class="brand-subtitle">Crear cuenta de Dueño</p>
+<p class="brand-subtitle">{{ 'auth.passwordRecover.change.subtitle' | translate }}</p>
 
 <form class="register-form" (ngSubmit)="registro()" novalidate>
   <div class="form-group">
-    <label for="nombre" class="form-label">Nombre</label>
-    <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Juan Pérez" autocomplete="name" [(ngModel)]="nombre" required />
+    <label for="nombre" class="form-label">{{ 'auth.register.form.nameLabel' | translate }}</label>
+    <input type="text" id="nombre" name="nombre" class="form-input" placeholder="{{ 'auth.register.form.namePlaceholder' | translate }}" autocomplete="name" [(ngModel)]="nombre" required />
   </div>
 
   <div class="form-group">
-    <label for="email" class="form-label">Email</label>
-    <input type="email" id="email" name="email" class="form-input" placeholder="juan@example.com" autocomplete="email" [(ngModel)]="email" required />
+    <label for="email" class="form-label">{{ 'auth.register.form.emailLabel' | translate }}</label>
+    <input type="email" id="email" name="email" class="form-input" placeholder="{{ 'auth.register.form.emailPlaceholder' | translate }}" autocomplete="email" [(ngModel)]="email" required />
   </div>
 
   <div class="form-group">
-    <label for="telefono" class="form-label">Teléfono</label>
-    <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="+34 612 345 678" autocomplete="tel" [(ngModel)]="telefono" required maxlength="15" />
+    <label for="telefono" class="form-label">{{ 'auth.register.form.phoneLabel' | translate }}</label>
+    <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="{{ 'auth.register.form.phonePlaceholder' | translate }}" autocomplete="tel" [(ngModel)]="telefono" required maxlength="15" />
   </div>
 
   <div class="form-group">
-    <label for="contrasena" class="form-label">Contraseña</label>
-    <input type="password" id="contrasena" name="contrasena" class="form-input" placeholder="••••••••" autocomplete="new-password" [(ngModel)]="contrasena" required minlength="6" />
+    <label for="contrasena" class="form-label">{{ 'auth.register.form.passwordLabel' | translate }}</label>
+    <input type="password" id="contrasena" name="contrasena" class="form-input" placeholder="{{ 'auth.register.form.passwordPlaceholder' | translate }}" autocomplete="new-password" [(ngModel)]="contrasena" required minlength="6" />
   </div>
 
   <div class="form-group">
-    <label for="confirmar-contrasena" class="form-label">Confirmar Contraseña</label>
-    <input type="password" id="confirmar-contrasena" name="confirmar_contrasena" class="form-input" placeholder="••••••••" autocomplete="new-password" [(ngModel)]="confirmarContrasena" required minlength="8" />
+    <label for="confirmar-contrasena" class="form-label">{{ 'auth.register.form.confirmPasswordLabel' | translate }}</label>
+    <input type="password" id="confirmar-contrasena" name="confirmar_contrasena" class="form-input" placeholder="{{ 'auth.register.form confirmPasswordPlaceholder' | translate }}" autocomplete="new-password" [(ngModel)]="confirmarContrasena" required minlength="6" />
   </div>
 
   <button type="submit" class="btn-submit" [disabled]="enviando">
-    {{ enviando ? 'Creando cuenta...' : 'Crear Cuenta' }}
+    {{ enviando ? "{{ 'auth.register.form.submitting' | translate }}" : "{{ 'auth.register.form.submit' | translate }}" }}
   </button>
 </form>
 
 <p class="login-redirect">
-  ¿Ya tienes cuenta?
-  <a routerLink="/login" class="login-link">Inicia sesión</a>
+  {{ 'auth.register.footer.hasAccount' | translate }}
+  <a routerLink="/login" class="login-link">{{ 'auth.register.footer.loginLink' | translate }}</a>
 </p>
 <app-alert-modal
   [visible]="modalVisible"

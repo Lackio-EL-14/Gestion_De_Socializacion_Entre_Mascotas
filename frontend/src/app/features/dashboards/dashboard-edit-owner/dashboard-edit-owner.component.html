@@ -1,7 +1,7 @@
 <header class="page-header">
   <div class="page-header__text">
-    <h1 class="page-header__title">Configurar Perfil</h1>
-    <p class="page-header__subtitle">Mantén tu información actualizada</p>
+    <h1 class="page-header__title">{{ 'dashboard.edit.title' | translate }}</h1>
+    <p class="page-header__subtitle">{{ 'dashboard.edit.subtitle' | translate }}</p>
   </div>
 </header>
 
@@ -9,9 +9,9 @@
   <aside class="profile-sidebar">
     <div class="avatar-card">
       <div class="avatar-card__photo-wrap">
-        <img src="" alt="Foto de perfil" class="avatar-card__photo" id="avatarPreview" />
+        <img src="" alt="{{ 'dashboard.edit.avatar.altText' | translate }}" class="avatar-card__photo" id="avatarPreview" />
         <div class="avatar-card__initials" id="avatarInitials"></div>
-        <label for="avatarInput" class="avatar-card__change-btn" title="Cambiar foto">
+        <label for="avatarInput" class="avatar-card__change-btn" title="{{ 'dashboard.edit.avatar.changeBtn' | translate }}">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
@@ -21,11 +21,11 @@
       </div>
       <h2 class="avatar-card__name" id="displayName">{{ nombreUsuario }}</h2>
       <p class="avatar-card__email" id="displayEmail">{{ emailUsuario }}</p>
-      <div class="avatar-card__badge">Dueño de mascotas</div>
+      <div class="avatar-card__badge">{{ 'dashboard.edit.badge' | translate }}</div>
     </div>
 
     <div class="security-notice">
-      <p>Tu información está protegida y nunca será compartida sin tu consentimiento.</p>
+      <p>{{ 'dashboard.edit.securityNotice' | translate }}</p>
     </div>
   </aside>
 
@@ -33,8 +33,8 @@
     <section class="form-section">
       <div class="form-section__header">
         <div>
-          <h2 class="form-section__title">Información Personal</h2>
-          <p class="form-section__desc">Actualiza tu nombre y datos de contacto</p>
+          <h2 class="form-section__title">{{ 'dashboard.edit.personalInfo.title' | translate }}</h2>
+          <p class="form-section__desc">{{ 'dashboard.edit.personalInfo.desc' | translate }}</p>
         </div>
       </div>
       </section>
@@ -44,8 +44,8 @@
     <section class="form-section">
       <div class="form-section__header">
         <div>
-          <h2 class="form-section__title">Cambiar Contraseña</h2>
-          <p class="form-section__desc">Usa una contraseña segura de al menos 8 caracteres</p>
+          <h2 class="form-section__title">{{ 'dashboard.edit.password.title' | translate }}</h2>
+          <p class="form-section__desc">{{ 'dashboard.edit.password.desc' | translate }}</p>
         </div>
       </div>
       </section>

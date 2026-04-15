@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface Mascota {
   id_mascota: number;
@@ -20,7 +21,7 @@ interface Mascota {
 @Component({
   selector: 'app-list-pets',
   standalone: true, // Arquitectura Standalone
-  imports: [CommonModule, RouterModule, BackButtonComponent], // Inyecciones (no necesita FormsModule)
+  imports: [CommonModule, RouterModule, BackButtonComponent, TranslateModule], // Inyecciones (no necesita FormsModule)
   templateUrl: './list-pets.component.html',
   styleUrl: './list-pets.component.scss'
 })

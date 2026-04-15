@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { AlertModalComponent } from "../../../shared/components/alert-modal/alert-modal.component";
 import { BackButtonComponent } from "../../../shared/components/back-button/back-button.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 interface CreatePetRequest {
   nombre: string;
@@ -20,7 +21,7 @@ interface CreatePetRequest {
 @Component({
   selector: "app-create-pet",
   standalone: true, // Arquitectura Standalone
-  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, BackButtonComponent], // Inyecciones necesarias
+  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, BackButtonComponent, TranslateModule], // Inyecciones necesarias
   templateUrl: "./create-pet.component.html",
   styleUrls: ["./create-pet.component.scss"]
 })
@@ -58,23 +59,23 @@ export class CreatePetComponent {
     const estado_salud = this.estado_salud;
 
     if(!nombre) {
-      this.mostrarModal('Error de validación', 'El nombre es obligatorio', 'error');
+      this.mostrarModal('Error de validación', "{{'pets.create.validation.nameRequired' | translate}}", 'error');
       return;
     }
     if(!raza) {
-      this.mostrarModal('Error de validación', 'La raza es obligatoria', 'error');
+      this.mostrarModal('Error de validación', "{{'pets.create.validation.breedRequired' | translate}}", 'error');
       return;
     }
     if(!tamano) {
-      this.mostrarModal('Error de validación', 'El tamaño es obligatorio', 'error');
+      this.mostrarModal('Error de validación', "{{'pets.create.validation.sizeRequired' | translate}}", 'error');
       return;
     }
     if(!genero) {
-      this.mostrarModal('Error de validación', 'El género es obligatorio', 'error');
+      this.mostrarModal('Error de validación', "{{'pets.create.validation.genderRequired' | translate}}", 'error');
       return;
     }
     if(edad === null || isNaN(edad)) {
-      this.mostrarModal('Error de validación', 'La edad es obligatoria y debe ser un número válido', 'error');
+      this.mostrarModal('Error de validación', "{{'pets.create.validation.ageRequired' | translate}}", 'error');
       return;
     }
 
@@ -96,12 +97,12 @@ export class CreatePetComponent {
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;
-        this.mostrarModal('Éxito', 'La mascota ha sido creada exitosamente', 'success');
+        this.mostrarModal("{{'pets.create.modal.successTitle' | translate}}", "{{'pets.create.modal.successMessage' | translate}}", 'success');
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al crear la mascota:', error);
-        const mensaje= error?.error?.message || 'Hubo un error al crear la mascota. Por favor, inténtalo de nuevo.';
+        const mensaje= error?.error?.message || "{{'pets.create.modal.errorMessage' | translate}}";
         this.enviando = false;
         this.mostrarModal('Error', Array.isArray(mensaje)?mensaje.join('\n'): mensaje, 'error');
         this.cdr.detectChanges();

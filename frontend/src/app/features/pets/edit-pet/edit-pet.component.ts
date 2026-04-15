@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertModalComponent } from '../../../shared/components/alert-modal/alert-modal.component';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
-
+import { TranslateModule } from '@ngx-translate/core';
 interface UpdatePetRequest {
   nombre?: string;
   raza?: string;
@@ -32,7 +32,7 @@ interface Mascota {
 @Component({
   selector: 'app-edit-pet',
   standalone: true, // Arquitectura Standalone
-  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, BackButtonComponent], // Inyecciones
+  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, BackButtonComponent, TranslateModule], // Inyecciones
   templateUrl: './edit-pet.component.html',
   styleUrl: './edit-pet.component.scss'
 })
@@ -67,7 +67,7 @@ export class EditPetComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id || isNaN(Number(id))) {
-      this.mostrarModal('Error', 'ID de mascota inválido', 'error');
+      this.mostrarModal("{{pets.common.errorTitle|translate}}", "{{'pets.edit.errors.invalidId' | translate}}", 'error');
       return;
     }
     this.idMascota = Number(id);
@@ -78,7 +78,7 @@ export class EditPetComponent implements OnInit {
     const token = localStorage.getItem('access_token');
 
     if (!token) {
-      this.mostrarModal('Error', 'No se encontró el token de seguridad', 'error');
+      this.mostrarModal("{{pets.common.errorTitle|translate}}", "{{'pets.edit.errors.missingToken' | translate}}", 'error');
       return;
     }
 
@@ -95,7 +95,7 @@ export class EditPetComponent implements OnInit {
 
         if (!mascota) {
           this.cargando = false;
-          this.mostrarModal('Error', 'Mascota no encontrada', 'error');
+          this.mostrarModal("{{pets.common.errorTitle|translate}}", "{{'pets.edit.errors.notFound' | translate}}", 'error');
           this.cdr.detectChanges();
           return;
         }
@@ -114,7 +114,7 @@ export class EditPetComponent implements OnInit {
       error: (error) => {
         console.error('Error al cargar la mascota:', error);
         this.cargando = false;
-        this.mostrarModal('Error', 'No se pudo cargar la mascota', 'error');
+        this.mostrarModal("{{pets.common.errorTitle|translate}}", "{{'pets.edit.errors.loadFailed' | translate}}", 'error');
         this.cdr.detectChanges();
       }
     });
@@ -122,7 +122,7 @@ export class EditPetComponent implements OnInit {
 
   submit(): void {
     if (!this.idMascota) {
-      this.mostrarModal('Error', 'ID de mascota inválido', 'error');
+      this.mostrarModal("{{pets.common.errorTitle|translate}}", "{{'pets.edit.errors.invalidId' | translate}}", 'error');
       return;
     }
 
@@ -134,23 +134,23 @@ export class EditPetComponent implements OnInit {
     const estado_salud = this.estado_salud.trim();
 
     if (!nombre) {
-      this.mostrarModal('Error de validación', 'El nombre es obligatorio', 'error');
+      this.mostrarModal("{{pets.common.validationTitle|translate}}", "{{'pets.edit.errors.nameRequired' | translate}}", 'error');
       return;
     }
     if (!raza) {
-      this.mostrarModal('Error de validación', 'La raza es obligatoria', 'error');
+      this.mostrarModal("{{pets.common.validationTitle|translate}}", "{{'pets.edit.errors.breedRequired' | translate}}", 'error');
       return;
     }
     if (!tamano) {
-      this.mostrarModal('Error de validación', 'El tamaño es obligatorio', 'error');
+      this.mostrarModal("{{pets.common.validationTitle|translate}}", "{{'pets.edit.errors.sizeRequired' | translate}}", 'error');
       return;
     }
     if (!genero) {
-      this.mostrarModal('Error de validación', 'El género es obligatorio', 'error');
+      this.mostrarModal("{{pets.common.validationTitle|translate}}", "{{'pets.edit.errors.genderRequired' | translate}}", 'error');
       return;
     }
     if (edad === null || isNaN(edad)) {
-      this.mostrarModal('Error de validación', 'La edad es obligatoria y debe ser un número válido', 'error');
+      this.mostrarModal("{{pets.common.validationTitle|translate}}", "{{'pets.edit.errors.ageRequired' | translate}}", 'error');
       return;
     }
 
@@ -169,14 +169,14 @@ export class EditPetComponent implements OnInit {
     this.http.patch(`http://localhost:3000/pets/${this.idMascota}`, body).subscribe({
       next: () => {
         this.enviando = false;
-        this.mostrarModal('Éxito', 'La mascota ha sido actualizada exitosamente', 'success');
+        this.mostrarModal("{{pets.edit.modal.successTitle|translate}}", "{{'pets.edit.modal.successMessage' | translate}}", 'success');
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al actualizar la mascota:', error);
-        const mensaje = error?.error?.message || 'Hubo un error al actualizar la mascota';
+        const mensaje = error?.error?.message || "{{'pets.edit.modal.errorMessage' | translate}}";
         this.enviando = false;
-        this.mostrarModal('Error', Array.isArray(mensaje) ? mensaje.join('\n') : mensaje, 'error');
+        this.mostrarModal("{{pets.common.errorTitle|translate}}", Array.isArray(mensaje) ? mensaje.join('\n') : mensaje, 'error');
         this.cdr.detectChanges();
       }
     });

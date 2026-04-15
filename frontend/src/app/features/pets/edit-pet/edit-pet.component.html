@@ -1,31 +1,31 @@
 <app-back-button route="/pets/list-pets" label="Volver a Mis Mascotas"></app-back-button>
 
 <div class="page-header">
-  <h1>Editar Mascota</h1>
-  <p>Actualiza la información de tu perrito</p>
+  <h1>{{ 'pets.edit.title' | translate }}</h1>
+  <p>{{ 'pets.edit.subtitle' | translate }}</p>
 </div>
 
 <div class="edit-card">
   <div *ngIf="cargando" class="state-message">
-    Cargando información de la mascota...
+    {{ 'pets.edit.loading' | translate }}
   </div>
 
   <form *ngIf="!cargando" class="pet-form" (ngSubmit)="submit()" novalidate>
     <div class="form-group">
-      <label class="form-label">Foto de la Mascota</label>
+      <label class="form-label">{{ 'pets.edit.photoLabel' | translate }}</label>
       <div class="image-box">
         <img class="pet-image" [src]="vacuna_imagen_url || imagenPlaceholder" [alt]="nombre || 'Mascota'" />
-        <button type="button" class="change-photo-btn">Cambiar</button>
+        <button type="button" class="change-photo-btn">{{ 'pets.edit.changePhoto' | translate }}</button>
       </div>
     </div>
 
     <div class="actions">
       <button type="submit" class="btn-submit" [disabled]="enviando">
-        {{ enviando ? 'Guardando cambios...' : 'Guardar Cambios' }}
+        {{ enviando ? ('pets.edit.form.submitting' | translate) : ('pets.edit.form.submit' | translate) }}
       </button>
 
       <button type="button" class="btn-cancel" routerLink="/pets/list-pets">
-        Cancelar
+        {{ 'pets.edit.form.cancel' | translate }}
       </button>
     </div>
   </form>

@@ -4,23 +4,23 @@
     <app-home-header></app-home-header>
 
     <main class="hero">
-      <h2 class="hero-title">Bienvenido a DogChat</h2>
+      <h2 class="hero-title">{{'home.heroTitle'| translate}}</h2>
       <p class="hero-subtitle">
-        Conecta con otros dueños de mascotas y encuentra el match perfecto para tu perrito
+        {{'home.heroSubtitle'| translate}}
       </p>
 
       <section class="role-cards">
         <app-role-card
           roleType="owner"
-          title="Soy Dueño"
-          description="Busco un compañero de juegos para mi mascota o servicios de paseo."
+          title="{{ 'home.registerOwnerTitle' | translate }}"
+          description="{{ 'home.registerOwnerText' | translate }}"
           (click)="irARegistroDueno()">
         </app-role-card>
 
         <app-role-card
           roleType="worker"
-          title="Soy Trabajador"
-          description="Ofrezco servicios de paseo, cuidado o entrenamiento canino."
+          title="{{ 'home.registerWorkerTitle' | translate }}"
+          description="{{ 'home.registerWorkerText' | translate }}"
           (click)="irARegistroTrabajador()">
         </app-role-card>
       </section>

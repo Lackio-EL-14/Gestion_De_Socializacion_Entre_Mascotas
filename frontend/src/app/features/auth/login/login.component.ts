@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AlertModalComponent } from '../../../shared/components/alert-modal/alert-modal.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface LoginUsuarioRequest { email: string; contrasena: string; }
 interface LoginUsuarioResponse { access_token: string; nombre: string; email: string; id_usuario: number; }
@@ -11,7 +12,7 @@ interface LoginUsuarioResponse { access_token: string; nombre: string; email: st
 @Component({
   selector: 'app-login',
   standalone: true, // ¡Cambio clave!
-  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent], // ¡Cambio clave!
+  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, TranslateModule], // ¡Cambio clave!
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -50,7 +51,7 @@ export class LoginComponent {
       error: (error) => {
         const mensaje = error?.error?.message;
         this.enviando = false;
-        this.mostrarModal('Error de inicio de sesión', Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || 'Credenciales inválidas', 'error');
+        this.mostrarModal('{{ "auth.login.modal.loginErrorTitle" | translate }}', Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || '{{ "auth.login.modal.loginErrorMessage" | translate }}', 'error');
         this.cdr.detectChanges();
       },
     });

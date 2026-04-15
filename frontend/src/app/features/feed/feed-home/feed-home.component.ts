@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Importado
 import { finalize, TimeoutError, timeout } from 'rxjs'; // TimeoutError está deprecado en RxJS recientes, pero lo dejo por si tu versión lo soporta
+import { TranslateModule } from '@ngx-translate/core';
 
 interface RandomPetResponse {
   id_mascota: number;
@@ -20,8 +21,8 @@ interface RandomPetResponse {
 
 @Component({
   selector: 'app-feed-home',
-  standalone: true, // <-- Arquitectura Standalone
-  imports: [CommonModule], // <-- Para el *ngIf, [ngClass], etc.
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   templateUrl: './feed-home.component.html',
   styleUrls: ['./feed-home.component.scss'],
 })
@@ -46,7 +47,7 @@ export class FeedHomeComponent implements OnInit {
     this.currentUserId = this.getCurrentUserId();
 
     if (!this.currentUserId) {
-      this.errorMessage = 'No se encontró tu id de usuario en la sesión. Inicia sesión nuevamente.';
+      this.errorMessage = "{{ 'feed.errors.userIdNotFound' | translate }}";
       this.cdr.detectChanges();
       return;
     }
@@ -140,22 +141,22 @@ export class FeedHomeComponent implements OnInit {
         next: (pet) => {
           this.pet = pet;
           if (!pet) {
-            this.errorMessage = 'No hay perritos disponibles para mostrar en este momento.';
+            this.errorMessage = "{{ 'feed.errors.noPetsAvailable' | translate }}";
           }
           this.cdr.detectChanges();
         },
         error: (error: any) => { // Uso any para evitar problemas con la importación deprecada de TimeoutError
           this.pet = null;
           if (error.name === 'TimeoutError') {
-            this.errorMessage = 'La solicitud tardó demasiado. Verifica que el backend esté encendido e intenta nuevamente.';
+            this.errorMessage = "{{ 'feed.errors.requestTimeout' | translate }}";
             this.cdr.detectChanges();
             return;
           }
           this.errorMessage = error.status === 404
-            ? 'No hay perritos disponibles para mostrar en este momento.'
+            ? "{{ 'feed.errors.noPetsAvailable' | translate }}"
             : error.status === 0
-              ? 'No se pudo conectar con el backend en http://localhost:3000.'
-              : 'No se pudo cargar el perrito aleatorio. Intenta de nuevo.';
+              ? "{{ 'feed.errors.connectionFailed' | translate }}"
+              : "{{ 'feed.errors.loadingPet' | translate }}";
           this.cdr.detectChanges();
         },
       });

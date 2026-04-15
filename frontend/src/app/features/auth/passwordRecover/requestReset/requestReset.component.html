@@ -1,13 +1,15 @@
-<div class="brand-name">Recuperar contraseña</div>
-<div class="brand-subtitle">Ingresa tu correo y te enviaremos un código</div>
+<div class="brand-name">{{ 'auth.passwordRecover.request.title' | translate }}</div>
+<div class="brand-subtitle">{{ 'auth.passwordRecover.request.subtitle' | translate }}</div>
 
 <form class="login-form" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label class="form-label" for="email">Correo electrónico</label>
-    <input class="form-input" type="email" id="email" [(ngModel)]="email" name="email" placeholder="ejemplo@email.com" required />
+    <label class="form-label" for="email">{{ 'auth.passwordRecover.request.form.emailLabel' | translate }}</label>
+    <input class="form-input" type="email" id="email" [(ngModel)]="email" name="email" placeholder="{{ 'auth.passwordRecover.request.form.emailPlaceholder' | translate }}" required />
   </div>
 
-  <button class="btn-submit" type="submit">Enviar código</button>
+  <button class="btn-submit" type="submit" [disabled]="enviando">
+    {{ enviando ? "{{ 'auth.passwordRecover.request.form.submitting' | translate }}" : "{{ 'auth.passwordRecover.request.form.submit' | translate }}" }}
+  </button>
 </form>
 <app-alert-modal
   [visible]="modalVisible"

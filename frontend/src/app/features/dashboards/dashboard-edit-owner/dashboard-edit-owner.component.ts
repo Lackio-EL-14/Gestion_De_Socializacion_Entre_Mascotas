@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard-edit-owner',
   standalone: true,
-  imports: [FormsModule], // Si usas ngModel en el form de editar perfil
+  imports: [FormsModule, TranslateModule], // Si usas ngModel en el form de editar perfil
   templateUrl: './dashboard-edit-owner.component.html',
   styleUrls: ['./dashboard-edit-owner.component.scss']
 })

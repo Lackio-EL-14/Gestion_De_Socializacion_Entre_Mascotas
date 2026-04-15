@@ -1,21 +1,21 @@
 <h1 class="brand-name">DogChat Admin</h1>
-<p class="brand-subtitle">Panel de Administración</p>
+<p class="brand-subtitle">{{ 'auth.login.subtitle' | translate }}</p>
 
 <form class="login-form" (ngSubmit)="iniciarSesion()" novalidate>
   <div class="form-group">
-    <label for="email" class="form-label">Email o Nombre de Usuario</label>
-    <input type="text" id="email" name="email" class="form-input" placeholder="admin@dogchat.com" autocomplete="username" [(ngModel)]="email" required maxlength="150" />
+    <label for="email" class="form-label">{{ 'auth.login.emailLabel' | translate }}</label>
+    <input type="text" id="email" name="email" class="form-input" placeholder="{{ 'auth.login.email_placeholder' | translate }}" autocomplete="username" [(ngModel)]="email" required maxlength="150" />
   </div>
 
   <div class="form-group">
-    <label for="contrasena" class="form-label">Contraseña</label>
+    <label for="contrasena" class="form-label">{{ 'auth.login.passwordLabel' | translate }}</label>
     <input type="password" id="contrasena" name="contrasena" class="form-input" placeholder="••••••••" autocomplete="current-password" [(ngModel)]="contrasena" required minlength="6" maxlength="64" />
   </div>
 
-  <a routerLink="/request-reset" class="forgot-link">¿Te olvidaste? Recuperar contraseña</a>
+  <a routerLink="/request-reset" class="forgot-link">{{ 'login.forgotPassword' | translate }}</a>
 
   <button type="submit" class="btn-submit" [disabled]="enviando">
-    {{ enviando ? 'Ingresando...' : 'Iniciar Sesión' }}
+    {{ enviando ? "{{ 'auth.login.submitting' | translate }}" : "{{ 'auth.login.submit' | translate }}" }}
   </button>
 </form>
 <app-alert-modal

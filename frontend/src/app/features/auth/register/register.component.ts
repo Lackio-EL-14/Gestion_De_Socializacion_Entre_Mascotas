@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertModalComponent } from '../../../shared/components/alert-modal/alert-modal.component';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface RegistroUsuarioRequest {
   nombre: string;
@@ -17,7 +18,7 @@ interface RegistroUsuarioRequest {
 @Component({
   selector: 'app-register',
   standalone: true, // ¡Cambio clave!
-    imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent],
+    imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, TranslateModule], // ¡Cambio clave!
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -46,48 +47,48 @@ export class RegisterComponent {
     const contrasena = this.contrasena;
 
     if (!nombre) {
-      this.mostrarModal('Error de validación', 'El nombre es obligatorio', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.nameRequired' | translate }}", 'error');
       return;
     }
 
     if (!email) {
-      this.mostrarModal('Error de validación', 'El correo electrónico es obligatorio', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.emailRequired' | translate }}", 'error');
       return;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(email)) {
-      this.mostrarModal('Error de validación', 'El formato del correo no es válido', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.emailInvalid' | translate }}", 'error');
       return;
     }
 
     if (!telefono) {
-      this.mostrarModal('Error de validación', 'El teléfono es obligatorio', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.phoneRequired' | translate }}", 'error');
       return;
     }
 
     if (telefono.length > 15) {
-      this.mostrarModal('Error de validación', 'El teléfono es demasiado largo', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.phoneTooLong' | translate }}", 'error');
       return;
     }
 
     if (contrasena.length < 6) {
-      this.mostrarModal('Error de validación', 'La contraseña debe tener al menos 6 caracteres', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.passwordTooShort' | translate }}", 'error');
       return;
     }
 
     if (!contrasena) {
-      this.mostrarModal('Error de validación', 'La contraseña es obligatoria', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.passwordRequired' | translate }}", 'error');
       return;
     }
 
     if (!this.confirmarContrasena) {
-      this.mostrarModal('Error de validación', 'Debes confirmar la contraseña', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.confirmPasswordRequired' | translate }}", 'error');
       return;
     }
 
     if (this.contrasena !== this.confirmarContrasena) {
-      this.mostrarModal('Error de validación', 'Las contraseñas no coinciden', 'error');
+      this.mostrarModal('Error de validación', "{{ 'auth.register.validation.passwordsNotMatch' | translate }}", 'error');
       return;
     }
 
@@ -104,7 +105,7 @@ export class RegisterComponent {
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;
-        this.mostrarModal('Registro exitoso', 'Cuenta creada correctamente', 'success');
+        this.mostrarModal('{{ "auth.register.modal.successTitle" | translate }}', '{{ "auth.register.modal.successMessage" | translate }}', 'success');
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -113,8 +114,8 @@ export class RegisterComponent {
 
         this.enviando = false;
         this.mostrarModal(
-          'Error de registro',
-          Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || 'Hubo un error al registrar',
+          '{{ "auth.register.modal.errorTitle" | translate }}',
+          Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || '{{ "auth.register.modal.errorMessage" | translate }}',
           'error'
         );
         this.cdr.detectChanges();

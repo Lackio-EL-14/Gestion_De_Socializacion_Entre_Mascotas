@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AlertModalComponent } from '../../../../shared/components/alert-modal/alert-modal.component';
 interface RequestResetRequest {
   email: string;
@@ -12,7 +13,7 @@ interface RequestResetRequest {
 @Component({
   selector: 'app-request-reset',
   standalone: true, // ¡Cambio clave!
-  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent],
+  imports: [CommonModule, FormsModule, RouterModule, AlertModalComponent, TranslateModule],
   templateUrl: './requestReset.component.html',
   styleUrls: ['./requestReset.component.scss'],
 })
@@ -36,13 +37,13 @@ export class RequestResetComponent {
     const email = this.email.trim();
 
     if (!email) {
-      this.mostrarModal('Error', 'El correo es obligatorio', 'error');
+      this.mostrarModal('Error', "{{ 'auth.passwordRecover.request.validation.emailRequired' | translate }}", 'error');
       return;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(email)) {
-      this.mostrarModal('Error', 'Formato de correo inválido', 'error');
+      this.mostrarModal('Error', "{{ 'auth.passwordRecover.request.validation.emailInvalid' | translate }}" , 'error');
       return;
     }
 
@@ -59,7 +60,7 @@ export class RequestResetComponent {
     if (!token) {
       this.mostrarModal(
         'Error',
-        'No se recibió el token de recuperación',
+        "{{ 'auth.passwordRecover.request.validation.noToken' | translate }}",
         'error'
       );
       return;
@@ -71,7 +72,7 @@ export class RequestResetComponent {
 
     this.mostrarModal(
       'Correo enviado',
-      'Redirigiendo para cambiar contraseña...',
+      "{{ 'auth.passwordRecover.request.modal.successMessage' | translate }}",
       'success'
     );
 
@@ -89,7 +90,7 @@ export class RequestResetComponent {
           'Error',
           Array.isArray(mensaje)
             ? mensaje.join('\n')
-            : mensaje || 'Error al enviar el correo',
+            : mensaje || "{{ 'auth.passwordRecover.request.modal.sendEmailError' | translate }}",
           'error'
         );
 
