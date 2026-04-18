@@ -35,6 +35,11 @@ const routes: Routes = [
       import('./features/reports/reports-module').then(m => m.ReportsModule)
   },
   {
+    path: 'admin/reports',
+    loadChildren: () =>
+      import('./features/reports/reports-module').then(m => m.ReportsModule)
+  },
+  {
     path: 'users',
     loadChildren: () =>
       import('./features/users/users-module').then(m => m.UsersModule)

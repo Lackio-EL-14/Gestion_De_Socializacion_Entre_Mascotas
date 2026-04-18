@@ -416,4 +416,29 @@
       }
     }
   }
+  , "admin": {
+    "reports": {
+      "title": "Gestión de Reportes",
+      "subtitle": "Revisa y gestiona los reportes de la comunidad",
+      "loading": "Cargando reportes...",
+      "empty": "No hay reportes pendientes.",
+      "view": "Ver",
+      "table": {
+        "reportDate": "Fecha del Reporte",
+        "reportedUser": "Usuario Reportado",
+        "reportType": "Tipo de Reporte",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobado",
+        "cancelled": "Anulado"
+      },
+      "errors": {
+        "noSession": "No hay sesión activa.",
+        "loadFailed": "No se pudieron cargar los reportes pendientes."
+      }
+    }
+  }
 }

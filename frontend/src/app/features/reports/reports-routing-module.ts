@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateReportComponent } from './create-report/create-report';
+import { ReportsPanelComponent } from './reports-panel/reports-panel';  
 
 const routes: Routes = [
-  { path: 'create-report', component: CreateReportComponent }
+  { path: 'create-report', component: CreateReportComponent },
+  { path: '', component: ReportsPanelComponent } 
 ];
 
 @NgModule({
