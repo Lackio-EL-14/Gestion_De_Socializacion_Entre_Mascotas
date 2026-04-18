@@ -508,4 +508,29 @@
       }
     }
   }
+  , "admin": {
+    "reports": {
+      "title": "Reports Management",
+      "subtitle": "Review and manage community reports",
+      "loading": "Loading reports...",
+      "empty": "There are no pending reports.",
+      "view": "View",
+      "table": {
+        "reportDate": "Report Date",
+        "reportedUser": "Reported User",
+        "reportType": "Report Type",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "cancelled": "Cancelled"
+      },
+      "errors": {
+        "noSession": "There is no active session.",
+        "loadFailed": "Could not load pending reports."
+      }
+    }
+  }
 }

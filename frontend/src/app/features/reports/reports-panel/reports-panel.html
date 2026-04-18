@@ -1,0 +1,60 @@
+<div class="layout">
+  <app-sidebar-admin></app-sidebar-admin>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h1 class="page-header__title">{{ 'admin.reports.title' | translate }}</h1>
+      <p class="page-header__subtitle">{{ 'admin.reports.subtitle' | translate }}</p>
+    </header>
+
+    <div *ngIf="cargando" class="state-message">
+      {{ 'admin.reports.loading' | translate }}
+    </div>
+
+    <div *ngIf="error" class="state-message error">
+      {{ error }}
+    </div>
+
+    <section *ngIf="!cargando && !error" class="table-card">
+      <table class="reports-table">
+        <thead>
+          <tr>
+            <th>{{ 'admin.reports.table.reportDate' | translate }}</th>
+            <th>{{ 'admin.reports.table.reportedUser' | translate }}</th>
+            <th>{{ 'admin.reports.table.reportType' | translate }}</th>
+            <th>{{ 'admin.reports.table.status' | translate }}</th>
+            <th>{{ 'admin.reports.table.actions' | translate }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngIf="reportes.length === 0">
+            <td colspan="5" class="empty-cell">
+              {{ 'admin.reports.empty' | translate }}
+            </td>
+          </tr>
+
+          <tr *ngFor="let reporte of reportes">
+            <td>--</td>
+            <td class="reported-user">{{ reporte.usuarioReportado.nombre }}</td>
+            <td>{{ reporte.motivo }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getEstadoClase(reporte.estado)">
+                {{ getEstadoTexto(reporte.estado) }}
+              </span>
+            </td>
+            <td>
+              <button type="button" class="view-btn" (click)="verReporte(reporte.idReporte)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <path d="M1 12s4-7 11-7 11 7 11 7S19 19 12 19 1 12 1 12z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                {{ 'admin.reports.view' | translate }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
