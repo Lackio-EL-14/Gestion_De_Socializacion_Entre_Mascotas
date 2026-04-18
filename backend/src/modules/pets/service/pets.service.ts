@@ -44,17 +44,23 @@ export class PetsService {
     return savedPet;
   }
 
-  async findByUser(id_usuario: number): Promise<Pet[]> {
-    this.logger.warn(`[AUDIT-PETS] Alerta: Uso de endpoint inyectable (Legacy). Consulta de mascotas ejecutada hacia el objetivo ID: ${id_usuario}`);
-    return this.petsRepository.find({
+  async findByUser(id_usuario: number) {
+    this.logger.log(
+      `[AUDIT-PETS] Consulta de mascotas del usuario ID: ${id_usuario}`
+    );
+
+    const pets = await this.petsRepository.find({
       where: { id_usuario }
     });
+
+    // eliminar id_usuario de la respuesta
+    return pets.map(({ id_usuario, ...pet }) => pet);
   }
 
-  async findAll() {
+ /*  async findAll() {
     this.logger.log(`[AUDIT-PETS] Consulta global de entidades mascota ejecutada en el sistema.`);
     return this.petsRepository.find();
-  }
+  } */
 
   async update(id: number, updatePetDto: UpdatePetDto) {
     const pet = await this.petsRepository.findOne({
