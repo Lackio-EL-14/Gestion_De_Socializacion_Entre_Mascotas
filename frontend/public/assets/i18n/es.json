@@ -148,6 +148,28 @@
       "requestTimeout": "La solicitud tardo demasiado. Verifica que el backend este encendido e intenta nuevamente.",
       "connectionFailed": "No se pudo conectar con el backend en http://localhost:3000.",
       "loadFailed": "No se pudo cargar el perrito aleatorio. Intenta de nuevo."
+    },
+    "filters": {
+      "title": "Filtros de Búsqueda",
+      "subtitle": "Personaliza tu búsqueda para encontrar el match perfecto",
+      "breed": "Raza",
+      "age": "Edad",
+      "ageMin": "Minimo",
+      "ageMax": "Maximo",
+      "size": "Tamaño",
+      "small": "Pequeño",
+      "medium": "Mediano",
+      "large": "Grande",
+      "gender": "Género",
+      "male": "Macho",
+      "female": "Hembra",
+      "healthStatus": "Estado de Salud",
+      "healthy": "Saludable",
+      "inTreatment": "En tratamiento",
+      "sick": "Enfermo",
+      "apply": "Aplicar Filtros",
+      "clear": "Limpiar Filtros",
+      "cancel": "Cancelar"
     }
   },
   "sidebar": {

@@ -15,9 +15,19 @@
     <main class="main-content">
 
       <header class="page-header">
-        <h1 class="page-header__title">{{ 'feed.title' | translate }}</h1>
-        <p class="page-header__subtitle">{{ 'feed.subtitle' | translate }}</p>
-      </header>
+  <h1 class="page-header__title">Encuentra tu Match</h1>
+  <p class="page-header__subtitle">Desliza para encontrar el amigo perfecto para tu perrito</p>
+
+  <!-- Botón filtros -->
+  <a routerLink="/feed/filtros" queryParamsHandling="preserve" class="btn-filtros">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+      <line x1="4" y1="6" x2="20" y2="6"/>
+      <line x1="8" y1="12" x2="16" y2="12"/>
+      <line x1="11" y1="18" x2="13" y2="18"/>
+    </svg>
+    Filtros de Búsqueda
+  </a>
+</header>
 
       <!-- Área centrada de la tarjeta -->
       <div class="match-stage">

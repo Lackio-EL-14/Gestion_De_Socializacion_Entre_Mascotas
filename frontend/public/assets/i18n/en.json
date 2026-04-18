@@ -148,6 +148,28 @@
       "requestTimeout": "The request took too long. Check that the backend is running and try again.",
       "connectionFailed": "Could not connect to the backend at http://localhost:3000.",
       "loadFailed": "Could not load random dog. Try again."
+    },
+    "filters": {
+      "title": "Search Filters",
+      "subtitle": "Customize your search to find the perfect match",
+      "breed": "Breed",
+      "age": "Age",
+      "ageMin": "Minimum",
+      "ageMax": "Maximum",
+      "size": "Size",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "healthStatus": "Health Status",
+      "healthy": "Healthy",
+      "inTreatment": "In treatment",
+      "sick": "Sick",
+      "apply": "Apply Filters",
+      "clear": "Clear Filters",
+      "cancel": "Cancel"
     }
   },
   "sidebar": {

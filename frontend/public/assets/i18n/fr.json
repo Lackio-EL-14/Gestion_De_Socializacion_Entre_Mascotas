@@ -148,6 +148,28 @@
       "requestTimeout": "La demande a pris trop de temps. Verifiez que le serveur est en cours d'execution et reessayez.",
       "connectionFailed": "Impossible de se connecter au backend a http://localhost:3000.",
       "loadFailed": "Impossible de charger le chien aleatoire. Reessayez."
+    },
+    "filters": {
+      "title": "Filtres de recherche",
+      "subtitle": "Personnalisez votre recherche pour trouver le match parfait",
+      "breed": "Race",
+      "age": "Age",
+      "ageMin": "Minimum",
+      "ageMax": "Maximum",
+      "size": "Taille",
+      "small": "Petit",
+      "medium": "Moyen",
+      "large": "Grand",
+      "gender": "Genre",
+      "male": "Male",
+      "female": "Femelle",
+      "healthStatus": "Etat de sante",
+      "healthy": "Sain",
+      "inTreatment": "En traitement",
+      "sick": "Malade",
+      "apply": "Appliquer les filtres",
+      "clear": "Effacer les filtres",
+      "cancel": "Annuler"
     }
   },
   "sidebar": {
