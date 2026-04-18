@@ -54,4 +54,11 @@ export class PetsController {
   async getFeed(@Param('id') idMascota: number) {
     return this.petsService.getFeed(idMascota);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('user/:id')
+  findByUser(@Param('id', ParseIntPipe) id: number) {
+    console.log(`[AUDIT-PETS] Usuario consultando mascotas del usuario ${id}`);
+    return this.petsService.findByUser(id);
+  }
 }
