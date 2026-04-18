@@ -180,6 +180,29 @@ body {
   }
 }
 
+.btn-filtros {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 22px;
+  border: 1.5px solid $color-primary;
+  border-radius: 999px;
+  background: transparent;
+  color: $color-primary;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: $font-family;
+  text-decoration: none;
+  transition: background $transition, color $transition;
+
+  svg { stroke: currentColor; }
+
+  &:hover {
+    background: rgba($color-primary, 0.06);
+  }
+}
+
 // ============================================================
 // STAGE — centra la tarjeta
 // ============================================================

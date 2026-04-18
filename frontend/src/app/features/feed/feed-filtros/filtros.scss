@@ -1,0 +1,366 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+$color-primary:       #2563eb;
+$color-primary-hover: #1d4ed8;
+$color-primary-light: rgba(#2563eb, 0.08);
+$color-orange:        #ea580c;
+$color-orange-light:  rgba(#ea580c, 0.08);
+$color-orange-border: #ea580c;
+
+$color-sidebar-bg:        #0f172a;
+$color-sidebar-text:      #cbd5e1;
+$color-sidebar-hover:     rgba(255, 255, 255, 0.07);
+$color-sidebar-active-bg: rgba(#2563eb, 0.15);
+$color-sidebar-active:    #2563eb;
+
+$color-main-bg:    #f1f5f9;
+$color-card-bg:    #ffffff;
+$color-text-dark:  #0f172a;
+$color-text-muted: #64748b;
+$color-text-light: #94a3b8;
+$color-border:     #e2e8f0;
+
+$font-family:          'Segoe UI', system-ui, -apple-system, sans-serif;
+$sidebar-width:        260px;
+$border-radius-card:   18px;
+$border-radius-input:  12px;
+$border-radius-btn:    12px;
+$transition:           0.2s ease;
+
+// ============================================================
+// MIXINS
+// ============================================================
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 28px rgba(0,0,0,0.06);
+}
+
+@mixin input-focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+}
+
+// ============================================================
+// RESET
+// ============================================================
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+a       { text-decoration: none; color: inherit; }
+ul      { list-style: none; }
+button  { cursor: pointer; font-family: $font-family; border: none; background: none; }
+
+// ============================================================
+// BASE
+// ============================================================
+:host {
+  display: block;
+  font-family: $font-family;
+  background: $color-main-bg;
+  min-height: 100vh;
+  color: $color-text-dark;
+}
+
+// ============================================================
+// LAYOUT
+// ============================================================
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+// ============================================================
+// CONTENIDO PRINCIPAL
+// ============================================================
+.main-content {
+  flex: 1;
+  padding: 40px 48px;
+  overflow-y: auto;
+}
+
+// ============================================================
+// ENCABEZADO DE FILTROS
+// ============================================================
+.filters-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: $color-text-dark;
+    letter-spacing: -0.5px;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: $color-text-muted;
+    margin-top: 5px;
+  }
+
+  // Botón X para cerrar
+  &__close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    @include flex-center(row);
+    background: transparent;
+    border: 1.5px solid $color-border;
+    color: $color-text-muted;
+    flex-shrink: 0;
+    transition: background $transition, color $transition, border-color $transition;
+
+    &:hover {
+      background: $color-border;
+      color: $color-text-dark;
+    }
+  }
+}
+
+// ============================================================
+// TARJETA DE FILTROS
+// ============================================================
+.filters-card {
+  background: $color-card-bg;
+  border-radius: $border-radius-card;
+  @include card-shadow;
+  border: 1px solid $color-border;
+  padding: 36px 40px 32px;
+  max-width: 740px;
+}
+
+// ============================================================
+// FORMULARIO
+// ============================================================
+.filters-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+// Grupo de filtro
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// Label
+.filter-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: $color-text-dark;
+  letter-spacing: 0.1px;
+}
+
+// ── Select con flecha personalizada ──
+.select-wrap {
+  position: relative;
+
+  &__arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    stroke: $color-text-muted;
+    pointer-events: none;
+  }
+}
+
+.filter-select {
+  width: 100%;
+  padding: 13px 40px 13px 16px;
+  border: 1.5px solid $color-border;
+  border-radius: $border-radius-input;
+  background: $color-card-bg;
+  font-size: 0.92rem;
+  font-family: $font-family;
+  color: $color-text-dark;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color $transition, box-shadow $transition;
+
+  &:focus { @include input-focus; }
+
+  option[value=""] { color: $color-text-light; }
+}
+
+// ── Rango de edad ──
+.filter-age-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.filter-age-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    font-size: 0.78rem;
+    color: $color-text-muted;
+    font-weight: 500;
+  }
+}
+
+.filter-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid $color-border;
+  border-radius: $border-radius-input;
+  background: $color-card-bg;
+  font-size: 0.92rem;
+  font-family: $font-family;
+  color: $color-text-dark;
+  transition: border-color $transition, box-shadow $transition;
+
+  &::placeholder { color: $color-text-light; }
+  &:focus { @include input-focus; }
+
+  // Ocultar flechas del input number
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button { -webkit-appearance: none; }
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+// ── Tamaño (radio buttons estilizados) ──
+.filter-size-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.size-option {
+  cursor: pointer;
+
+ 
+  &__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+ 
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 12px;
+    border: 1.5px solid $color-border;
+    border-radius: $border-radius-input;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: $color-text-dark;
+    background: $color-card-bg;
+    transition: border-color $transition, background $transition, color $transition;
+    user-select: none;
+
+    &:hover {
+      border-color: $color-primary;
+      background: $color-primary-light;
+      color: $color-primary;
+    }
+  }
+
+
+  &__input:checked + &__btn {
+    border-color: $color-primary;
+    background: $color-primary-light;
+    color: $color-primary;
+    font-weight: 700;
+  }
+}
+
+
+.filter-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+
+.btn-apply {
+  padding: 14px 20px;
+  background: $color-primary;
+  color: #fff;
+  border: none;
+  border-radius: $border-radius-btn;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: background $transition, transform $transition, box-shadow $transition;
+
+  &:hover {
+    background: $color-primary-hover;
+    box-shadow: 0 4px 16px rgba($color-primary, 0.35);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+
+.btn-clear {
+  padding: 14px 20px;
+  background: transparent;
+  color: $color-orange;
+  border: 1.5px solid $color-orange-border;
+  border-radius: $border-radius-btn;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: background $transition, color $transition;
+
+  &:hover {
+    background: $color-orange-light;
+  }
+}
+
+// Cancelar
+.filter-cancel {
+  @include flex-center(row);
+  margin-top: -8px;
+}
+
+.btn-cancel {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color $transition, background $transition;
+
+  &:hover {
+    color: $color-text-dark;
+    background: $color-border;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .main-content { padding: 24px 20px; }
+
+  .filters-card { padding: 24px 20px; }
+
+  .filter-actions { grid-template-columns: 1fr; }
+
+  .filter-size-group { grid-template-columns: 1fr; }
+
+  .filter-age-row { grid-template-columns: 1fr; }
+}
