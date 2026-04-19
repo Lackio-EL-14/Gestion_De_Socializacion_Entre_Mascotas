@@ -44,5 +44,108 @@
         </button>
       </div>
     </div>
+
+    <section class="pets-section" *ngIf="!cargando && usuario">
+      <div class="pets-section__header">
+        <h2>{{ 'users.publicProfile.pets.title' | translate }}</h2>
+        <p>{{ 'users.publicProfile.pets.subtitle' | translate }}</p>
+      </div>
+
+      <div *ngIf="cargandoMascotas" class="state-message">
+        {{ 'users.publicProfile.pets.loading' | translate }}
+      </div>
+
+      <div *ngIf="errorMascotas" class="state-message error">
+        {{ errorMascotas }}
+      </div>
+
+      <div *ngIf="!cargandoMascotas && !errorMascotas && mascotas.length === 0" class="state-message">
+        {{ 'users.publicProfile.pets.empty' | translate }}
+      </div>
+
+      <div class="pets-grid" *ngIf="!cargandoMascotas && !errorMascotas && mascotas.length > 0">
+        <article class="dog-card" *ngFor="let mascota of mascotas" [attr.data-id]="mascota.id_mascota">
+
+          <div class="dog-card__photo-wrap">
+            <img
+              [src]="getMascotaPlaceholder()"
+              [alt]="mascota.nombre || ('users.publicProfile.pets.photoAlt' | translate)"
+              class="dog-card__photo"
+            />
+
+            <div class="dog-card__photo-overlay">
+              <h2 class="dog-card__name">
+                {{ mascota.nombre || ('users.publicProfile.pets.noName' | translate) }}
+              </h2>
+            </div>
+
+            <div class="dog-card__health-badge" [ngClass]="getHealthBadgeClass(mascota.estado_salud)">
+              {{ mascota.estado_salud || '' }}
+            </div>
+          </div>
+
+          <div class="dog-card__body">
+            <div class="dog-card__info-grid">
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">{{ 'feed.petCard.breed' | translate }}</span>
+                <span class="dog-card__info-value">{{ mascota.raza || '--' }}</span>
+              </div>
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">{{ 'feed.petCard.size' | translate }}</span>
+                <span class="dog-card__info-value">{{ mascota.tamano || '--' }}</span>
+              </div>
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">{{ 'feed.petCard.gender' | translate }}</span>
+                <span class="dog-card__info-value">{{ mascota.genero || '--' }}</span>
+              </div>
+
+              <div class="dog-card__info-item">
+                <span class="dog-card__info-label">{{ 'feed.petCard.age' | translate }}</span>
+                <span class="dog-card__info-value">
+                  {{ mascota.edad !== undefined && mascota.edad !== null ? (mascota.edad + ' ' + ('feed.petCard.years' | translate)) : '--' }}
+                </span>
+              </div>
+            </div>
+
+            <a
+              [href]="mascota.vacuna_imagen_url || '#'"
+              class="dog-card__btn-outline"
+              [class.is-disabled]="!mascota.vacuna_imagen_url"
+              [attr.aria-disabled]="!mascota.vacuna_imagen_url"
+              target="_blank"
+              rel="noopener noreferrer"
+              (click)="onVaccineCardClick($event, mascota.vacuna_imagen_url)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              {{ 'feed.petCard.vaccineCard' | translate }}
+            </a>
+
+            <button type="button" class="dog-card__btn-outline">
+              {{ 'feed.petCard.fullProfile' | translate }}
+            </button>
+
+            <div class="dog-card__actions dog-card__actions--single">
+              <button
+                type="button"
+                class="btn-huesito"
+                [attr.aria-label]="'feed.petCard.boneButtonLabel' | translate"
+                data-liked="false"
+              >
+                <svg class="btn-huesito__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span>{{ 'feed.petCard.bone' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
   </main>
 </div>

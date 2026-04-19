@@ -357,6 +357,18 @@
         "invalidId": "ID de usuario no válido",
         "noSession": "No hay sesión activa",
         "loadFailed": "No se pudo cargar el perfil del usuario"
+      },
+      "pets": {
+        "title": "Mascotas del usuario",
+        "subtitle": "Explora las mascotas registradas por este usuario",
+        "loading": "Cargando mascotas...",
+        "empty": "Este usuario no tiene mascotas registradas.",
+        "photoAlt": "Foto de mascota",
+        "noName": "Sin nombre",
+        "errors": {
+          "noSession": "No hay sesión activa para cargar las mascotas.",
+          "loadFailed": "No se pudieron cargar las mascotas del usuario."
+        }
       }
     }
     , "list": {

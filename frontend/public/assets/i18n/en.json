@@ -357,6 +357,18 @@
         "invalidId": "Invalid user ID",
         "noSession": "There is no active session",
         "loadFailed": "Could not load the user profile"
+      },
+      "pets": {
+        "title": "User pets",
+        "subtitle": "Explore the pets registered by this user",
+        "loading": "Loading pets...",
+        "empty": "This user has no registered pets.",
+        "photoAlt": "Pet photo",
+        "noName": "No name",
+        "errors": {
+          "noSession": "There is no active session to load the pets.",
+          "loadFailed": "Could not load the user's pets."
+        }
       }
     }
     , "list": {
