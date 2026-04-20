@@ -22,7 +22,7 @@ public class SecurityConfig {
 
             .cors(cors -> cors.configurationSource(request -> {
                 var config = new org.springframework.web.cors.CorsConfiguration();
-                config.addAllowedOriginPattern("*"); // permitir todos (dev)
+                config.addAllowedOriginPattern("*"); // permitir todos (dev) resuelto
                 config.addAllowedHeader("*");
                 config.addAllowedMethod("*");
                 return config;
