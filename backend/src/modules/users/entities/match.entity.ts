@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Mascota } from './mascota.entity';
 
-@Entity('MATCH_MASCOTA') // Cambiado ligeramente por si 'MATCH' es palabra reservada en SQL que si lo es en mariadb pero al deployar no se sabe la verdad investigare
+@Entity('MATCH_MASCOTA') 
 export class Match {
   @PrimaryGeneratedColumn()
   id_match: number;

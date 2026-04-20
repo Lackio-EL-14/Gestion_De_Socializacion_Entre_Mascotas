@@ -1,43 +1,72 @@
-<div class="pets-page">
+<div class="layout">
 
-  <div class="top-link"> 
-    <button type="button" class="back-btn" routerLink="/dashboard-owner"> ← Volver a Home </button> 
-  </div>
+  <!-- ===================== SIDEBAR ===================== -->
+  <app-sidebar-owner></app-sidebar-owner>
+  <!-- ===================== MAIN ===================== -->
+  <main class="main-content">
 
-  <div class="pets-header">
-    <h1>Mis Mascotas</h1>
-    <p>Administra la información de tus perritos</p>
-  </div>
+    <div class="top-link">
+      <button type="button" class="back-btn" routerLink="/dashboard-owner">
+        ← {{ 'pets.common.backToDashboard' | translate }}
+      </button>
+    </div>
 
-  <div *ngIf="cargando" class="state-message">
-    Cargando mascotas...
-  </div>
+    <div class="pets-header">
+      <h1>{{ 'pets.list.title' | translate }}</h1>
+      <p>{{ 'pets.list.subtitle' | translate }}</p>
+    </div>
 
-  <div *ngIf="error" class="state-message error">
-    {{ error }}
-  </div>
+    <div *ngIf="cargando" class="state-message">
+      {{ 'pets.list.loading' | translate }}
+    </div>
 
-  <div *ngIf="!cargando && !error && mascotas.length === 0" class="state-message">
-    No tienes mascotas registradas todavía.
-  </div>
+    <div *ngIf="error" class="state-message error">
+      {{ error }}
+    </div>
 
-  <div *ngIf="!cargando && !error && mascotas.length > 0" class="pets-grid">
-    <div class="pet-card" *ngFor="let mascota of mascotas">
-      <img
-        class="pet-image"
-        [src]="imagenPlaceholder"
-        [alt]="getNombreSeguro(mascota.nombre)"
-      />
+    <div *ngIf="!cargando && !error && mascotas.length === 0" class="state-message">
+      {{ 'pets.list.empty' | translate }}
+    </div>
 
-      <div class="pet-info">
-        <h2 class="pet-name">{{ getNombreSeguro(mascota.nombre) }}</h2>
-        <p class="pet-breed">{{ getRazaSegura(mascota.raza) }}</p>
-        <p class="pet-age">{{ mascota.edad }} años</p>
+    <div *ngIf="!cargando && !error && mascotas.length > 0" class="pets-grid">
+      <div class="pet-card" *ngFor="let mascota of mascotas">
+        <img
+          class="pet-image"
+          [src]="imagenPlaceholder"
+          [alt]="getNombreSeguro(mascota.nombre)"
+        />
 
-        <button class="edit-btn" (click)="editarMascota(mascota.id_mascota)">
-          Editar
-        </button>
+        <div class="pet-info">
+          <h2 class="pet-name">{{ getNombreSeguro(mascota.nombre) }}</h2>
+          <p class="pet-breed">{{ getRazaSegura(mascota.raza) }}</p>
+          <p class="pet-age">{{ mascota.edad }} {{ 'pets.common.years' | translate }}</p>
+
+          <button class="edit-btn" (click)="editarMascota(mascota.id_mascota)">
+            {{ 'pets.list.edit' | translate }}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="add-pet-action">
+      <button
+        type="button"
+        class="add-pet-btn"
+        routerLink="/pets/create-pet"
+        aria-label="Crear mascota"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+    </div>
+
+  </main>
 </div>

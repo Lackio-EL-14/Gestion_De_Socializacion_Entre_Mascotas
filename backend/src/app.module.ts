@@ -11,12 +11,14 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { PublicationsModule } from './modules/publications/publications.module';
 import { ProfessionalProfileModule } from './modules/professional-profile/professional-profile.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
             ConfigModule.forRoot({
               isGlobal: true,
             }),
+            UploadModule,
             AuthModule, 
             UsersModule, 
             PetsModule, 

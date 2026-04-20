@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { AuthRoutingModule } from './auth-routing-module';
 import { Login } from './login/login';
@@ -10,6 +11,6 @@ import { ResetPasswordComponent } from './passwordRecover/changePassword/changeP
 
 @NgModule({
   declarations: [Login, Register, RequestResetComponent, ResetPasswordComponent],
-  imports: [CommonModule, AuthRoutingModule, FormsModule, FormsModule],
+  imports: [CommonModule, AuthRoutingModule, FormsModule, TranslateModule],
 })
 export class AuthModule {}

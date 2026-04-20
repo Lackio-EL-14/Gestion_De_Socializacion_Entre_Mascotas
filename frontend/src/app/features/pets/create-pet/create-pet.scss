@@ -1,21 +1,39 @@
+@use 'sass:color';
+
 // ============================================================
 // VARIABLES
 // ============================================================
-$color-primary:       #2563eb;
+$color-primary: #2563eb;
 $color-primary-hover: #1d4ed8;
-$color-bg-card:       #ffffff;
-$color-bg-input:      #f0f2f5;
-$color-text-dark:     #111827;
-$color-text-muted:    #6b7280;
-$color-text-subtitle: #7c8aa5;
-$color-placeholder:   #b0b7c3;
-$color-link:          #2563eb;
+$color-sidebar-bg: #0f172a;
+$color-sidebar-text: #cbd5e1;
+$color-sidebar-hover: rgba(255, 255, 255, 0.07);
+$color-sidebar-active-bg: rgba($color-primary, 0.15);
+$color-sidebar-active-text: $color-primary;
 
-$font-family:  'Segoe UI', system-ui, -apple-system, sans-serif;
-$border-radius-card:  18px;
+$color-main-bg: #f1f5f9;
+$color-bg-card: #ffffff;
+$color-bg-input: #f0f2f5;
+$color-text-dark: #111827;
+$color-text-muted: #6b7280;
+$color-text-subtitle: #7c8aa5;
+$color-border: #e2e8f0;
+
+// Colores íconos
+$color-icon-blue: #dbeafe;
+$color-icon-blue-fg: #2563eb;
+$color-icon-green: #d1fae5;
+$color-icon-green-fg: #059669;
+$color-icon-purple: #ede9fe;
+$color-icon-purple-fg: #7c3aed;
+$color-icon-orange: #ffedd5;
+$color-icon-orange-fg: #ea580c;
+
+$font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+$sidebar-width: 260px;
+$border-radius-card: 18px;
 $border-radius-input: 12px;
-$border-radius-btn:   12px;
-$card-max-width: 560px;
+$border-radius-btn: 12px;
 $transition-speed: 0.2s;
 
 // ============================================================
@@ -43,10 +61,6 @@ $transition-speed: 0.2s;
     background $transition-speed ease,
     box-shadow $transition-speed ease;
 
-  &::placeholder {
-    color: $color-placeholder;
-  }
-
   &:focus {
     outline: none;
     border-color: $color-primary;
@@ -62,30 +76,49 @@ $transition-speed: 0.2s;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.14);
   }
 }
+
 // ============================================================
-// PAGE LAYOUT
+// RESET
 // ============================================================
-.page {
-  display: flex;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// ============================================================
+// BASE
+// ============================================================
+:host {
+  display: block;
   min-height: 100vh;
-  background: linear-gradient(90deg, #eef3fb 0%, #f7f7f8 55%, #f8f4ef 100%);
+  background: $color-main-bg;
   font-family: $font-family;
 }
 
 // ============================================================
-// SIDEBAR
+// LAYOUT
 // ============================================================
-.sidebar {
-  width: 260px;
-  background: #ffffff;
-  border-right: 1px solid rgba(17, 24, 39, 0.06);
-  padding: 24px;
+.layout {
+  display: flex;
+  min-height: 100vh;
 }
 
 // ============================================================
 // CONTENT
 // ============================================================
-.content {
+.main-content {
   flex: 1;
   padding: 40px 48px;
 }
@@ -93,10 +126,10 @@ $transition-speed: 0.2s;
 // ============================================================
 // HEADER
 // ============================================================
-.back-button {
+.back-btn {
   background: none;
   border: none;
-  color: $color-link;
+  color: black;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -127,7 +160,9 @@ $transition-speed: 0.2s;
   background: $color-bg-card;
   border-radius: $border-radius-card;
   padding: 36px 40px;
+  width: 100%;
   max-width: 600px;
+  margin: 0 auto; // 🔥 ESTA ES LA CLAVE
   border: 1px solid rgba(17, 24, 39, 0.06);
 
   @include card-shadow(1);
@@ -159,9 +194,6 @@ $transition-speed: 0.2s;
   }
 }
 
-// ============================================================
-// FOTO
-// ============================================================
 .photo-upload {
   display: flex;
   flex-direction: column;
@@ -174,9 +206,6 @@ $transition-speed: 0.2s;
   }
 }
 
-// ============================================================
-// VACUNACIÓN
-// ============================================================
 .file-upload {
   input {
     @include input-base;
@@ -185,9 +214,6 @@ $transition-speed: 0.2s;
   }
 }
 
-// ============================================================
-// BUTTON
-// ============================================================
 .btn-save {
   width: 100%;
   margin-top: 10px;
@@ -198,7 +224,6 @@ $transition-speed: 0.2s;
   border-radius: $border-radius-btn;
   font-weight: 700;
   cursor: pointer;
-
   transition:
     background $transition-speed ease,
     transform $transition-speed ease,
@@ -214,33 +239,18 @@ $transition-speed: 0.2s;
     transform: translateY(0);
     box-shadow: none;
   }
-}
 
-// ============================================================
-// RESPONSIVE
-// ============================================================
-@media (max-width: 900px) {
-  .page {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid rgba(17, 24, 39, 0.06);
-  }
-
-  .content {
-    padding: 24px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 }
 
-//modal
-
+// ============================================================
+// MODAL
+// ============================================================
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -313,5 +323,35 @@ $transition-speed: 0.2s;
 
   &:hover {
     background: $color-primary-hover;
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    position: static;
+  }
+
+  .main-content {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    padding: 24px 20px;
   }
 }

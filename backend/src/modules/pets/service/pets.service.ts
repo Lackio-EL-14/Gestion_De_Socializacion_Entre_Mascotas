@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException, Logger } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pet } from '../entities/pet.entity';
@@ -44,17 +44,23 @@ export class PetsService {
     return savedPet;
   }
 
-  async findByUser(id_usuario: number): Promise<Pet[]> {
-    this.logger.warn(`[AUDIT-PETS] Alerta: Uso de endpoint inyectable (Legacy). Consulta de mascotas ejecutada hacia el objetivo ID: ${id_usuario}`);
-    return this.petsRepository.find({
+  async findByUser(id_usuario: number) {
+    this.logger.log(
+      `[AUDIT-PETS] Consulta de mascotas del usuario ID: ${id_usuario}`
+    );
+
+    const pets = await this.petsRepository.find({
       where: { id_usuario }
     });
+
+    // eliminar id_usuario de la respuesta
+    return pets.map(({ id_usuario, ...pet }) => pet);
   }
 
-  async findAll() {
+ /*  async findAll() {
     this.logger.log(`[AUDIT-PETS] Consulta global de entidades mascota ejecutada en el sistema.`);
     return this.petsRepository.find();
-  }
+  } */
 
   async update(id: number, updatePetDto: UpdatePetDto) {
     const pet = await this.petsRepository.findOne({
@@ -103,4 +109,24 @@ export class PetsService {
       .limit(1)
       .getOne();
   }
+
+  async getFeed(idMascotaActual: number) {
+   const mascotaActual = await this.petsRepository.findOne({
+     where: { id_mascota: idMascotaActual }
+   });
+
+   if (!mascotaActual) {
+     throw new NotFoundException('Mascota no encontrada');
+   }
+
+   const feed = await this.petsRepository.createQueryBuilder('mascota')
+     .where('mascota.id_usuario != :idDueno', { idDueno: mascotaActual.id_usuario })
+     .andWhere(`mascota.id_mascota NOT IN (
+       SELECT id_mascota_destino FROM INTERACCION WHERE id_mascota_origen = :idMascotaActual
+     )`, { idMascotaActual })
+     .limit(20)
+     .getMany();
+
+   return feed;
+ } 
 }
