@@ -1,16 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 interface LoginUsuarioRequest {
   email: string;
   contrasena: string;
-}
-
-interface RolResponse {
-  id_rol: number;
-  nombre_rol: string;
 }
 
 interface LoginUsuarioResponse {
@@ -18,7 +12,6 @@ interface LoginUsuarioResponse {
   nombre: string;
   email: string;
   id_usuario: number;
-  rol: RolResponse; // <- NUEVO CAMPO
 }
 
 @Component({
@@ -35,12 +28,10 @@ export class Login {
   modalTitulo = '';
   modalMensaje = '';
   modalTipo: 'success' | 'error' = 'success';
-
-  constructor(
-    private readonly http: HttpClient,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly router: Router,
-    private readonly translate: TranslateService,
+constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   iniciarSesion(): void {
@@ -48,39 +39,23 @@ export class Login {
     const contrasena = this.contrasena;
 
     if (!email) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.login.validation.emailRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El correo electrónico es obligatorio', 'error');
       return;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(email)) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.invalidEmail',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El formato del correo no es válido', 'error');
       return;
     }
 
     if (!contrasena) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.passwordRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'La contraseña es obligatoria', 'error');
       return;
     }
 
     if (contrasena.length < 6) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.passwordMinLength',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'La contraseña debe tener al menos 6 caracteres', 'error');
       return;
     }
 
@@ -94,22 +69,14 @@ export class Login {
     this.http.post<LoginUsuarioResponse>('http://localhost:3000/usuarios/login', body).subscribe({
       next: (respuesta) => {
         console.log('Login exitoso:', respuesta);
-
+ 
         sessionStorage.setItem('usuarioEmail', respuesta.email || email);
         localStorage.setItem('id_usuario', String(respuesta.id_usuario));
         localStorage.setItem('access_token', respuesta.access_token);
         sessionStorage.setItem('usuarioNombre', respuesta.nombre);
-        localStorage.setItem('id_rol', String(respuesta.rol?.id_rol || 1));
 
-        this.enviando = false;
-
-        const idRol = respuesta.rol?.id_rol;
-
-        if (idRol === 2) {
-          this.router.navigate(['/dashboard-admin']);
-        } else {
-          this.router.navigate(['/dashboard-owner']);
-        }
+        this.enviando = false;       
+        this.router.navigate(['/dashboard-owner']);
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
@@ -117,29 +84,16 @@ export class Login {
 
         this.enviando = false;
         this.mostrarModal(
-          this.t('auth.login.modal.loginErrorTitle'),
+          'Error de inicio de sesión',
           Array.isArray(mensaje)
             ? mensaje.join('\n')
-            : mensaje || this.t('auth.login.modal.loginErrorMessage'),
-          'error',
+            : mensaje || 'Credenciales inválidas o error al iniciar sesión',
+          'error'
         );
         this.cdr.detectChanges();
       },
     });
   }
-
-  t(key: string): string {
-    return this.translate.instant(key);
-  }
-
-  private mostrarModalByKey(
-    titleKey: string,
-    messageKey: string,
-    tipo: 'success' | 'error',
-  ): void {
-    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
-  }
-
   mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {
     this.modalTitulo = titulo;
     this.modalMensaje = mensaje;
@@ -147,7 +101,7 @@ export class Login {
     this.modalVisible = true;
   }
 
-  cerrarModal(): void {
-    this.modalVisible = false;
-  }
+cerrarModal(): void {
+  this.modalVisible = false;
+}
 }

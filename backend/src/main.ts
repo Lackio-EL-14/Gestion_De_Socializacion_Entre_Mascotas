@@ -8,25 +8,20 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger(winstonConfig),
   });
-
-  const origenesPermitidos = [
-    'http://localhost:4200', 
-    'https://dogchat-frontend.onrender.com' 
-  ];
-
   app.enableCors({
-    origin: origenesPermitidos, 
+    origin: 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
+      whitelist: true, 
+      forbidNonWhitelisted: true, 
     }),
   );
 
-  await app.listen(process.env.PORT ?? 3000); 
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+

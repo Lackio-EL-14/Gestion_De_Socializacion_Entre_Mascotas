@@ -5,36 +5,28 @@
     <header class="topbar">
       <div class="brand">
         <div class="logo">
-          <img src="dogchat-icon.png" alt="DogChat logo" class="logo-image" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="white" width="30" height="30" aria-hidden="true">
+            <ellipse cx="16" cy="18" rx="8" ry="11" transform="rotate(-15 16 18)" />
+            <ellipse cx="48" cy="18" rx="8" ry="11" transform="rotate(15 48 18)" />
+            <circle cx="32" cy="36" r="20" />
+            <circle cx="24" cy="31" r="3" fill="#2563eb" />
+            <circle cx="40" cy="31" r="3" fill="#2563eb" />
+            <ellipse cx="32" cy="38" rx="5" ry="3.5" fill="#2563eb" />
+            <path d="M27 42 Q32 47 37 42" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
         </div>
 
         <h1 class="brand-name">DogChat</h1>
       </div>
 
-      <div class="topbar-actions">
-        <label class="language-switch" for="lang-switch">
-          <span class="language-switch__label">{{ 'language.label' | translate }}</span>
-          <select
-            id="lang-switch"
-            class="language-switch__select"
-            [value]="selectedLanguage"
-            (change)="onLanguageChange($any($event.target).value)"
-          >
-            <option *ngFor="let lang of languageOptions" [value]="lang">
-              {{ ('language.' + lang) | translate }}
-            </option>
-          </select>
-        </label>
-
-        <a routerLink="/login" class="btn-login">{{ 'home.login' | translate }}</a>
-      </div>
+      <a routerLink="/login" class="btn-login">Iniciar sesión</a>
     </header>
 
     <!-- Hero -->
     <main class="hero">
-      <h2 class="hero-title">{{ 'home.heroTitle' | translate }}</h2>
+      <h2 class="hero-title">Bienvenido a DogChat</h2>
       <p class="hero-subtitle">
-        {{ 'home.heroSubtitle' | translate }}
+        Conecta con otros dueños de mascotas y encuentra el match perfecto para tu perrito
       </p>
 
       <!-- Cards -->
@@ -47,9 +39,9 @@
             </svg>
           </div>
 
-          <h3 class="role-title" [innerHTML]="('home.registerOwnerTitle' | translate).replace('\n', '<br>')"></h3>
+          <h3 class="role-title">Registrarse como<br>Dueño</h3>
           <p class="role-text">
-            {{ 'home.registerOwnerText' | translate }}
+            Encuentra amigos peludos para tu mascota y conecta con otros dueños
           </p>
         </article>
 
@@ -61,9 +53,9 @@
             </svg>
           </div>
 
-          <h3 class="role-title" [innerHTML]="('home.registerWorkerTitle' | translate).replace('\n', '<br>')"></h3>
+          <h3 class="role-title">Registrarse como<br>Trabajador</h3>
           <p class="role-text">
-            {{ 'home.registerWorkerText' | translate }}
+            Promociona tus servicios y conecta con dueños de mascotas
           </p>
         </article>
       </section>

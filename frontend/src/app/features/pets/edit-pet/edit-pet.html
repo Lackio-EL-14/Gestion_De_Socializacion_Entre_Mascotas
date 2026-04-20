@@ -1,23 +1,23 @@
 <div class="edit-page">
   <div class="top-link">
     <button type="button" class="back-btn" routerLink="/pets/list-pets">
-      ← {{ 'pets.common.backToMyPets' | translate }}
+      ← Volver a Mis Mascotas
     </button>
   </div>
 
   <div class="page-header">
-    <h1>{{ 'pets.edit.title' | translate }}</h1>
-    <p>{{ 'pets.edit.subtitle' | translate }}</p>
+    <h1>Editar Mascota</h1>
+    <p>Actualiza la información de tu perrito</p>
   </div>
 
   <div class="edit-card">
     <div *ngIf="cargando" class="state-message">
-      {{ 'pets.edit.loading' | translate }}
+      Cargando información de la mascota...
     </div>
 
     <form *ngIf="!cargando" class="pet-form" (ngSubmit)="submit()" novalidate>
       <div class="form-group">
-        <label class="form-label">{{ 'pets.edit.photoLabel' | translate }}</label>
+        <label class="form-label">Foto de la Mascota</label>
 
         <div class="image-box">
           <img
@@ -27,13 +27,13 @@
           />
 
           <button type="button" class="change-photo-btn">
-            {{ 'pets.edit.changePhoto' | translate }}
+            Cambiar
           </button>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="nombre" class="form-label">{{ 'pets.edit.form.nameLabel' | translate }}</label>
+        <label for="nombre" class="form-label">Nombre</label>
         <input
           type="text"
           id="nombre"
@@ -45,7 +45,7 @@
       </div>
 
       <div class="form-group">
-        <label for="raza" class="form-label">{{ 'pets.edit.form.breedLabel' | translate }}</label>
+        <label for="raza" class="form-label">Raza</label>
         <input
           type="text"
           id="raza"
@@ -57,7 +57,7 @@
       </div>
 
       <div class="form-group">
-        <label for="tamano" class="form-label">{{ 'pets.edit.form.sizeLabel' | translate }}</label>
+        <label for="tamano" class="form-label">Tamaño</label>
         <select
           id="tamano"
           name="tamano"
@@ -65,15 +65,15 @@
           [(ngModel)]="tamano"
           required
         >
-          <option value="">{{ 'pets.common.selectPlaceholder' | translate }}</option>
-          <option value="Pequeno">{{ 'pets.common.size.small' | translate }}</option>
-          <option value="Mediano">{{ 'pets.common.size.medium' | translate }}</option>
-          <option value="Grande">{{ 'pets.common.size.large' | translate }}</option>
+          <option value="">Seleccionar</option>
+          <option value="Pequeno">Pequeño</option>
+          <option value="Mediano">Mediano</option>
+          <option value="Grande">Grande</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="genero" class="form-label">{{ 'pets.edit.form.genderLabel' | translate }}</label>
+        <label for="genero" class="form-label">Género</label>
         <select
           id="genero"
           name="genero"
@@ -81,14 +81,14 @@
           [(ngModel)]="genero"
           required
         >
-          <option value="">{{ 'pets.common.selectPlaceholder' | translate }}</option>
-          <option value="Macho">{{ 'pets.common.gender.male' | translate }}</option>
-          <option value="Hembra">{{ 'pets.common.gender.female' | translate }}</option>
+          <option value="">Seleccionar</option>
+          <option value="Macho">Macho</option>
+          <option value="Hembra">Hembra</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="edad" class="form-label">{{ 'pets.edit.form.ageLabel' | translate }}</label>
+        <label for="edad" class="form-label">Edad</label>
         <input
           type="number"
           id="edad"
@@ -100,23 +100,23 @@
       </div>
 
       <div class="form-group">
-        <label for="vacuna" class="form-label">{{ 'pets.edit.form.vaccineLabel' | translate }}</label>
+        <label for="vacuna" class="form-label">Actualizar Archivo de Vacunación</label>
         <input
           type="file"
           id="vacuna"
           name="vacuna"
           class="form-input"
         />
-        <small class="form-help">{{ 'pets.edit.form.vaccineHelp' | translate }}</small>
+        <small class="form-help">PDF o imagen de la cartilla de vacunas</small>
       </div>
 
       <div class="actions">
         <button type="submit" class="btn-submit" [disabled]="enviando">
-          {{ enviando ? ('pets.edit.form.submitting' | translate) : ('pets.edit.form.submit' | translate) }}
+          {{ enviando ? 'Guardando cambios...' : 'Guardar Cambios' }}
         </button>
 
         <button type="button" class="btn-cancel" routerLink="/pets/list-pets">
-          {{ 'pets.edit.form.cancel' | translate }}
+          Cancelar
         </button>
       </div>
     </form>
@@ -134,7 +134,7 @@
     <p class="modal-message">{{ modalMensaje }}</p>
 
     <button type="button" class="modal-btn" (click)="cerrarModal()">
-      {{ 'pets.common.accept' | translate }}
+      Aceptar
     </button>
   </div>
 </div>

@@ -109,19 +109,14 @@ $transition-speed: 0.2s;
     border-radius: 50%;
     @include flex-center(row);
     margin-bottom: 18px;
-    overflow: hidden;
 
-    .logo-image {
-      width: 72%;
-      height: 72%;
-      object-fit: contain;
+    svg {
       display: block;
-      filter: invert(1) brightness(2);
     }
   }
 
   .brand-name {
-    font-size: 1.95rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: $color-text-dark;
     letter-spacing: -0.5px;
@@ -130,7 +125,7 @@ $transition-speed: 0.2s;
   }
 
   .brand-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: $color-text-subtitle;
     margin-bottom: 30px;
     text-align: center;

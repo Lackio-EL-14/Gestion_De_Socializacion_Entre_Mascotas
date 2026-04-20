@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 interface RegistroUsuarioRequest {
   nombre: string;
@@ -30,10 +29,9 @@ export class Register {
   modalTipo: 'success' | 'error' = 'success';
 
   constructor(
-    private readonly http: HttpClient,
-    private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly translate: TranslateService,
+    private http: HttpClient,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   registro(): void {
@@ -43,84 +41,48 @@ export class Register {
     const contrasena = this.contrasena;
 
     if (!nombre) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.register.validation.nameRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El nombre es obligatorio', 'error');
       return;
     }
 
     if (!email) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.register.validation.emailRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El correo electrónico es obligatorio', 'error');
       return;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(email)) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.invalidEmail',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El formato del correo no es válido', 'error');
       return;
     }
 
     if (!telefono) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.register.validation.phoneRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El teléfono es obligatorio', 'error');
       return;
     }
 
     if (telefono.length > 15) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.register.validation.phoneTooLong',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'El teléfono es demasiado largo', 'error');
       return;
     }
 
     if (contrasena.length < 6) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.passwordMinLength',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'La contraseña debe tener al menos 6 caracteres', 'error');
       return;
     }
 
     if (!contrasena) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.passwordRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'La contraseña es obligatoria', 'error');
       return;
     }
 
     if (!this.confirmarContrasena) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.register.validation.confirmPasswordRequired',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'Debes confirmar la contraseña', 'error');
       return;
     }
 
     if (this.contrasena !== this.confirmarContrasena) {
-      this.mostrarModalByKey(
-        'auth.common.validationErrorTitle',
-        'auth.common.validation.passwordsDoNotMatch',
-        'error',
-      );
+      this.mostrarModal('Error de validación', 'Las contraseñas no coinciden', 'error');
       return;
     }
 
@@ -137,11 +99,7 @@ export class Register {
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;
-        this.mostrarModalByKey(
-          'auth.register.modal.successTitle',
-          'auth.register.modal.successMessage',
-          'success',
-        );
+        this.mostrarModal('Registro exitoso', 'Cuenta creada correctamente', 'success');
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -150,11 +108,9 @@ export class Register {
 
         this.enviando = false;
         this.mostrarModal(
-          this.t('auth.register.modal.errorTitle'),
-          Array.isArray(mensaje)
-            ? mensaje.join('\n')
-            : mensaje || this.t('auth.register.modal.errorMessage'),
-          'error',
+          'Error de registro',
+          Array.isArray(mensaje) ? mensaje.join('\n') : mensaje || 'Hubo un error al registrar',
+          'error'
         );
         this.cdr.detectChanges();
       },
@@ -168,31 +124,18 @@ export class Register {
     this.contrasena = '';
     this.confirmarContrasena = '';
   }
-
-  t(key: string): string {
-    return this.translate.instant(key);
-  }
-
-  private mostrarModalByKey(
-    titleKey: string,
-    messageKey: string,
-    tipo: 'success' | 'error',
-  ): void {
-    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
-  }
-
   mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {
-    this.modalTitulo = titulo;
-    this.modalMensaje = mensaje;
-    this.modalTipo = tipo;
-    this.modalVisible = true;
-  }
+  this.modalTitulo = titulo;
+  this.modalMensaje = mensaje;
+  this.modalTipo = tipo;
+  this.modalVisible = true;
+}
 
-  cerrarModal(): void {
-    this.modalVisible = false;
+cerrarModal(): void {
+  this.modalVisible = false;
 
-    if (this.modalTipo === 'success') {
-      this.router.navigate(['/login']);
-    }
+  if (this.modalTipo === 'success') {
+    this.router.navigate(['/login']);
   }
+}
 }

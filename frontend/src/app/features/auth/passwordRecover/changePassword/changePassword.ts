@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-password',
@@ -22,23 +21,20 @@ export class ResetPasswordComponent implements OnInit {
   token: string | null = null;
 
   constructor(
-    private readonly http: HttpClient,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly translate: TranslateService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
+    this.route.queryParamMap.subscribe(params => {
       this.token = params.get('token');
 
+      console.log('TOKEN RECIBIDO:', this.token);
+
       if (!this.token) {
-        this.mostrarModalByKey(
-          'auth.passwordRecover.common.errorTitle',
-          'auth.passwordRecover.change.modal.invalidToken',
-          'error',
-        );
+        this.mostrarModal('Error', 'Token inválido o expirado', 'error');
 
         setTimeout(() => {
           this.router.navigate(['/login']);
@@ -49,11 +45,7 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.token) {
-      this.mostrarModalByKey(
-        'auth.passwordRecover.common.errorTitle',
-        'auth.passwordRecover.change.modal.missingToken',
-        'error',
-      );
+      this.mostrarModal('Error', 'Token de verificación faltante', 'error');
       return;
     }
 
@@ -61,81 +53,57 @@ export class ResetPasswordComponent implements OnInit {
     const confirmPassword = this.confirmPassword;
 
     if (!password || !confirmPassword) {
-      this.mostrarModalByKey(
-        'auth.passwordRecover.common.errorTitle',
-        'auth.passwordRecover.change.validation.allFieldsRequired',
-        'error',
-      );
+      this.mostrarModal('Error', 'Todos los campos son obligatorios', 'error');
       return;
     }
 
     if (password.length < 6) {
-      this.mostrarModalByKey(
-        'auth.passwordRecover.common.errorTitle',
-        'auth.common.validation.passwordMinLength',
-        'error',
-      );
+      this.mostrarModal('Error', 'Mínimo 6 caracteres', 'error');
       return;
     }
 
     if (password !== confirmPassword) {
-      this.mostrarModalByKey(
-        'auth.passwordRecover.common.errorTitle',
-        'auth.common.validation.passwordsDoNotMatch',
-        'error',
-      );
+      this.mostrarModal('Error', 'Las contraseñas no coinciden', 'error');
       return;
     }
 
     this.enviando = true;
 
-    this.http
-      .post('http://localhost:3000/usuarios/restablecer-password', {
-        token: this.token,
-        nueva_contrasena: password,
-      })
-      .subscribe({
-        next: () => {
-          this.enviando = false;
+    this.http.post('http://localhost:3000/usuarios/restablecer-password', {
+      token: this.token,
+      nueva_contrasena: password
+    }).subscribe({
+      next: (res: any) => {
+        console.log('RESPUESTA RESET:', res);
 
-          this.mostrarModalByKey(
-            'auth.passwordRecover.change.modal.successTitle',
-            'auth.passwordRecover.change.modal.successMessage',
-            'success',
-          );
+        this.enviando = false;
 
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 1500);
-        },
+        this.mostrarModal(
+          'Contraseña actualizada',
+          'Ahora puedes iniciar sesión',
+          'success'
+        );
 
-        error: (error) => {
-          this.enviando = false;
-          const mensaje = error?.error?.message;
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1500);
+      },
 
-          this.mostrarModal(
-            this.t('auth.passwordRecover.common.errorTitle'),
-            Array.isArray(mensaje)
-              ? mensaje.join('\n')
-              : mensaje || this.t('auth.passwordRecover.change.modal.updateError'),
-            'error',
-          );
+      error: (error) => {
+        this.enviando = false;
+        const mensaje = error?.error?.message;
 
-          this.cdr.detectChanges();
-        },
-      });
-  }
+        this.mostrarModal(
+          'Error',
+          Array.isArray(mensaje)
+            ? mensaje.join('\n')
+            : mensaje || 'No se pudo cambiar la contraseña',
+          'error'
+        );
 
-  t(key: string): string {
-    return this.translate.instant(key);
-  }
-
-  private mostrarModalByKey(
-    titleKey: string,
-    messageKey: string,
-    tipo: 'success' | 'error',
-  ): void {
-    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
+        this.cdr.detectChanges();
+      },
+    });
   }
 
   mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {

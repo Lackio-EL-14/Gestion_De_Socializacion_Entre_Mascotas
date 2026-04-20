@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 interface RequestResetRequest {
   email: string;
@@ -23,31 +22,23 @@ export class RequestResetComponent {
   modalTipo: 'success' | 'error' = 'success';
 
   constructor(
-    private readonly http: HttpClient,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly router: Router,
-    private readonly translate: TranslateService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   onSubmit(): void {
+    console.log('CLICK DETECTADO');
     const email = this.email.trim();
 
     if (!email) {
-      this.mostrarModalByKey(
-        'auth.passwordRecover.common.errorTitle',
-        'auth.passwordRecover.request.validation.emailRequired',
-        'error',
-      );
+      this.mostrarModal('Error', 'El correo es obligatorio', 'error');
       return;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValido.test(email)) {
-      this.mostrarModalByKey(
-        'auth.passwordRecover.common.errorTitle',
-        'auth.common.validation.invalidEmail',
-        'error',
-      );
+      this.mostrarModal('Error', 'Formato de correo inválido', 'error');
       return;
     }
 
@@ -57,60 +48,50 @@ export class RequestResetComponent {
 
     this.http.post('http://localhost:3000/usuarios/recuperar-password', body).subscribe({
       next: (res: any) => {
-        const token = res?.dev_token;
+    console.log('RESPUESTA BACKEND:', res);
 
-        if (!token) {
-          this.enviando = false;
-          this.mostrarModalByKey(
-            'auth.passwordRecover.common.errorTitle',
-            'auth.passwordRecover.request.modal.missingToken',
-            'error',
-          );
-          this.cdr.detectChanges();
-          return;
-        }
+    const token = res?.dev_token;
 
-        this.enviando = false;
+    if (!token) {
+      this.mostrarModal(
+        'Error',
+        'No se recibió el token de recuperación',
+        'error'
+      );
+      return;
+    }
 
-        this.mostrarModalByKey(
-          'auth.passwordRecover.request.modal.successTitle',
-          'auth.passwordRecover.request.modal.successMessage',
-          'success',
-        );
+    console.log('TOKEN:', token);
 
-        setTimeout(() => {
-          this.router.navigate(['/reset-password'], {
-            queryParams: { token },
-          });
-        }, 1500);
-      },
+    this.enviando = false;
+
+    this.mostrarModal(
+      'Correo enviado',
+      'Redirigiendo para cambiar contraseña...',
+      'success'
+    );
+
+    setTimeout(() => {
+      this.router.navigate(['/reset-password'], {
+        queryParams: { token }
+      });
+    }, 1500);
+  },
       error: (error) => {
         this.enviando = false;
         const mensaje = error?.error?.message;
 
         this.mostrarModal(
-          this.t('auth.passwordRecover.common.errorTitle'),
+          'Error',
           Array.isArray(mensaje)
             ? mensaje.join('\n')
-            : mensaje || this.t('auth.passwordRecover.request.modal.sendEmailError'),
-          'error',
+            : mensaje || 'Error al enviar el correo',
+          'error'
         );
 
         this.cdr.detectChanges();
       },
     });
-  }
-
-  t(key: string): string {
-    return this.translate.instant(key);
-  }
-
-  private mostrarModalByKey(
-    titleKey: string,
-    messageKey: string,
-    tipo: 'success' | 'error',
-  ): void {
-    this.mostrarModal(this.t(titleKey), this.t(messageKey), tipo);
   }
 
   mostrarModal(titulo: string, mensaje: string, tipo: 'success' | 'error'): void {

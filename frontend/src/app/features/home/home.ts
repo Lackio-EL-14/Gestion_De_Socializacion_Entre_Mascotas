@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppLanguage, LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -9,16 +8,7 @@ import { AppLanguage, LanguageService } from '../../core/services/language.servi
   styleUrl: './home.scss'
 })
 export class Home {
-  readonly languageOptions: readonly AppLanguage[];
-  selectedLanguage: AppLanguage;
-
-  constructor(
-    private readonly router: Router,
-    private readonly languageService: LanguageService,
-  ) {
-    this.languageOptions = this.languageService.availableLanguages;
-    this.selectedLanguage = this.languageService.getCurrentLanguage();
-  }
+  constructor(private router: Router) {}
 
   irARegistroDueno(): void {
     this.router.navigate(['/register']);
@@ -26,14 +16,5 @@ export class Home {
 
   irARegistroTrabajador(): void {
     this.router.navigate(['/register-trabajador']);
-  }
-
-  onLanguageChange(language: string): void {
-    if (language !== 'es' && language !== 'en' && language !== 'fr') {
-      return;
-    }
-
-    this.selectedLanguage = language;
-    this.languageService.setLanguage(language);
   }
 }

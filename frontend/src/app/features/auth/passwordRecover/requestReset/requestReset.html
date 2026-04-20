@@ -1,46 +1,30 @@
 <div class="page-wrapper">
   <div class="card">
 
-    <div class="brand-name">{{ 'auth.passwordRecover.request.title' | translate }}</div>
+    <div class="brand-name">Recuperar contraseña</div>
     <div class="brand-subtitle">
-      {{ 'auth.passwordRecover.request.subtitle' | translate }}
+      Ingresa tu correo y te enviaremos un código
     </div>
 
     <form class="login-form" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
-        <label class="form-label" for="email">{{ 'auth.passwordRecover.request.form.emailLabel' | translate }}</label>
+        <label class="form-label" for="email">Correo electrónico</label>
         <input
           class="form-input"
           type="email"
           id="email"
           [(ngModel)]="email"
           name="email"
-          [placeholder]="'auth.passwordRecover.request.form.emailPlaceholder' | translate"
+          placeholder="ejemplo@email.com"
           required
         />
       </div>
 
-      <button class="btn-submit" type="submit" [disabled]="enviando">
-        {{ enviando ? ('auth.passwordRecover.request.form.submitting' | translate) : ('auth.passwordRecover.request.form.submit' | translate) }}
+      <button class="btn-submit" type="submit">
+        Enviar código
       </button>
 
     </form>
-  </div>
-</div>
-
-<div class="modal-overlay" *ngIf="modalVisible">
-  <div class="modal-card">
-    <div class="modal-icon" [ngClass]="modalTipo">
-      <span *ngIf="modalTipo === 'success'">✓</span>
-      <span *ngIf="modalTipo === 'error'">!</span>
-    </div>
-
-    <h2 class="modal-title">{{ modalTitulo }}</h2>
-    <p class="modal-message">{{ modalMensaje }}</p>
-
-    <button type="button" class="modal-btn" (click)="cerrarModal()">
-      {{ 'auth.common.accept' | translate }}
-    </button>
   </div>
 </div>
