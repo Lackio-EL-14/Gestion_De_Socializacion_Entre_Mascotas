@@ -39,7 +39,7 @@ export class ReportsPanelComponent implements OnInit {
   cargando = false;
   error = '';
 
-  private readonly apiUrl = 'http://localhost:8080/admin/reportes/pendientes';
+  private readonly apiUrl = 'http://localhost:8080/api/admin/reportes/pendientes';
 
   constructor(
     private readonly http: HttpClient,
