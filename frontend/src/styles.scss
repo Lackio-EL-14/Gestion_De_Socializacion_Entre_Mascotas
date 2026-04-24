@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+
+:root {
+	--app-font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	font-family: var(--app-font-family);
+}
+
+app-root {
+	font-family: var(--app-font-family);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}

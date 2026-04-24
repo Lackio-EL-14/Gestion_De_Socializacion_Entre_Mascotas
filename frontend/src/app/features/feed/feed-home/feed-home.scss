@@ -134,7 +134,8 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
 // ============================================================
 // BASE
 // ============================================================
-body {
+:host {
+  display: block;
   font-family: $font-family;
   background: $color-main-bg;
   min-height: 100vh;
