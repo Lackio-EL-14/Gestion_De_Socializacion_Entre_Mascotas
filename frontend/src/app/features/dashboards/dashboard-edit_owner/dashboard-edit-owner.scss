@@ -295,6 +295,20 @@ body {
   gap: 0;
 }
 
+.form-feedback {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.form-feedback--success {
+  color: #047857;
+}
+
+.form-feedback--error {
+  color: #b91c1c;
+}
+
 // Sección de formulario
 .form-section {
   background: $color-card-bg;
