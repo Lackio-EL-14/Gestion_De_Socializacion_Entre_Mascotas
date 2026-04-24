@@ -7,6 +7,7 @@ import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
 import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -73,5 +74,11 @@ async loginAdmin(@Body() loginUsuarioDto: LoginUsuarioDto) {
   @Get(':id')
   findPublicProfile(@Param('id', ParseIntPipe) id: number) {
     return this.usuariosService.findPublicProfile(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  updateProfile(@Req() req, @Body() dto: UpdateUserDto) {
+    return this.usuariosService.updateProfile(req.user.userId, dto);
   }
 }
