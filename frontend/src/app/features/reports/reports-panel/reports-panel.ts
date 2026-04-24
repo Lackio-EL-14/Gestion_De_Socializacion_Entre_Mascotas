@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 interface RolDto {
@@ -44,6 +45,7 @@ export class ReportsPanelComponent implements OnInit {
   constructor(
     private readonly http: HttpClient,
     private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router,
     private readonly translate: TranslateService
   ) {}
 
@@ -115,9 +117,10 @@ export class ReportsPanelComponent implements OnInit {
     return 'pendiente';
   }
 
-  verReporte(idReporte: number): void {
-    console.log('Ver reporte:', idReporte);
-    // siguiente paso: navegar a pantalla detalle
+  verReporte(reporte: ReportePendienteDto): void {
+    this.router.navigate(['/admin/reports/answer', reporte.idReporte], {
+      state: { reporte }
+    });
   }
 
   private t(key: string): string {

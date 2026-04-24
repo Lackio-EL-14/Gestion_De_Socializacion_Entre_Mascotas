@@ -1,0 +1,76 @@
+<div class="layout">
+  <app-sidebar-admin></app-sidebar-admin>
+
+  <main class="main-content">
+
+    <div class="top-link">
+      <button class="back-btn" (click)="volver()">
+        ← Volver a Gestión de Reportes
+      </button>
+    </div>
+
+    <header class="page-header">
+      <h1>Detalle del Reporte</h1>
+      <p>Revisa la información completa del reporte</p>
+    </header>
+
+    <div *ngIf="error" class="state error">{{ error }}</div>
+    <div *ngIf="exito" class="state success">{{ exito }}</div>
+
+    <section *ngIf="reporte" class="report-card">
+
+      <div class="grid">
+
+        <div>
+          <label>Nombre del Reportante</label>
+          <p>{{ reporte.usuarioReportante?.nombre }}</p>
+        </div>
+
+        <div>
+          <label>Usuario Reportado</label>
+          <p>{{ reporte.usuarioReportado?.nombre }}</p>
+        </div>
+
+        <div>
+          <label>Tipo de Reporte</label>
+          <p>{{ reporte.motivo }}</p>
+        </div>
+
+        <div>
+          <label>Estado</label>
+          <p>{{ reporte.estado }}</p>
+        </div>
+
+      </div>
+
+      <div class="descripcion">
+        <label>Descripción del Reporte</label>
+        <p>{{ reporte.comentario }}</p>
+      </div>
+
+      <div class="evidencia">
+        <label>Evidencia</label>
+        <img [src]="placeholderImg" />
+      </div>
+
+      <!-- BOTONES ACCIONES -->
+      <div class="acciones">
+
+        <button class="btn penalizar" (click)="procesar('PENALIZAR')" [disabled]="procesando">
+          Penalizar
+        </button>
+
+        <button class="btn banear" (click)="procesar('BANEO_DIRECTO')" [disabled]="procesando">
+          Banear
+        </button>
+
+        <button class="btn ignorar" (click)="procesar('IGNORAR')" [disabled]="procesando">
+          Ignorar
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>
