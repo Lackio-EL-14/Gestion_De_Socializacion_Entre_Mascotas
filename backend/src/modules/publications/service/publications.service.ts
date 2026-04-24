@@ -60,4 +60,31 @@ export class PublicationsService {
         },
     });
   }
+  
+  async findFeed() {
+    this.logger.log('[AUDIT-FEED] Consulta de feed de publicaciones');
+
+    const publications = await this.publicationRepository.find({
+      where: {
+        estado: 'aprobada',
+      },
+      relations: ['usuario'],
+      order: {
+        fecha_publicacion: 'DESC',
+      },
+    });
+
+    return publications.map((pub) => ({
+      id_publicacion: pub.id_publicacion,
+      contenido_texto: pub.contenido_texto,
+      imagen_url: pub.imagen_url,
+      fecha_publicacion: pub.fecha_publicacion,
+
+      autor: {
+        id: pub.usuario.id_usuario,
+        nombre: pub.usuario.nombre,
+        foto: pub.usuario.foto_perfil_url,
+      },
+    }));
+  }
 }

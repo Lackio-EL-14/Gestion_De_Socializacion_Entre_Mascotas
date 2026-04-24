@@ -37,4 +37,10 @@ export class PublicationsController {
   findAll() {
     return this.publicationsService.findAll();
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('feed')
+  getFeed() {
+    return this.publicationsService.findFeed();
+  }
 }
