@@ -8,6 +8,7 @@ import { CreateTrabajadorDto } from '../dto/create-trabajador.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
+import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
@@ -51,8 +52,10 @@ export class UsuariosService {
       this.logger.log(`[AUDIT-REGISTRO] Creación de identidad exitosa. ID de usuario asignado: ${usuarioGuardado.id_usuario}`);
       return usuarioSinContrasena;
 
-    } catch (error) {
-      this.logger.error(`[ERROR-PERSISTENCIA] Fallo crítico al insertar nuevo usuario: ${error.message}`, error.stack);
+    } catch (error: unknown) {
+      const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+      const stack = error instanceof Error ? error.stack : undefined;
+      this.logger.error(`[ERROR-PERSISTENCIA] Fallo crítico al insertar nuevo usuario: ${mensaje}`, stack);
       throw new InternalServerErrorException('Ocurrió un error al guardar el usuario');
     }
   }
@@ -248,6 +251,51 @@ export class UsuariosService {
     }
 
     return usuario;
+  }
+
+  async updateMyProfile(userId: number, updateMyProfileDto: UpdateMyProfileDto) {
+    const usuario = await this.usuarioRepository.findOne({
+      where: { id_usuario: userId },
+    });
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    if (updateMyProfileDto.email && updateMyProfileDto.email !== usuario.email) {
+      const emailEnUso = await this.usuarioRepository.findOne({
+        where: { email: updateMyProfileDto.email },
+      });
+
+      if (emailEnUso && emailEnUso.id_usuario !== userId) {
+        throw new ConflictException('El correo electrónico ya está en uso');
+      }
+    }
+
+    if (typeof updateMyProfileDto.nombre === 'string') {
+      usuario.nombre = updateMyProfileDto.nombre.trim();
+    }
+
+    if (typeof updateMyProfileDto.email === 'string') {
+      usuario.email = updateMyProfileDto.email.trim();
+    }
+
+    if (typeof updateMyProfileDto.telefono === 'string') {
+      usuario.telefono = updateMyProfileDto.telefono.trim();
+    }
+
+    await this.usuarioRepository.save(usuario);
+
+    this.logger.log(`[AUDIT-USERS] Perfil actualizado por usuario ID: ${userId}`);
+
+    return {
+      id_usuario: usuario.id_usuario,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      telefono: usuario.telefono,
+      foto_perfil_url: usuario.foto_perfil_url,
+      fecha_registro: usuario.fecha_registro,
+    };
   }
   
   async findAll() {
