@@ -11,6 +11,7 @@ import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
 import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsuariosService {
@@ -334,5 +335,30 @@ export class UsuariosService {
     }
 
     return usuario;
+  }
+
+  async updateProfile(userId: number, dto: UpdateUserDto) {
+    const user = await this.usuarioRepository.findOne({
+      where: { id_usuario: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    // Campos editables
+    user.nombre = dto.nombre ?? user.nombre;
+    user.email = dto.email ?? user.email;
+    user.telefono = dto.telefono ?? user.telefono;
+
+    if (dto.foto_perfil_url) {
+      user.foto_perfil_url = dto.foto_perfil_url;
+    }
+
+    const updatedUser = await this.usuarioRepository.save(user);
+
+    this.logger.log(`Usuario actualizado: ${userId}`);
+
+    return updatedUser;
   }
 }
