@@ -14,8 +14,13 @@
       <p>Revisa la información completa del reporte</p>
     </header>
 
-    <div *ngIf="error" class="state error">{{ error }}</div>
-    <div *ngIf="exito" class="state success">{{ exito }}</div>
+    <div *ngIf="cargando" class="state">
+      Cargando reporte...
+    </div>
+
+    <div *ngIf="error" class="state error">
+      {{ error }}
+    </div>
 
     <section *ngIf="reporte" class="report-card">
 

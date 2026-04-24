@@ -35,10 +35,15 @@ export class AnswerReportComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const nav = this.router.getCurrentNavigation();
-    this.reporte = nav?.extras?.state?.['reporte'];
+    const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    // fallback si recarga
+    this.reporte = history.state?.reporte;
+
+    if (!this.reporte && id) {
+      this.cargarReporteDesdePendientes(id);
+      return;
+    }
+
     if (!this.reporte) {
       this.error = 'No se encontró el reporte';
     }
@@ -63,12 +68,10 @@ export class AnswerReportComponent implements OnInit {
 
     this.http.post(`${this.apiUrl}/${this.reporte.idReporte}/procesar`, body, { headers })
       .subscribe({
-        next: (res: any) => {
-          this.reporte = res;
-          this.exito = 'Reporte procesado correctamente';
-          this.procesando = false;
-          this.cdr.detectChanges();
-        },
+        next: () => {
+        this.procesando = false;
+        this.router.navigate(['/admin/reports']);
+      },
         error: (err) => {
           console.error(err);
           this.error = 'Error al procesar el reporte';
@@ -84,5 +87,40 @@ export class AnswerReportComponent implements OnInit {
 
   private t(key: string): string {
     return this.translate.instant(key);
+  }
+
+  cargarReporteDesdePendientes(idReporte: number): void {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      this.error = 'No hay sesión activa';
+      return;
+    }
+
+    this.cargando = true;
+    this.error = '';
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http
+      .get<any[]>('http://localhost:8080/api/admin/reportes/pendientes', { headers })
+      .subscribe({
+        next: (reportes) => {
+          this.reporte = reportes.find(r => r.idReporte === idReporte) || null;
+
+          if (!this.reporte) {
+            this.error = 'No se encontró el reporte solicitado';
+          }
+
+          this.cargando = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Error al cargar reporte:', error);
+          this.error = 'No se pudo cargar el reporte';
+          this.cargando = false;
+          this.cdr.detectChanges();
+        }
+      });
   }
 }

@@ -6,7 +6,7 @@ import { AnswerReportComponent } from './answer-report/answer-report';
 
 const routes: Routes = [
   { path: 'create-report', component: CreateReportComponent },
-  { path: 'admin/reports/answer/:id', component: AnswerReportComponent },
+  { path: 'answer/:id', component: AnswerReportComponent },
   { path: '', component: ReportsPanelComponent } 
 ];
 
