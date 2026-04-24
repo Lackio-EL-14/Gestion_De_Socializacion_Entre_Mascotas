@@ -4,8 +4,10 @@ import { Home } from './features/home/home';
 import { DashboardOwner } from './features/dashboards/dashboard-owner/dashboard-owner';
 import { DashboardEditOwner } from './features/dashboards/dashboard-edit_owner/dashboard-edit-owner';
 import { DashboardAdmin } from './features/dashboards/dashboard-admin/dashboard-admin';
+import { DashboardWorkerComponent } from './features/dashboards/dashboard-worker/dashboard-worker';
 
 const routes: Routes = [
+  { path: 'dashboard-worker', component: DashboardWorkerComponent },
   { path: 'dashboard-owner', component: DashboardOwner },
   { path: 'dashboard-admin', component: DashboardAdmin },
   { path: 'dashboard-edit-owner', component: DashboardEditOwner },

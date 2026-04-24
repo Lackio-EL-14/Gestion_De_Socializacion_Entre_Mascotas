@@ -4,10 +4,12 @@ import { Login } from './login/login';
 import { Register } from './register/register';
 import { RequestResetComponent } from './passwordRecover/requestReset/requestReset';
 import { ResetPasswordComponent } from './passwordRecover/changePassword/changePassword';
+import { RegisterWorkerComponent } from './register-worker/register-worker';
 
 const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'register', component: Register },
+  { path: 'register-worker', component: RegisterWorkerComponent },
   { path: 'request-reset', component: RequestResetComponent },
   { path: 'reset-password', component: ResetPasswordComponent }
 ];

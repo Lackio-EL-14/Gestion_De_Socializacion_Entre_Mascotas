@@ -75,6 +75,30 @@
         "loginLink": "Se connecter"
       }
     },
+    "registerWorker": {
+      "title": "DogChat Business",
+      "subtitle": "Créez votre compte professionnel",
+      "form": {
+        "nameLabel": "Nom",
+        "namePlaceholder": "Jean",
+        "emailLabel": "Email",
+        "emailPlaceholder": "entreprise@example.com",
+        "passwordLabel": "Mot de passe",
+        "confirmPasswordLabel": "Confirmer le mot de passe",
+        "phoneLabel": "Téléphone",
+        "phonePlaceholder": "+34 612 345 678",
+        "businessNameLabel": "Nom de l'entreprise",
+        "businessNamePlaceholder": "Mon Toilettage Canin",
+        "businessDescLabel": "Brève description de l'entreprise",
+        "businessDescPlaceholder": "Décrivez votre entreprise et les services que vous proposez...",
+        "submitting": "Création du compte...",
+        "submit": "Créer un compte"
+      },
+      "footer": {
+        "hasAccount": "Vous avez déjà un compte ?",
+        "loginLink": "Se connecter"
+      }
+    },
     "passwordRecover": {
       "common": {
         "errorTitle": "Erreur"
@@ -185,7 +209,8 @@
     "logout": "Deconnexion",
     "manageUsers": "Gestion des Utilisateurs",
     "manageReports": "Gestion des Rapports",
-    "manageContent": "Gestion du Contenu"
+    "manageContent": "Gestion du Contenu",
+    "searchUsers": "Rechercher des utilisateurs"
   },
   "dashboard": {
     "admin": {
@@ -213,6 +238,31 @@
         "chatsDesc": "Discutez avec vos correspondances",
         "myPets": "Mes animaux de compagnie",
         "myPetsDesc": "Gerez vos chiens"
+      }
+    },
+    "worker": {
+      "welcome": "Bienvenue sur DogChat Business",
+      "subtitle": "Gérez votre présence sur la plateforme",
+      "greeting": "Bonjour, {{name}} !",
+      "banner": "Connectez-vous avec les propriétaires d'animaux et promouvez vos services dans la communauté DogMatch",
+      "quickAccess": "Accès rapides",
+      "activitySummary": "Résumé de l'activité",
+      "cards": {
+        "searchUsers": "Rechercher des utilisateurs",
+        "searchUsersDesc": "Trouvez des clients potentiels",
+        "publications": "Publications",
+        "publicationsDesc": "Explorez le contenu de la communauté",
+        "myPublications": "Mes Publications",
+        "myPublicationsDesc": "Gérez votre contenu",
+        "chats": "Discussions",
+        "chatsDesc": "Messages et demandes"
+      },
+      "metrics": {
+        "views": "Vues",
+        "likes": "J'aime",
+        "messages": "Messages",
+        "thisWeek": "cette semaine",
+        "unread": "non lus"
       }
     },
     "edit": {

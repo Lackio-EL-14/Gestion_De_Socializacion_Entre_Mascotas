@@ -1,6 +1,7 @@
 import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards, Param, ParseIntPipe } from '@nestjs/common';
 import { UsuariosService } from '../service/usuarios.service';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { CreateTrabajadorDto } from '../dto/create-trabajador.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
@@ -13,6 +14,11 @@ export class UsuariosController {
   @Post('registro')
   async registrarUsuario(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
+  }
+
+  @Post('registro-trabajador')
+  async registrarTrabajador(@Body() createTrabajadorDto: CreateTrabajadorDto) {
+    return this.usuariosService.createTrabajador(createTrabajadorDto);
   }
 
   @Post('login')

@@ -1,0 +1,110 @@
+<p>dashboard-worker works!</p>
+<div class="layout">
+  <app-sidebar-worker></app-sidebar-worker>
+
+  <main class="main-content">
+
+    <header class="main-header">
+      <h1 class="main-header__title">{{ 'dashboard.worker.welcome' | translate }}</h1>
+      <p class="main-header__subtitle">{{ 'dashboard.worker.subtitle' | translate }}</p>
+    </header>
+
+    <section class="welcome-banner">
+      <p class="welcome-banner__greeting">
+        {{ 'dashboard.worker.greeting' | translate: {name: nombreNegocio} }} 🐾
+      </p>
+      <p class="welcome-banner__text">
+        {{ 'dashboard.worker.banner' | translate }}
+      </p>
+    </section>
+
+    <section class="dashboard-section">
+      <h2 class="dashboard-section__title">{{ 'dashboard.worker.quickAccess' | translate }}</h2>
+      <div class="quick-access__grid">
+
+        <a routerLink="/worker/search" class="quick-card">
+          <div class="quick-card__icon quick-card__icon--blue">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <h3 class="quick-card__name">{{ 'dashboard.worker.cards.searchUsers' | translate }}</h3>
+          <p class="quick-card__desc">{{ 'dashboard.worker.cards.searchUsersDesc' | translate }}</p>
+        </a>
+
+        <a routerLink="publications" class="quick-card">
+          <div class="quick-card__icon quick-card__icon--green">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <h3 class="quick-card__name">{{ 'dashboard.worker.cards.publications' | translate }}</h3>
+          <p class="quick-card__desc">{{ 'dashboard.worker.cards.publicationsDesc' | translate }}</p>
+        </a>
+
+        <a routerLink="/worker/my-publications" class="quick-card">
+          <div class="quick-card__icon quick-card__icon--orange">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="quick-card__name">{{ 'dashboard.worker.cards.myPublications' | translate }}</h3>
+          <p class="quick-card__desc">{{ 'dashboard.worker.cards.myPublicationsDesc' | translate }}</p>
+        </a>
+
+        <a routerLink="/worker/chats" class="quick-card">
+          <div class="quick-card__icon quick-card__icon--purple">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="quick-card__name">{{ 'dashboard.worker.cards.chats' | translate }}</h3>
+          <p class="quick-card__desc">{{ 'dashboard.worker.cards.chatsDesc' | translate }}</p>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <h2 class="dashboard-section__title">{{ 'dashboard.worker.activitySummary' | translate }}</h2>
+      <div class="activity-grid">
+
+        <div class="activity-card">
+          <div class="activity-card__header">
+            <span class="activity-card__title">{{ 'dashboard.worker.metrics.views' | translate }}</span>
+            <svg class="activity-card__icon text-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="activity-card__value">1,234</div>
+          <div class="activity-card__trend text-success">+12% {{ 'dashboard.worker.metrics.thisWeek' | translate }}</div>
+        </div>
+
+        <div class="activity-card">
+          <div class="activity-card__header">
+            <span class="activity-card__title">{{ 'dashboard.worker.metrics.likes' | translate }}</span>
+            <svg class="activity-card__icon text-red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <div class="activity-card__value">456</div>
+          <div class="activity-card__trend text-success">+8% {{ 'dashboard.worker.metrics.thisWeek' | translate }}</div>
+        </div>
+
+        <div class="activity-card">
+          <div class="activity-card__header">
+            <span class="activity-card__title">{{ 'dashboard.worker.metrics.messages' | translate }}</span>
+            <svg class="activity-card__icon text-purple" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="activity-card__value">28</div>
+          <div class="activity-card__trend text-muted">5 {{ 'dashboard.worker.metrics.unread' | translate }}</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
