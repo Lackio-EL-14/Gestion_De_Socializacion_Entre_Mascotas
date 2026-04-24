@@ -1,4 +1,26 @@
-<aside class="sidebar">
+<button
+  type="button"
+  class="sidebar-mobile-toggle"
+  (click)="toggleMobileSidebar()"
+  [attr.aria-expanded]="mobileOpen"
+  [attr.aria-label]="'Abrir menu de navegacion'"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+</button>
+
+<button
+  type="button"
+  class="sidebar-mobile-backdrop"
+  *ngIf="mobileOpen"
+  (click)="closeMobileSidebar()"
+  aria-label="Cerrar menu"
+></button>
+
+<aside class="sidebar" [class.sidebar--open]="mobileOpen">
 
   <div class="sidebar__brand">
     <span class="sidebar__brand-name">DogChat Admin</span>
@@ -8,7 +30,7 @@
     <ul class="sidebar__nav-list">
 
       <li class="sidebar__nav-item" routerLinkActive="sidebar__nav-item--active" [routerLinkActiveOptions]="{ exact: true }">
-        <a routerLink="/dashboard-admin" class="sidebar__nav-link">
+        <a routerLink="/dashboard-admin" class="sidebar__nav-link" (click)="closeMobileSidebar()">
           <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
             <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
@@ -18,7 +40,7 @@
       </li>
 
       <li class="sidebar__nav-item" routerLinkActive="sidebar__nav-item--active">
-        <a routerLink="/admin/users" class="sidebar__nav-link">
+        <a routerLink="/admin/users" class="sidebar__nav-link" (click)="closeMobileSidebar()">
           <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -28,7 +50,7 @@
       </li>
 
       <li class="sidebar__nav-item" routerLinkActive="sidebar__nav-item--active">
-        <a routerLink="/admin/reports" class="sidebar__nav-link">
+        <a routerLink="/admin/reports" class="sidebar__nav-link" (click)="closeMobileSidebar()">
           <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
             <line x1="4" y1="22" x2="4" y2="15"/>
@@ -38,7 +60,7 @@
       </li>
 
       <li class="sidebar__nav-item" routerLinkActive="sidebar__nav-item--active">
-        <a routerLink="/admin/content" class="sidebar__nav-link">
+        <a routerLink="/admin/content" class="sidebar__nav-link" (click)="closeMobileSidebar()">
           <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>

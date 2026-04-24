@@ -6,4 +6,14 @@ import { Component } from '@angular/core';
   templateUrl: './sidebar-admin.html',
   styleUrl: './sidebar-admin.scss'
 })
-export class SidebarAdminComponent {}
+export class SidebarAdminComponent {
+  mobileOpen = false;
+
+  toggleMobileSidebar(): void {
+    this.mobileOpen = !this.mobileOpen;
+  }
+
+  closeMobileSidebar(): void {
+    this.mobileOpen = false;
+  }
+}

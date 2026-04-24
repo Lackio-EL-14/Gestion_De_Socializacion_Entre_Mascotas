@@ -26,6 +26,40 @@ ul {
   list-style: none;
 }
 
+.sidebar-mobile-toggle,
+.sidebar-mobile-backdrop {
+  display: none;
+}
+
+.sidebar-mobile-toggle {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1101;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: #0f172a;
+  color: #e2e8f0;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+  }
+}
+
+.sidebar-mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1099;
+  border: none;
+  background: rgba(2, 6, 23, 0.5);
+}
+
 .sidebar {
   width: $sidebar-width;
   min-width: $sidebar-width;
@@ -129,7 +163,24 @@ ul {
 }
 
 @media (max-width: 768px) {
+  .sidebar-mobile-toggle {
+    display: inline-flex;
+  }
+
+  .sidebar-mobile-backdrop {
+    display: block;
+  }
+
   .sidebar {
-    display: none;
+    position: fixed;
+    z-index: 1100;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform $transition;
+  }
+
+  .sidebar.sidebar--open {
+    transform: translateX(0);
   }
 }

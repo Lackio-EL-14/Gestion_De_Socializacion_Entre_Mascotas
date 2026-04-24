@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import {
   TranslationObject,
   TranslateLoader,
@@ -21,7 +22,7 @@ class AppTranslateLoader implements TranslateLoader {
   constructor(private readonly http: HttpClient) {}
 
   getTranslation(lang: string): Observable<TranslationObject> {
-    return this.http.get<TranslationObject>(`/assets/i18n/${lang}.json`);
+    return this.http.get<TranslationObject>(`assets/i18n/${lang}.json`);
   }
 }
 
@@ -41,6 +42,7 @@ export function initializeLanguage(languageService: LanguageService): () => void
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     TranslateModule.forRoot({
       defaultLanguage: 'es',
       loader: {
