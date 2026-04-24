@@ -3,7 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Usuario } from '../../users/entities/usuario.entity';
 
 @Entity('PUBLICACION')
 export class Publication {
@@ -28,4 +31,9 @@ export class Publication {
 
   @Column()
   id_usuario: number;
+
+  // RELACIÓN
+  @ManyToOne(() => Usuario)
+  @JoinColumn({ name: 'id_usuario' })
+  usuario: Usuario;
 }
