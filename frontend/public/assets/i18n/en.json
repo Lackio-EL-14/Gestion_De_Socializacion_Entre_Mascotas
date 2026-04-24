@@ -21,7 +21,7 @@
       "validation": {
         "invalidEmail": "Email format is invalid",
         "passwordRequired": "Password is required",
-        "passwordMinLength": "Password must be at least 6 characters",
+        "passwordMinLength": "Password must be at least 8 characters",
         "passwordsDoNotMatch": "Passwords do not match"
       }
     },
@@ -53,15 +53,23 @@
         "phoneLabel": "Phone",
         "phonePlaceholder": "+34 612 345 678",
         "passwordLabel": "Password",
+        "passwordHint": "Minimum 8 characters, uppercase, lowercase, number and special character (@$!%*?&)",
         "confirmPasswordLabel": "Confirm password",
         "submitting": "Creating account...",
         "submit": "Create account"
       },
       "validation": {
         "nameRequired": "Name is required",
+        "nameMinLength": "Name must have at least 2 characters",
+        "nameMaxLength": "Name cannot exceed 50 characters",
+        "nameInvalid": "Name can only contain letters and spaces",
         "emailRequired": "Email is required",
         "phoneRequired": "Phone is required",
+        "phoneMinLength": "Phone must have at least 7 digits",
         "phoneTooLong": "Phone number is too long",
+        "phoneInvalid": "Phone can only contain numbers, spaces and valid characters (+, -, parentheses)",
+        "passwordWeak": "Password must contain uppercase, lowercase, numbers and special characters (@$!%*?&)",
+        "passwordMaxLength": "Password cannot exceed 100 characters",
         "confirmPasswordRequired": "You must confirm your password"
       },
       "modal": {

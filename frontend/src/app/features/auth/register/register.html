@@ -24,6 +24,9 @@
             autocomplete="name"
             [(ngModel)]="nombre"
             required
+            minlength="2"
+            maxlength="50"
+            pattern="[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ\s]+"
           />
         </div>
 
@@ -52,7 +55,9 @@
             autocomplete="tel"
             [(ngModel)]="telefono"
             required
+            minlength="7"
             maxlength="15"
+            pattern="[0-9\s\+\-\(\)]+"
           />
         </div>
 
@@ -67,8 +72,10 @@
             autocomplete="new-password"
             [(ngModel)]="contrasena"
             required
-            minlength="6"
+            minlength="8"
+            maxlength="100"
           />
+          <small class="form-hint">{{ 'auth.register.form.passwordHint' | translate }}</small>
         </div>
 
         <div class="form-group">
@@ -81,6 +88,7 @@
             placeholder="••••••••"
             autocomplete="new-password"
             [(ngModel)]="confirmarContrasena"
+            maxlength="100"
             required
             minlength="8"
           />

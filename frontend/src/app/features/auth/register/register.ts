@@ -51,6 +51,34 @@ export class Register {
       return;
     }
 
+    if (nombre.length < 2) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.register.validation.nameMinLength',
+        'error',
+      );
+      return;
+    }
+
+    if (nombre.length > 50) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.register.validation.nameMaxLength',
+        'error',
+      );
+      return;
+    }
+
+    const nombreValido = /^[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ\s]+$/;
+    if (!nombreValido.test(nombre)) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.register.validation.nameInvalid',
+        'error',
+      );
+      return;
+    }
+
     if (!email) {
       this.mostrarModalByKey(
         'auth.common.validationErrorTitle',
@@ -79,6 +107,25 @@ export class Register {
       return;
     }
 
+    const telefonoValido = /^[0-9\s\+\-\(\)]+$/;
+    if (!telefonoValido.test(telefono)) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.register.validation.phoneInvalid',
+        'error',
+      );
+      return;
+    }
+
+    if (telefono.length < 7) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.register.validation.phoneMinLength',
+        'error',
+      );
+      return;
+    }
+
     if (telefono.length > 15) {
       this.mostrarModalByKey(
         'auth.common.validationErrorTitle',
@@ -88,7 +135,16 @@ export class Register {
       return;
     }
 
-    if (contrasena.length < 6) {
+    if (!contrasena) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.common.validation.passwordRequired',
+        'error',
+      );
+      return;
+    }
+
+    if (contrasena.length < 8) {
       this.mostrarModalByKey(
         'auth.common.validationErrorTitle',
         'auth.common.validation.passwordMinLength',
@@ -97,10 +153,20 @@ export class Register {
       return;
     }
 
-    if (!contrasena) {
+    if (contrasena.length > 100) {
       this.mostrarModalByKey(
         'auth.common.validationErrorTitle',
-        'auth.common.validation.passwordRequired',
+        'auth.register.validation.passwordMaxLength',
+        'error',
+      );
+      return;
+    }
+
+    const contrasenaValida = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+    if (!contrasenaValida.test(contrasena)) {
+      this.mostrarModalByKey(
+        'auth.common.validationErrorTitle',
+        'auth.register.validation.passwordWeak',
         'error',
       );
       return;
