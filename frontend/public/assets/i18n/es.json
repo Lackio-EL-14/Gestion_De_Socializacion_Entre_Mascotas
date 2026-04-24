@@ -51,7 +51,7 @@
       "validation": {
         "invalidEmail": "El formato del correo no es valido",
         "passwordRequired": "La contrasena es obligatoria",
-        "passwordMinLength": "La contrasena debe tener al menos 6 caracteres",
+        "passwordMinLength": "La contrasena debe tener al menos 8 caracteres",
         "passwordsDoNotMatch": "Las contrasenas no coinciden"
       }
     },
@@ -83,15 +83,23 @@
         "phoneLabel": "Telefono",
         "phonePlaceholder": "+34 612 345 678",
         "passwordLabel": "Contrasena",
+        "passwordHint": "Minimo 8 caracteres, mayuscula, minuscula, numero y caracter especial (@$!%*?&)",
         "confirmPasswordLabel": "Confirmar Contrasena",
         "submitting": "Creando cuenta...",
         "submit": "Crear Cuenta"
       },
       "validation": {
         "nameRequired": "El nombre es obligatorio",
+        "nameMinLength": "El nombre debe tener al menos 2 caracteres",
+        "nameMaxLength": "El nombre no puede exceder 50 caracteres",
+        "nameInvalid": "El nombre solo puede contener letras y espacios",
         "emailRequired": "El correo electronico es obligatorio",
         "phoneRequired": "El telefono es obligatorio",
+        "phoneMinLength": "El telefono debe tener al menos 7 digitos",
         "phoneTooLong": "El telefono es demasiado largo",
+        "phoneInvalid": "El telefono solo puede contener numeros, espacios y caracteres validos (+, -, parentesis)",
+        "passwordWeak": "La contrasena debe contener mayusculas, minusculas, numeros y caracteres especiales (@$!%*?&)",
+        "passwordMaxLength": "La contrasena no puede exceder 100 caracteres",
         "confirmPasswordRequired": "Debes confirmar la contrasena"
       },
       "modal": {

@@ -51,7 +51,7 @@
       "validation": {
         "invalidEmail": "Le format de l'email est invalide",
         "passwordRequired": "Le mot de passe est obligatoire",
-        "passwordMinLength": "Le mot de passe doit contenir au moins 6 caracteres",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 8 caracteres",
         "passwordsDoNotMatch": "Les mots de passe ne correspondent pas"
       }
     },
@@ -83,15 +83,23 @@
         "phoneLabel": "Telephone",
         "phonePlaceholder": "+34 612 345 678",
         "passwordLabel": "Mot de passe",
+        "passwordHint": "Minimum 8 caracteres, majuscule, minuscule, chiffre et caractere special (@$!%*?&)",
         "confirmPasswordLabel": "Confirmer le mot de passe",
         "submitting": "Creation du compte...",
         "submit": "Creer un compte"
       },
       "validation": {
         "nameRequired": "Le nom est obligatoire",
+        "nameMinLength": "Le nom doit contenir au moins 2 caracteres",
+        "nameMaxLength": "Le nom ne peut pas depasser 50 caracteres",
+        "nameInvalid": "Le nom ne peut contenir que des lettres et des espaces",
         "emailRequired": "L'email est obligatoire",
         "phoneRequired": "Le telephone est obligatoire",
+        "phoneMinLength": "Le telephone doit contenir au moins 7 chiffres",
         "phoneTooLong": "Le numero de telephone est trop long",
+        "phoneInvalid": "Le telephone ne peut contenir que des chiffres, des espaces et des caracteres valides (+, -, parentheses)",
+        "passwordWeak": "Le mot de passe doit contenir des majuscules, des minuscules, des chiffres et des caracteres speciaux (@$!%*?&)",
+        "passwordMaxLength": "Le mot de passe ne peut pas depasser 100 caracteres",
         "confirmPasswordRequired": "Vous devez confirmer le mot de passe"
       },
       "modal": {
