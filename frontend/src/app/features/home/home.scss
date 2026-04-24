@@ -80,12 +80,15 @@ $transition-speed: 0.2s;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .topbar-actions {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .language-switch {
@@ -96,6 +99,7 @@ $transition-speed: 0.2s;
   border: 1px solid rgba($color-primary, 0.2);
   border-radius: $border-radius-btn;
   background: rgba(255, 255, 255, 0.6);
+  min-width: 170px;
 }
 
 .language-switch__label {
@@ -278,23 +282,36 @@ $transition-speed: 0.2s;
 
 @media (max-width: 640px) {
   .topbar {
-    padding: 20px 18px 0;
-    gap: 16px;
-    align-items: flex-start;
+    padding: 14px max(14px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left));
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
 
   .topbar-actions {
     width: 100%;
     justify-content: flex-end;
-    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
   }
 
   .language-switch {
-    width: 100%;
-    justify-content: space-between;
+    width: auto;
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  .language-switch__label {
+    white-space: nowrap;
+  }
+
+  .language-switch__select {
+    max-width: 120px;
   }
 
   .brand {
+    width: 100%;
+
     .logo {
       width: 48px;
       height: 48px;
@@ -306,6 +323,8 @@ $transition-speed: 0.2s;
   }
 
   .btn-login {
+    margin-left: auto;
+    min-height: 40px;
     padding: 9px 14px;
     font-size: 0.9rem;
   }
@@ -318,6 +337,24 @@ $transition-speed: 0.2s;
     font-size: 2.35rem;
   }
 
+
+@media (max-width: 420px) {
+  .topbar-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .language-switch,
+  .btn-login {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
+  .btn-login {
+    text-align: center;
+  }
+}
   .hero-subtitle {
     font-size: 1rem;
     margin-bottom: 34px;
