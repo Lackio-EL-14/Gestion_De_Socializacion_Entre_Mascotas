@@ -107,7 +107,11 @@ export class Login {
 
         if (idRol === 2) {
           this.router.navigate(['/dashboard-admin']);
-        } else {
+        }
+        else if(idRol === 3) {
+          this.router.navigate(['/dashboard-worker']);
+        }
+        else {
           this.router.navigate(['/dashboard-owner']);
         }
       },

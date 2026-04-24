@@ -1,0 +1,149 @@
+@use 'sass:color';
+
+$color-main-bg:        #f1f5f9;
+$color-card-bg:        #ffffff;
+$color-text-dark:      #0f172a;
+$color-text-muted:     #64748b;
+$color-border:         #e2e8f0;
+
+$color-icon-blue:      #dbeafe;
+$color-icon-blue-fg:   #2563eb;
+$color-icon-green:     #d1fae5;
+$color-icon-green-fg:  #059669;
+$color-icon-purple:    #ede9fe;
+$color-icon-purple-fg: #7c3aed;
+$color-icon-orange:    #ffedd5;
+$color-icon-orange-fg: #ea580c;
+$color-icon-red-fg:    #dc2626;
+
+$font-family:          'Segoe UI', system-ui, -apple-system, sans-serif;
+$border-radius-card:   14px;
+$transition:           0.2s ease;
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+@mixin quick-icon($bg, $fg) {
+  background: $bg;
+  color: $fg;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+a { text-decoration: none; color: inherit; }
+body { font-family: $font-family; background: $color-main-bg; color: $color-text-dark; }
+
+.layout { display: flex; min-height: 100vh; }
+.main-content { flex: 1; padding: 36px 40px; overflow-y: auto; }
+
+.main-header {
+  margin-bottom: 24px;
+  &__title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.4px; }
+  &__subtitle { font-size: 0.95rem; color: $color-text-muted; margin-top: 6px; }
+}
+
+// Banner Trabajador (Naranja a Azul)
+.welcome-banner {
+  background: linear-gradient(90deg, #ea580c 0%, #3b82f6 100%);
+  border-radius: $border-radius-card;
+  padding: 32px 36px;
+  margin-bottom: 36px;
+  color: #fff;
+
+  &__greeting { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  &__text { font-size: 0.95rem; opacity: 0.9; max-width: 700px; line-height: 1.5; }
+}
+
+.dashboard-section {
+  margin-bottom: 36px;
+  &__title { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
+}
+
+// Accesos Rápidos (Igual al dueño)
+.quick-access__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.quick-card {
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-card;
+  padding: 28px 20px 24px;
+  @include flex-center(column);
+  gap: 12px;
+  text-align: center;
+  transition: transform $transition, box-shadow $transition;
+  @include card-shadow;
+
+  &:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+  &__icon {
+    width: 52px; height: 52px; border-radius: 50%; @include flex-center(row);
+    svg { width: 22px; height: 22px; stroke: currentColor; }
+    &--blue   { @include quick-icon($color-icon-blue,   $color-icon-blue-fg); }
+    &--green  { @include quick-icon($color-icon-green,  $color-icon-green-fg); }
+    &--orange { @include quick-icon($color-icon-orange, $color-icon-orange-fg); }
+    &--purple { @include quick-icon($color-icon-purple, $color-icon-purple-fg); }
+  }
+  &__name { font-size: 0.9rem; font-weight: 700; }
+  &__desc { font-size: 0.8rem; color: $color-text-muted; line-height: 1.4; }
+}
+
+// Resumen de Actividad
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.activity-card {
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-card;
+  padding: 24px;
+  @include card-shadow;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title { font-size: 0.9rem; color: $color-text-muted; font-weight: 500; }
+
+  &__icon {
+    width: 20px; height: 20px;
+    &.text-blue { color: $color-icon-blue-fg; }
+    &.text-red { color: $color-icon-red-fg; }
+    &.text-purple { color: $color-icon-purple-fg; }
+  }
+
+  &__value { font-size: 2rem; font-weight: 700; color: $color-text-dark; line-height: 1; }
+
+  &__trend {
+    font-size: 0.85rem;
+    &.text-success { color: $color-icon-green-fg; font-weight: 500; }
+    &.text-muted { color: $color-text-muted; }
+  }
+}
+
+@media (max-width: 1100px) {
+  .quick-access__grid { grid-template-columns: repeat(2, 1fr); }
+  .activity-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .main-content { padding: 24px 20px; }
+  .activity-grid { grid-template-columns: 1fr; }
+}

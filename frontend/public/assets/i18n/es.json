@@ -105,6 +105,30 @@
         "loginLink": "Inicia sesion"
       }
     },
+    "registerWorker": {
+      "title": "DogChat Business",
+      "subtitle": "Crea tu cuenta de negocio",
+      "form": {
+        "nameLabel": "Nombre",
+        "namePlaceholder": "Juan",
+        "emailLabel": "Email",
+        "emailPlaceholder": "negocio@example.com",
+        "passwordLabel": "Contraseña",
+        "confirmPasswordLabel": "Confirmar Contraseña",
+        "phoneLabel": "Teléfono",
+        "phonePlaceholder": "+34 612 345 678",
+        "businessNameLabel": "Nombre del Negocio",
+        "businessNamePlaceholder": "Mi Peluquería Canina",
+        "businessDescLabel": "Descripción Breve del Negocio",
+        "businessDescPlaceholder": "Describe tu negocio y los servicios que ofreces...",
+        "submitting": "Creando cuenta...",
+        "submit": "Crear Cuenta"
+      },
+      "footer": {
+        "hasAccount": "¿Ya tienes cuenta?",
+        "loginLink": "Inicia sesión"
+      }
+    },
     "passwordRecover": {
       "common": {
         "errorTitle": "Error"
@@ -215,7 +239,8 @@
     "logout": "Cerrar Sesión",
     "manageUsers": "Gestión de Usuarios",
     "manageReports": "Gestión de Reportes",
-    "manageContent": "Gestión de Contenido"
+    "manageContent": "Gestión de Contenido",
+    "searchUsers": "Buscar Usuarios"
   },
   "dashboard": {
     "admin": {
@@ -243,6 +268,31 @@
         "chatsDesc": "Conversa con tus matches",
         "myPets": "Mis Mascotas",
         "myPetsDesc": "Administra tus perritos"
+      }
+    },
+    "worker": {
+      "welcome": "Bienvenido a DogChat Business",
+      "subtitle": "Gestiona tu presencia en la plataforma",
+      "greeting": "¡Hola, {{name}}!",
+      "banner": "Conecta con dueños de mascotas y promociona tus servicios en la comunidad de DogMatch",
+      "quickAccess": "Accesos Rápidos",
+      "activitySummary": "Resumen de Actividad",
+      "cards": {
+        "searchUsers": "Buscar Usuarios",
+        "searchUsersDesc": "Encuentra potenciales clientes",
+        "publications": "Publicaciones",
+        "publicationsDesc": "Explora contenido de la comunidad",
+        "myPublications": "Mis Publicaciones",
+        "myPublicationsDesc": "Gestiona tu contenido",
+        "chats": "Chats",
+        "chatsDesc": "Mensajes y consultas"
+      },
+      "metrics": {
+        "views": "Visualizaciones",
+        "likes": "Me Gusta",
+        "messages": "Mensajes",
+        "thisWeek": "esta semana",
+        "unread": "sin leer"
       }
     },
     "edit": {

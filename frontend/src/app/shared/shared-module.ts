@@ -4,10 +4,11 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SidebarOwnerComponent } from './sidebar-owner/sidebar-owner';
 import { SidebarAdminComponent } from './sidebar-admin/sidebar-admin';
+import { SidebarWorker } from './sidebar-worker/sidebar-worker';
 
 @NgModule({
-  declarations: [SidebarOwnerComponent, SidebarAdminComponent],
+  declarations: [SidebarOwnerComponent, SidebarAdminComponent, SidebarWorker],
   imports: [CommonModule, RouterModule, TranslateModule],
-  exports: [SidebarOwnerComponent, SidebarAdminComponent]
+  exports: [SidebarOwnerComponent, SidebarAdminComponent, SidebarWorker],
 })
 export class SharedModule {}

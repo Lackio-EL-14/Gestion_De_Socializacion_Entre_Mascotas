@@ -1,0 +1,245 @@
+// Variables
+$color-bg: #f8fafc;
+$color-card: #ffffff;
+$color-text-main: #0f172a;
+$color-text-muted: #64748b;
+$color-text-dark: #111827;
+$color-primary: #ea580c; // Naranja DogChat
+$color-primary-hover: #c2410c;
+$color-input-bg: #f1f5f9;
+$color-link: #2563eb;
+$border-radius: 8px;
+$font-family:  'Segoe UI', system-ui, -apple-system, sans-serif;
+$border-radius-card:  18px;
+$border-radius-input: 12px;
+$border-radius-btn:   12px;
+$card-max-width: 520px;
+$transition-speed: 0.2s;
+
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: $color-card;
+  width: 100%;
+  max-width: 600px; // Un poco más ancho que un login normal para acomodar las 2 columnas
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem 3rem;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    background-color: $color-primary;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    color: $color-text-main;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  &__subtitle {
+    color: $color-text-muted;
+    font-size: 0.95rem;
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $color-text-main;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: $color-input-bg;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+    font-size: 0.95rem;
+    color: $color-text-main;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+
+    &:focus {
+      border-color: $color-primary;
+      background-color: #fff;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    font-family: inherit;
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: $color-primary;
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-hover;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.auth-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: $color-text-muted;
+
+  a {
+    color: $color-link;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+  padding: 28px 24px 24px;
+  text-align: center;
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: white;
+
+  &.success {
+    background: #22c55e;
+  }
+
+  &.error {
+    background: #ef4444;
+  }
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $color-text-dark;
+  margin-bottom: 10px;
+}
+
+.modal-message {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: $color-text-muted;
+  margin-bottom: 22px;
+  white-space: pre-line;
+}
+
+.modal-btn {
+  width: 100%;
+  padding: 14px;
+  background: $color-primary;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: $font-family;
+  border: none;
+  border-radius: $border-radius-btn;
+  cursor: pointer;
+  transition: background $transition-speed ease;
+
+  &:hover {
+    background: $color-primary-hover;
+  }
+}
+
+// Responsive para móviles
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr; // Se apilan en pantallas pequeñas
+  }
+}

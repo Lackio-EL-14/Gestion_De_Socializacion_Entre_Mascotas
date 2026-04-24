@@ -1,8 +1,10 @@
 import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
+import { PerfilProfesional } from '../entities/perfil_profesional.entity';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { CreateTrabajadorDto } from '../dto/create-trabajador.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
@@ -16,6 +18,9 @@ export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(PerfilProfesional)
+    private perfilProfesionalRepository: Repository<PerfilProfesional>,
+    private dataSource: DataSource,
     private jwtService: JwtService,
   ) {}
 
@@ -49,6 +54,69 @@ export class UsuariosService {
     } catch (error) {
       this.logger.error(`[ERROR-PERSISTENCIA] Fallo crítico al insertar nuevo usuario: ${error.message}`, error.stack);
       throw new InternalServerErrorException('Ocurrió un error al guardar el usuario');
+    }
+  }
+
+  async createTrabajador(createTrabajadorDto: CreateTrabajadorDto) {
+    const { nombre, email, contrasena_hash, telefono, nombre_servicio, descripcion } = createTrabajadorDto;
+
+    const usuarioExistente = await this.usuarioRepository.findOne({ where: { email } });
+    if (usuarioExistente) {
+      this.logger.warn(`[AUDIT-REGISTRO-WORKER] Intento de registro con correo ya existente: ${email}`);
+      throw new ConflictException('El correo electrónico ya está en uso');
+    }
+
+    // Usamos una transacción para asegurar que si falla el perfil, no se guarde el usuario a medias
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const contrasenaHash = await bcrypt.hash(contrasena_hash, salt);
+
+      // 1. Crear la entidad Usuario
+      const nuevoUsuario = queryRunner.manager.create(Usuario, {
+        nombre,
+        email,
+        contrasena_hash: contrasenaHash,
+        telefono,
+        rol: { id_rol: 3 } // <-- ASUMIENDO QUE EL ROL TRABAJADOR ES EL 3
+      });
+
+      const usuarioGuardado = await queryRunner.manager.save(nuevoUsuario);
+
+      // 2. Crear la entidad Perfil Profesional vinculada al usuario
+      const nuevoPerfil = queryRunner.manager.create(PerfilProfesional, {
+        usuario: usuarioGuardado,
+        nombre_servicio,
+        descripcion,
+        datos_contacto: telefono // Reutilizamos el teléfono como contacto inicial
+      });
+
+      await queryRunner.manager.save(nuevoPerfil);
+
+      // Si todo sale bien, confirmamos la transacción
+      await queryRunner.commitTransaction();
+
+      this.logger.log(`[AUDIT-REGISTRO-WORKER] Creación exitosa. Trabajador ID: ${usuarioGuardado.id_usuario}`);
+      
+      const { contrasena_hash: _, ...usuarioSinContrasena } = usuarioGuardado;
+      return {
+        ...usuarioSinContrasena,
+        perfil_profesional: {
+          nombre_servicio,
+          descripcion
+        }
+      };
+
+    } catch (error) {
+      // Si algo falla, deshacemos los cambios en la BD
+      await queryRunner.rollbackTransaction();
+      this.logger.error(`[ERROR-PERSISTENCIA-WORKER] Fallo al crear trabajador: ${error.message}`, error.stack);
+      throw new InternalServerErrorException('Ocurrió un error al guardar la cuenta de negocio');
+    } finally {
+      await queryRunner.release();
     }
   }
 
