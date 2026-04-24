@@ -1,9 +1,10 @@
-import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards, Param, ParseIntPipe, Patch } from '@nestjs/common';
 import { UsuariosService } from '../service/usuarios.service';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
+import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 @Controller('usuarios')
@@ -48,6 +49,13 @@ async loginAdmin(@Body() loginUsuarioDto: LoginUsuarioDto) {
   getMyProfile(@Req() req: any) {
     const userId = req.user.userId;
     return this.usuariosService.findMyProfile(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  updateMyProfile(@Req() req: any, @Body() updateMyProfileDto: UpdateMyProfileDto) {
+    const userId = req.user.userId;
+    return this.usuariosService.updateMyProfile(userId, updateMyProfileDto);
   }
 
   @Get()
