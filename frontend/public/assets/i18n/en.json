@@ -385,6 +385,7 @@
       "validation": {
         "nameRequired": "Name is required",
         "breedRequired": "Breed is required",
+        "breedInvalid": "Selected breed is not valid",
         "sizeRequired": "Size is required",
         "genderRequired": "Gender is required",
         "ageRequired": "Age is required and must be a valid number",

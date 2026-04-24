@@ -25,7 +25,10 @@
 
         <div class="form-group">
           <label for="breed">{{ 'pets.create.form.breedLabel' | translate }}</label>
-          <input type="text" id="breed" [(ngModel)]="raza" name="raza" />
+          <select id="breed" [(ngModel)]="raza" name="raza" required>
+            <option value="">{{ 'pets.common.selectPlaceholder' | translate }}</option>
+            <option *ngFor="let razaItem of razasDisponibles" [value]="razaItem.value">{{ razaItem.label }}</option>
+          </select>
         </div>
 
         <div class="form-group">

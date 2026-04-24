@@ -384,6 +384,7 @@
       "validation": {
         "nameRequired": "Le nom est obligatoire",
         "breedRequired": "La race est obligatoire",
+        "breedInvalid": "La race selectionnee n'est pas valide",
         "sizeRequired": "La taille est obligatoire",
         "genderRequired": "Le genre est obligatoire",
         "ageRequired": "L'age est obligatoire et doit etre un nombre valide",

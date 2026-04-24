@@ -21,6 +21,20 @@ interface CreatePetRequest {
   styleUrls: ["./create-pet.scss"]
 })
 export class CreatePetComponent {
+  readonly razasDisponibles: { value: string; label: string }[] = [
+    { value: 'golden_retriever', label: 'Golden Retriever' },
+    { value: 'labrador', label: 'Labrador' },
+    { value: 'bulldog', label: 'Bulldog' },
+    { value: 'poodle', label: 'Poodle' },
+    { value: 'beagle', label: 'Beagle' },
+    { value: 'chihuahua', label: 'Chihuahua' },
+    { value: 'pastor_aleman', label: 'Pastor Aleman' },
+    { value: 'husky', label: 'Husky Siberiano' },
+    { value: 'shih_tzu', label: 'Shih Tzu' },
+    { value: 'dalmata', label: 'Dalmata' },
+    { value: 'otra', label: 'Otras' },
+  ];
+
   nombre = "";
   raza = ""
   tamano = "";
@@ -62,6 +76,12 @@ export class CreatePetComponent {
     }
     if(!raza) {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.breedRequired', 'error');
+      return;
+    }
+
+    const razasPermitidas = this.razasDisponibles.map((razaItem) => razaItem.value);
+    if (!razasPermitidas.includes(raza)) {
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.breedInvalid', 'error');
       return;
     }
     if(!tamano) {
