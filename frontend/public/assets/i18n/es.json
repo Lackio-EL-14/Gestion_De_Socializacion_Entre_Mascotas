@@ -532,5 +532,29 @@
         "loadFailed": "No se pudieron cargar los reportes pendientes."
       }
     }
+    , "answerReport": {
+      "back": "Volver a Gestión de Reportes",
+      "title": "Detalle del Reporte",
+      "subtitle": "Revisa la información completa del reporte",
+      "loading": "Cargando reporte...",
+      "reporterName": "Nombre del Reportante",
+      "reportedUser": "Usuario Reportado",
+      "reportType": "Tipo de Reporte",
+      "status": "Estado",
+      "description": "Descripción del Reporte",
+      "evidence": "Evidencia",
+      "actions": {
+        "penalize": "Penalizar",
+        "ban": "Banear",
+        "ignore": "Ignorar"
+      },
+      "errors": {
+        "notFound": "No se encontró el reporte",
+        "notFoundRequested": "No se encontró el reporte solicitado",
+        "noSession": "No hay sesión activa",
+        "loadFailed": "No se pudo cargar el reporte",
+        "processFailed": "Error al procesar el reporte"
+      }
+    }
   }
 }

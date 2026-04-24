@@ -532,5 +532,29 @@
         "loadFailed": "Could not load pending reports."
       }
     }
+    , "answerReport": {
+      "back": "Back to Report Management",
+      "title": "Report Details",
+      "subtitle": "Review the complete report information",
+      "loading": "Loading report...",
+      "reporterName": "Reporter Name",
+      "reportedUser": "Reported User",
+      "reportType": "Report Type",
+      "status": "Status",
+      "description": "Report Description",
+      "evidence": "Evidence",
+      "actions": {
+        "penalize": "Penalize",
+        "ban": "Ban",
+        "ignore": "Ignore"
+      },
+      "errors": {
+        "notFound": "Report not found",
+        "notFoundRequested": "The requested report was not found",
+        "noSession": "There is no active session",
+        "loadFailed": "Could not load the report",
+        "processFailed": "Error processing the report"
+      }
+    }
   }
 }

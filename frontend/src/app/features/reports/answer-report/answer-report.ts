@@ -45,7 +45,7 @@ export class AnswerReportComponent implements OnInit {
     }
 
     if (!this.reporte) {
-      this.error = 'No se encontró el reporte';
+      this.error = this.t('admin.answerReport.errors.notFound');
     }
   }
 
@@ -69,12 +69,12 @@ export class AnswerReportComponent implements OnInit {
     this.http.post(`${this.apiUrl}/${this.reporte.idReporte}/procesar`, body, { headers })
       .subscribe({
         next: () => {
-        this.procesando = false;
-        this.router.navigate(['/admin/reports']);
-      },
+          this.procesando = false;
+          this.router.navigate(['/admin/reports']);
+        },
         error: (err) => {
           console.error(err);
-          this.error = 'Error al procesar el reporte';
+          this.error = this.t('admin.answerReport.errors.processFailed');
           this.procesando = false;
           this.cdr.detectChanges();
         }
@@ -85,15 +85,11 @@ export class AnswerReportComponent implements OnInit {
     this.router.navigate(['/admin/reports']);
   }
 
-  private t(key: string): string {
-    return this.translate.instant(key);
-  }
-
   cargarReporteDesdePendientes(idReporte: number): void {
     const token = localStorage.getItem('access_token');
 
     if (!token) {
-      this.error = 'No hay sesión activa';
+      this.error = this.t('admin.answerReport.errors.noSession');
       return;
     }
 
@@ -109,7 +105,7 @@ export class AnswerReportComponent implements OnInit {
           this.reporte = reportes.find(r => r.idReporte === idReporte) || null;
 
           if (!this.reporte) {
-            this.error = 'No se encontró el reporte solicitado';
+            this.error = this.t('admin.answerReport.errors.notFoundRequested');
           }
 
           this.cargando = false;
@@ -117,10 +113,14 @@ export class AnswerReportComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al cargar reporte:', error);
-          this.error = 'No se pudo cargar el reporte';
+          this.error = this.t('admin.answerReport.errors.loadFailed');
           this.cargando = false;
           this.cdr.detectChanges();
         }
       });
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }
