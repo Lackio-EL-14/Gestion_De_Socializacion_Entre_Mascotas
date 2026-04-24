@@ -387,7 +387,8 @@
         "breedRequired": "Breed is required",
         "sizeRequired": "Size is required",
         "genderRequired": "Gender is required",
-        "ageRequired": "Age is required and must be a valid number"
+        "ageRequired": "Age is required and must be a valid number",
+        "ageOutOfRange": "Age must be an integer between 1 and 30"
       },
       "modal": {
         "successTitle": "Success",

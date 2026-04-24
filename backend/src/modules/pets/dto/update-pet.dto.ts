@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsOptional } from 'class-validator';
+import { IsString, IsInt, IsOptional, Min, Max } from 'class-validator';
 
 export class UpdatePetDto {
   @IsOptional()
@@ -14,7 +14,9 @@ export class UpdatePetDto {
   tamano?: string;
 
   @IsOptional()
-  @IsInt()
+  @IsInt({ message: 'La edad debe ser un numero entero' })
+  @Min(1, { message: 'La edad minima permitida es 1' })
+  @Max(30, { message: 'La edad maxima permitida es 30' })
   edad?: number;
 
   @IsOptional()

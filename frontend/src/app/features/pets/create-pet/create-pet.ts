@@ -72,8 +72,13 @@ export class CreatePetComponent {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.genderRequired', 'error');
       return;
     }
-    if(edad === null || isNaN(edad)) {
+    if(edad === null || Number.isNaN(edad)) {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.ageRequired', 'error');
+      return;
+    }
+
+    if (!Number.isInteger(edad) || edad < 1 || edad > 30) {
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.ageOutOfRange', 'error');
       return;
     }
 

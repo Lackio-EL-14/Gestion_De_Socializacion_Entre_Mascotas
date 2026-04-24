@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
 
 export class CreatePetDto {
   @IsNotEmpty()
@@ -14,7 +14,9 @@ export class CreatePetDto {
   tamano: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsInt({ message: 'La edad debe ser un numero entero' })
+  @Min(1, { message: 'La edad minima permitida es 1' })
+  @Max(30, { message: 'La edad maxima permitida es 30' })
   edad: number;
 
   @IsNotEmpty()

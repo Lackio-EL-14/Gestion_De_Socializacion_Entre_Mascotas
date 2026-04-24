@@ -387,7 +387,8 @@
         "breedRequired": "La raza es obligatoria",
         "sizeRequired": "El tamaño es obligatorio",
         "genderRequired": "El género es obligatorio",
-        "ageRequired": "La edad es obligatoria y debe ser un número válido"
+        "ageRequired": "La edad es obligatoria y debe ser un número válido",
+        "ageOutOfRange": "La edad debe ser un número entero entre 1 y 30"
       },
       "modal": {
         "successTitle": "Éxito",
