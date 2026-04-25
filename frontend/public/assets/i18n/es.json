@@ -204,12 +204,25 @@
       "loading": "Cargando perrito aleatorio...",
       "report": "Reportar"
     },
+    "selector": {
+      "label": "Selecciona tu mascota",
+      "placeholder": "Seleccionar mascota",
+      "help": "Selecciona una mascota para poder dar huesito o pasar al siguiente."
+    },
+    "matchModal": {
+      "title": "¡Nuevo Match!",
+      "message": "¡Felicidades! Tu mascota hizo match con {{name}}.",
+      "accept": "Continuar"
+    },
     "errors": {
       "userIdNotFound": "No se encontro tu id de usuario en la sesion. Inicia sesion nuevamente.",
       "noPetsAvailable": "No hay perritos disponibles para mostrar en este momento.",
       "requestTimeout": "La solicitud tardo demasiado. Verifica que el backend este encendido e intenta nuevamente.",
       "connectionFailed": "No se pudo conectar con el backend en http://localhost:3000.",
-      "loadFailed": "No se pudo cargar el perrito aleatorio. Intenta de nuevo."
+      "loadFailed": "No se pudo cargar el perrito aleatorio. Intenta de nuevo.",
+      "noSession": "No hay sesión activa.",
+      "myPetsLoadFailed": "No se pudieron cargar tus mascotas.",
+      "interactionFailed": "No se pudo registrar la interacción."
     },
     "filters": {
       "title": "Filtros de Búsqueda",

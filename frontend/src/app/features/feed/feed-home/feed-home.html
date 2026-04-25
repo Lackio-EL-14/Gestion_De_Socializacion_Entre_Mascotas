@@ -29,6 +29,36 @@
   </a>
 </header>
 
+  <div class="pet-selector-card">
+    <label for="mascotaOrigen" class="pet-selector-label">
+      {{ 'feed.selector.label' | translate }}
+    </label>
+
+    <select
+      id="mascotaOrigen"
+      name="mascotaOrigen"
+      class="pet-selector"
+      [(ngModel)]="mascotaOrigenId"
+      [disabled]="cargandoMisMascotas || misMascotas.length === 0"
+    >
+      <option [ngValue]="null">
+        {{ 'feed.selector.placeholder' | translate }}
+      </option>
+
+      <option *ngFor="let mascota of misMascotas" [ngValue]="mascota.id_mascota">
+        {{ mascota.nombre }}
+      </option>
+    </select>
+
+    <small *ngIf="!mascotaOrigenId" class="pet-selector-help">
+      {{ 'feed.selector.help' | translate }}
+    </small>
+
+    <small *ngIf="errorMisMascotas" class="pet-selector-help error">
+      {{ errorMisMascotas }}
+    </small>
+  </div>
+
       <!-- Área centrada de la tarjeta -->
       <div class="match-stage">
 
@@ -137,6 +167,7 @@
                 id="btnHuesito"
                 [attr.aria-label]="'feed.petCard.boneButtonLabel' | translate"
                 [attr.data-liked]="isHuesitoLiked"
+                [disabled]="isLoading || !mascotaOrigenId || !pet"
                 (click)="onHuesitoClick()"
               >
                 <span class="btn-huesito__reaction" *ngIf="showHuesitoReaction" aria-hidden="true">
@@ -159,7 +190,7 @@
                 class="btn-next"
                 id="btnNext"
                 [attr.aria-label]="'feed.petCard.nextButtonLabel' | translate"
-                [disabled]="isLoading || !currentUserId"
+                [disabled]="isLoading || !currentUserId || !mascotaOrigenId || !pet"
                 (click)="loadNextPet()"
               >
                 <span>{{ 'feed.petCard.next' | translate }}</span>
@@ -190,6 +221,22 @@
 
       </div>
     </main>
+  </div>
+
+  <div class="match-modal-overlay" *ngIf="matchModalVisible">
+    <div class="match-modal-card">
+      <div class="match-modal-icon">🐾</div>
+
+      <h2>{{ 'feed.matchModal.title' | translate }}</h2>
+
+      <p>
+        {{ 'feed.matchModal.message' | translate:{ name: matchNombreMascota } }}
+      </p>
+
+      <button type="button" class="match-modal-btn" (click)="cerrarMatchModal()">
+        {{ 'feed.matchModal.accept' | translate }}
+      </button>
+    </div>
   </div>
 
 </body>

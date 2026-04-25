@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,6 +28,23 @@ interface FeedFilters {
   genero?: string;
 }
 
+interface MascotaOrigen {
+  id_mascota: number;
+  nombre: string;
+  raza: string;
+  tamano: string;
+  edad: number;
+  genero: string;
+  estado_salud: string;
+  vacuna_imagen_url: string | null;
+  fecha_registro: string;
+  id_usuario: number;
+}
+
+interface InteractionResponse {
+  match: boolean;
+}
+
 @Component({
   selector: 'app-feed-home',
   standalone: false,
@@ -52,6 +69,14 @@ export class FeedHome implements OnInit, OnDestroy {
   showHuesitoReaction = false;
   errorMessage = '';
 
+  misMascotas: MascotaOrigen[] = [];
+  mascotaOrigenId: number | null = null;
+  cargandoMisMascotas = false;
+  errorMisMascotas = '';
+
+  matchModalVisible = false;
+  matchNombreMascota = '';
+
   constructor(
     private readonly http: HttpClient,
     private readonly cdr: ChangeDetectorRef,
@@ -68,6 +93,8 @@ export class FeedHome implements OnInit, OnDestroy {
       this.cdr.detectChanges();
       return;
     }
+
+    this.obtenerMisMascotas();
 
     this.route.queryParamMap.subscribe((params) => {
       this.activeFilters = this.parseFilters(params);
@@ -89,7 +116,7 @@ export class FeedHome implements OnInit, OnDestroy {
     return this.translate.instant(key);
   }
 
-  loadNextPet(): void {
+  /* loadNextPet(): void { Antiguo metodo sin match
     if (!this.currentUserId || this.isLoading) {
       return;
     }
@@ -105,9 +132,17 @@ export class FeedHome implements OnInit, OnDestroy {
       this.cdr.detectChanges();
       void this.loadPet();
     }, 250);
+  } */
+
+  loadNextPet(): void {
+    if (!this.currentUserId || this.isLoading || !this.mascotaOrigenId || !this.pet) {
+      return;
+    }
+
+    this.registrarInteraccion('REJECT');
   }
 
-  onHuesitoClick(): void {
+  /*   onHuesitoClick(): void { Antiguo metodo sin match
     this.isHuesitoLiked = true;
     this.showHuesitoReaction = true;
     this.cdr.detectChanges();
@@ -121,6 +156,14 @@ export class FeedHome implements OnInit, OnDestroy {
       this.isHuesitoLiked = false;
       this.cdr.detectChanges();
     }, 850);
+  } */
+
+  onHuesitoClick(): void {
+    if (!this.mascotaOrigenId || !this.pet || this.isLoading) {
+      return;
+    }
+
+    this.registrarInteraccion('LIKE');
   }
 
   get photoUrl(): string {
@@ -369,4 +412,114 @@ export class FeedHome implements OnInit, OnDestroy {
     const parsedId = Number(rawId);
     return Number.isInteger(parsedId) && parsedId > 0 ? parsedId : null;
   }
+
+  obtenerMisMascotas(): void {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      this.errorMisMascotas = this.t('feed.errors.noSession');
+      return;
+    }
+
+    this.cargandoMisMascotas = true;
+    this.errorMisMascotas = '';
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.get<MascotaOrigen[] | MascotaOrigen>(`${this.apiBaseUrl}/pets/my-pets`, { headers })
+      .subscribe({
+        next: (respuesta) => {
+          this.misMascotas = Array.isArray(respuesta) ? respuesta : [respuesta];
+
+          if (this.misMascotas.length === 1) {
+            this.mascotaOrigenId = this.misMascotas[0].id_mascota;
+          }
+
+          this.cargandoMisMascotas = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Error al cargar mis mascotas:', error);
+          this.errorMisMascotas = this.t('feed.errors.myPetsLoadFailed');
+          this.cargandoMisMascotas = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  private registrarInteraccion(tipoAccion: 'LIKE' | 'REJECT'): void {
+    if (!this.mascotaOrigenId || !this.pet) {
+      return;
+    }
+
+    const body = {
+      id_mascota_origen: this.mascotaOrigenId,
+      id_mascota_destino: this.pet.id_mascota,
+      tipo_accion: tipoAccion
+    };
+
+    const nombreMascotaDestino = this.pet.nombre;
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.http.post<InteractionResponse>(`${this.apiBaseUrl}/interactions`, body)
+      .subscribe({
+        next: (respuesta) => {
+          if (tipoAccion === 'LIKE') {
+            this.dispararAnimacionHuesito();
+
+            if (respuesta.match === true) {
+              this.matchNombreMascota = nombreMascotaDestino;
+              this.matchModalVisible = true;
+              this.isLoading = false;
+              this.cdr.detectChanges();
+              return;
+            }
+          }
+
+          this.avanzarSiguienteMascota();
+        },
+        error: (error) => {
+          console.error('Error al registrar interacción:', error);
+          this.errorMessage = this.t('feed.errors.interactionFailed');
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  private dispararAnimacionHuesito(): void {
+    this.isHuesitoLiked = true;
+    this.showHuesitoReaction = true;
+
+    if (this.huesitoReactionTimer) {
+      clearTimeout(this.huesitoReactionTimer);
+    }
+
+    this.huesitoReactionTimer = setTimeout(() => {
+      this.showHuesitoReaction = false;
+      this.isHuesitoLiked = false;
+      this.cdr.detectChanges();
+    }, 850);
+  }
+
+  private avanzarSiguienteMascota(): void {
+    this.isLeaving = true;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.isLeaving = false;
+      this.pet = null;
+      this.cdr.detectChanges();
+      void this.loadPet();
+    }, 250);
+  }
+
+  cerrarMatchModal(): void {
+    this.matchModalVisible = false;
+    this.matchNombreMascota = '';
+    this.avanzarSiguienteMascota();
+  }
 }
+

@@ -204,12 +204,25 @@
       "loading": "Loading random dog...",
       "report": "Report"
     },
+    "selector": {
+      "label": "Select your pet",
+      "placeholder": "Select a pet",
+      "help": "Select a pet to give a bone or move to the next one."
+    },
+    "matchModal": {
+      "title": "New Match!",
+      "message": "Congratulations! Your pet matched with {{name}}.",
+      "accept": "Continue"
+    },
     "errors": {
       "userIdNotFound": "Your user ID was not found in the session. Log in again.",
       "noPetsAvailable": "There are no dogs available to show at the moment.",
       "requestTimeout": "The request took too long. Check that the backend is running and try again.",
       "connectionFailed": "Could not connect to the backend at http://localhost:3000.",
-      "loadFailed": "Could not load random dog. Try again."
+      "loadFailed": "Could not load random dog. Try again.",
+      "noSession": "There is no active session.",
+      "myPetsLoadFailed": "Could not load your pets.",
+      "interactionFailed": "Could not register the interaction."
     },
     "filters": {
       "title": "Search Filters",
