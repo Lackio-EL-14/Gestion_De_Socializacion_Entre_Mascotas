@@ -20,13 +20,23 @@
       "subtitle": "Comparte momentos especiales de tu mascota",
       "imageLabel": "Subir Imagen",
       "imagePlaceholder": "Click para subir imagen",
-      "imageHint": "PNG, JPG hasta 10MB",
+      "imageHint": "PNG, JPG o WEBP hasta 2MB",
       "previewAlt": "Vista previa de la imagen",
       "removeImage": "Quitar imagen",
       "descriptionLabel": "Descripción Breve",
       "descriptionPlaceholder": "¿Qué está pasando? Comparte algo sobre tu mascota...",
       "submit": "Publicar",
-      "discard": "Descartar"
+      "submitLoading": "Publicando...",
+      "discard": "Descartar",
+      "messages": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "descriptionRequired": "La descripción es obligatoria para publicar.",
+        "invalidImageType": "Formato de imagen no válido. Usa PNG, JPG o WEBP.",
+        "imageTooLarge": "La imagen supera el máximo permitido de 2MB.",
+        "uploadFailed": "No se pudo subir la imagen. Intenta de nuevo.",
+        "createFailed": "No se pudo crear la publicación. Intenta de nuevo.",
+        "createSuccess": "Publicación creada correctamente."
+      }
     }
   },
   "home": {

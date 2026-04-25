@@ -20,13 +20,23 @@
       "subtitle": "Share special moments of your pet",
       "imageLabel": "Upload image",
       "imagePlaceholder": "Click to upload an image",
-      "imageHint": "PNG, JPG up to 10 MB",
+      "imageHint": "PNG, JPG or WEBP up to 2 MB",
       "previewAlt": "Image preview",
       "removeImage": "Remove image",
       "descriptionLabel": "Short description",
       "descriptionPlaceholder": "What's happening? Share something about your pet...",
       "submit": "Publish",
-      "discard": "Discard"
+      "submitLoading": "Publishing...",
+      "discard": "Discard",
+      "messages": {
+        "noSession": "There is no active session. Please log in again.",
+        "descriptionRequired": "Description is required to publish.",
+        "invalidImageType": "Invalid image format. Use PNG, JPG, or WEBP.",
+        "imageTooLarge": "The image exceeds the 2 MB limit.",
+        "uploadFailed": "Image upload failed. Please try again.",
+        "createFailed": "Could not create publication. Please try again.",
+        "createSuccess": "Publication created successfully."
+      }
     }
   },
   "home": {

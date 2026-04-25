@@ -20,13 +20,23 @@
       "subtitle": "Partagez des moments spéciaux de votre animal",
       "imageLabel": "Ajouter une image",
       "imagePlaceholder": "Cliquez pour ajouter une image",
-      "imageHint": "PNG, JPG jusqu'à 10 Mo",
+      "imageHint": "PNG, JPG ou WEBP jusqu'à 2 Mo",
       "previewAlt": "Aperçu de l'image",
       "removeImage": "Supprimer l'image",
       "descriptionLabel": "Brève description",
       "descriptionPlaceholder": "Que se passe-t-il ? Partagez quelque chose sur votre animal...",
       "submit": "Publier",
-      "discard": "Annuler"
+      "submitLoading": "Publication...",
+      "discard": "Annuler",
+      "messages": {
+        "noSession": "Aucune session active. Connectez-vous à nouveau.",
+        "descriptionRequired": "La description est obligatoire pour publier.",
+        "invalidImageType": "Format d'image invalide. Utilisez PNG, JPG ou WEBP.",
+        "imageTooLarge": "L'image dépasse la limite de 2 Mo.",
+        "uploadFailed": "Impossible de téléverser l'image. Réessayez.",
+        "createFailed": "Impossible de créer la publication. Réessayez.",
+        "createSuccess": "Publication créée avec succès."
+      }
     }
   },
   "home": {
