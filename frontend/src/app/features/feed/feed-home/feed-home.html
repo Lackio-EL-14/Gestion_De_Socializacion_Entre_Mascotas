@@ -39,6 +39,7 @@
       name="mascotaOrigen"
       class="pet-selector"
       [(ngModel)]="mascotaOrigenId"
+      (ngModelChange)="onMascotaOrigenChange()"
       [disabled]="cargandoMisMascotas || misMascotas.length === 0"
     >
       <option [ngValue]="null">
