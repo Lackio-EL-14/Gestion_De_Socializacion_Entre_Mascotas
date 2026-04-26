@@ -73,6 +73,7 @@ export class FeedHome implements OnInit, OnDestroy {
   mascotaOrigenId: number | null = null;
   cargandoMisMascotas = false;
   errorMisMascotas = '';
+  listaPerros: RandomPetResponse[] = [];
 
   matchModalVisible = false;
   matchNombreMascota = '';
@@ -116,24 +117,6 @@ export class FeedHome implements OnInit, OnDestroy {
     return this.translate.instant(key);
   }
 
-  /* loadNextPet(): void { Antiguo metodo sin match
-    if (!this.currentUserId || this.isLoading) {
-      return;
-    }
-
-    this.isLeaving = true;
-    this.isLoading = true;
-    this.errorMessage = '';
-    this.cdr.detectChanges();
-
-    setTimeout(() => {
-      this.isLeaving = false;
-      this.pet = null;
-      this.cdr.detectChanges();
-      void this.loadPet();
-    }, 250);
-  } */
-
   loadNextPet(): void {
     if (!this.currentUserId || this.isLoading || !this.mascotaOrigenId || !this.pet) {
       return;
@@ -141,22 +124,6 @@ export class FeedHome implements OnInit, OnDestroy {
 
     this.registrarInteraccion('REJECT');
   }
-
-  /*   onHuesitoClick(): void { Antiguo metodo sin match
-    this.isHuesitoLiked = true;
-    this.showHuesitoReaction = true;
-    this.cdr.detectChanges();
-
-    if (this.huesitoReactionTimer) {
-      clearTimeout(this.huesitoReactionTimer);
-    }
-
-    this.huesitoReactionTimer = setTimeout(() => {
-      this.showHuesitoReaction = false;
-      this.isHuesitoLiked = false;
-      this.cdr.detectChanges();
-    }, 850);
-  } */
 
   onHuesitoClick(): void {
     if (!this.mascotaOrigenId || !this.pet || this.isLoading) {
@@ -201,7 +168,10 @@ export class FeedHome implements OnInit, OnDestroy {
   }
 
   private async loadPet(): Promise<void> {
-    if (!this.currentUserId) {
+    if (!this.mascotaOrigenId) {
+      this.pet = null;
+      this.errorMessage = this.t('feed.selector.help');
+      this.cdr.detectChanges();
       return;
     }
 
@@ -212,17 +182,21 @@ export class FeedHome implements OnInit, OnDestroy {
     this.cdr.detectChanges();
 
     try {
-      const pet = this.hasActiveFilters()
-        ? await this.getFilteredRandomPet(this.currentUserId)
-        : await this.requestRandomPet(this.currentUserId);
+      if (this.listaPerros.length === 0) {
+        const perros = await this.requestFeedPets(this.mascotaOrigenId);
 
-      if (requestId !== this.loadRequestId) {
-        return;
+        if (requestId !== this.loadRequestId) {
+          return;
+        }
+
+        this.listaPerros = this.hasActiveFilters()
+          ? perros.filter(perro => this.matchesFilters(perro))
+          : perros;
       }
 
-      this.pet = pet;
+      this.pet = this.listaPerros.shift() || null;
 
-      if (!pet) {
+      if (!this.pet) {
         this.errorMessage = this.hasActiveFilters()
           ? this.noFilteredPetsMessage
           : this.t('feed.errors.noPetsAvailable');
@@ -244,28 +218,10 @@ export class FeedHome implements OnInit, OnDestroy {
     }
   }
 
-  private async getFilteredRandomPet(
-    userId: number,
-  ): Promise<RandomPetResponse | null> {
-    for (let i = 0; i < this.maxFilterAttempts; i += 1) {
-      const candidate = await this.requestRandomPet(userId);
-
-      if (!candidate) {
-        return null;
-      }
-
-      if (this.matchesFilters(candidate)) {
-        return candidate;
-      }
-    }
-
-    return null;
-  }
-
-  private async requestRandomPet(userId: number): Promise<RandomPetResponse | null> {
+  private async requestFeedPets(idMascotaOrigen: number): Promise<RandomPetResponse[]> {
     return firstValueFrom(
       this.http
-        .get<RandomPetResponse | null>(`${this.apiBaseUrl}/pets/random/${userId}`)
+        .get<RandomPetResponse[]>(`${this.apiBaseUrl}/pets/feed/${idMascotaOrigen}`)
         .pipe(timeout(10000)),
     );
   }
@@ -433,6 +389,7 @@ export class FeedHome implements OnInit, OnDestroy {
 
           if (this.misMascotas.length === 1) {
             this.mascotaOrigenId = this.misMascotas[0].id_mascota;
+            void this.loadPet();
           }
 
           this.cargandoMisMascotas = false;
@@ -520,6 +477,18 @@ export class FeedHome implements OnInit, OnDestroy {
     this.matchModalVisible = false;
     this.matchNombreMascota = '';
     this.avanzarSiguienteMascota();
+  }
+
+  onMascotaOrigenChange(): void {
+    this.listaPerros = [];
+    this.pet = null;
+    this.errorMessage = '';
+
+    if (!this.mascotaOrigenId) {
+      return;
+    }
+
+    void this.loadPet();
   }
 }
 
