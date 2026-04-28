@@ -24,7 +24,7 @@ interface RandomPetResponse {
   styleUrl: './feed-home.scss',
 })
 export class FeedHome implements OnInit {
-  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
+  private readonly apiBaseUrl = 'http://localhost:3000';
 
   currentUserId: number | null = null;
   pet: RandomPetResponse | null = null;

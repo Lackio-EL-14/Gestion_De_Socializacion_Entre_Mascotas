@@ -1,0 +1,80 @@
+<div class="layout">
+  <app-sidebar-admin></app-sidebar-admin>
+
+  <main class="main-content">
+
+    <div class="top-link">
+      <button class="back-btn" (click)="volver()">
+        ← {{ 'admin.answerReport.back' | translate }}
+      </button>
+    </div>
+
+    <header class="page-header">
+      <h1>{{ 'admin.answerReport.title' | translate }}</h1>
+      <p>{{ 'admin.answerReport.subtitle' | translate }}</p>
+    </header>
+
+    <div *ngIf="cargando" class="state">
+      {{ 'admin.answerReport.loading' | translate }}
+    </div>
+
+    <div *ngIf="error" class="state error">
+      {{ error }}
+    </div>
+
+    <section *ngIf="reporte" class="report-card">
+
+      <div class="grid">
+
+        <div>
+          <label>{{ 'admin.answerReport.reporterName' | translate }}</label>
+          <p>{{ reporte.usuarioReportante?.nombre }}</p>
+        </div>
+
+        <div>
+          <label>{{ 'admin.answerReport.reportedUser' | translate }}</label>
+          <p>{{ reporte.usuarioReportado?.nombre }}</p>
+        </div>
+
+        <div>
+          <label>{{ 'admin.answerReport.reportType' | translate }}</label>
+          <p>{{ reporte.motivo }}</p>
+        </div>
+
+        <div>
+          <label>{{ 'admin.answerReport.status' | translate }}</label>
+          <p>{{ reporte.estado }}</p>
+        </div>
+
+      </div>
+
+      <div class="descripcion">
+        <label>{{ 'admin.answerReport.description' | translate }}</label>
+        <p>{{ reporte.comentario }}</p>
+      </div>
+
+      <div class="evidencia">
+        <label>{{ 'admin.answerReport.evidence' | translate }}</label>
+        <img [src]="placeholderImg" />
+      </div>
+
+      <div class="acciones">
+
+        <button class="btn penalizar" (click)="procesar('PENALIZAR')" [disabled]="procesando">
+          {{ 'admin.answerReport.actions.penalize' | translate }}
+        </button>
+
+        <button class="btn banear" (click)="procesar('BANEO_DIRECTO')" [disabled]="procesando">
+          {{ 'admin.answerReport.actions.ban' | translate }}
+        </button>
+
+        <button class="btn ignorar" (click)="procesar('IGNORAR')" [disabled]="procesando">
+          {{ 'admin.answerReport.actions.ignore' | translate }}
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>

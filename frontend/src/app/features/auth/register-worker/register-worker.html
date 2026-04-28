@@ -1,0 +1,86 @@
+<div class="auth-layout">
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <div class="auth-header__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <h1 class="auth-header__title">{{ 'auth.registerWorker.title' | translate }}</h1>
+      <p class="auth-header__subtitle">{{ 'auth.registerWorker.subtitle' | translate }}</p>
+    </div>
+
+    <form (ngSubmit)="registro()" class="auth-form">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>{{ 'auth.registerWorker.form.nameLabel' | translate }}</label>
+          <input type="text" [(ngModel)]="nombre" name="nombre" [placeholder]="'auth.registerWorker.form.namePlaceholder' | translate">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'auth.registerWorker.form.emailLabel' | translate }}</label>
+          <input type="email" [(ngModel)]="email" name="email" [placeholder]="'auth.registerWorker.form.emailPlaceholder' | translate">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>{{ 'auth.registerWorker.form.passwordLabel' | translate }}</label>
+          <input type="password" [(ngModel)]="contrasena" name="contrasena" placeholder="••••••••">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'auth.registerWorker.form.confirmPasswordLabel' | translate }}</label>
+          <input type="password" [(ngModel)]="confirmarContrasena" name="confirmarContrasena" placeholder="••••••••">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.registerWorker.form.phoneLabel' | translate }}</label>
+        <input type="tel" [(ngModel)]="telefono" name="telefono" [placeholder]="'auth.registerWorker.form.phonePlaceholder' | translate">
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.registerWorker.form.businessNameLabel' | translate }}</label>
+        <input type="text" [(ngModel)]="businessName" name="businessName" [placeholder]="'auth.registerWorker.form.businessNamePlaceholder' | translate">
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.registerWorker.form.businessDescLabel' | translate }}</label>
+        <textarea [(ngModel)]="businessDescription" name="businessDescription" rows="3" [placeholder]="'auth.registerWorker.form.businessDescPlaceholder' | translate"></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="enviando">
+        {{ enviando ? ('auth.registerWorker.form.submitting' | translate) : ('auth.registerWorker.form.submit' | translate) }}
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+      <p>
+        {{ 'auth.registerWorker.footer.hasAccount' | translate }}
+        <a routerLink="/login">{{ 'auth.registerWorker.footer.loginLink' | translate }}</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="modalVisible">
+  <div class="modal-content" [ngClass]="modalTipo">
+    <div class="modal-header">
+      <h3>{{ modalTitulo }}</h3>
+    </div>
+    <div class="modal-body">
+      <p>{{ modalMensaje }}</p>
+    </div>
+    <div class="modal-footer">
+      <button (click)="cerrarModal()" class="btn-modal">
+        {{ 'auth.common.accept' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

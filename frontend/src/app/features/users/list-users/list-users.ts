@@ -54,7 +54,14 @@ export class ListUsersComponent implements OnInit {
 
     this.http.get<Usuario[]>('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios').subscribe({
       next: (respuesta) => {
-        this.usuarios = respuesta.filter(usuario => usuario.rol?.nombre_rol === 'Usuario');
+        const idUsuarioLogeado = Number(localStorage.getItem('id_usuario') || 0);
+
+        this.usuarios = respuesta.filter(
+          usuario =>
+            usuario.rol?.nombre_rol === 'Usuario' &&
+            usuario.id_usuario !== idUsuarioLogeado
+        );
+
         this.usuariosFiltrados = [...this.usuarios];
         this.cargando = false;
         this.cdr.detectChanges();

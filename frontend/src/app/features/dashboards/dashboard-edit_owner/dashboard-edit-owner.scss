@@ -75,7 +75,8 @@ button { cursor: pointer; font-family: $font-family; }
 // ============================================================
 // BASE
 // ============================================================
-body {
+:host {
+  display: block;
   font-family: $font-family;
   background: $color-main-bg;
   min-height: 100vh;
@@ -293,6 +294,20 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+
+.form-feedback {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.form-feedback--success {
+  color: #047857;
+}
+
+.form-feedback--error {
+  color: #b91c1c;
 }
 
 // Sección de formulario

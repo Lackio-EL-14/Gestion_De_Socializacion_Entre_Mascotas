@@ -91,7 +91,7 @@ export class Login {
 
     this.enviando = true;
 
-    this.http.post<LoginUsuarioResponse>('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/login', body).subscribe({
+    this.http.post<LoginUsuarioResponse>('http://localhost:3000/usuarios/login', body).subscribe({
       next: (respuesta) => {
         console.log('Login exitoso:', respuesta);
 
@@ -107,7 +107,11 @@ export class Login {
 
         if (idRol === 2) {
           this.router.navigate(['/dashboard-admin']);
-        } else {
+        }
+        else if(idRol === 3) {
+          this.router.navigate(['/dashboard-worker']);
+        }
+        else {
           this.router.navigate(['/dashboard-owner']);
         }
       },

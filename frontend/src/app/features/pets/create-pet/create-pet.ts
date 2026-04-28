@@ -21,6 +21,20 @@ interface CreatePetRequest {
   styleUrls: ["./create-pet.scss"]
 })
 export class CreatePetComponent {
+  readonly razasDisponibles: { value: string; label: string }[] = [
+    { value: 'golden_retriever', label: 'Golden Retriever' },
+    { value: 'labrador', label: 'Labrador' },
+    { value: 'bulldog', label: 'Bulldog' },
+    { value: 'poodle', label: 'Poodle' },
+    { value: 'beagle', label: 'Beagle' },
+    { value: 'chihuahua', label: 'Chihuahua' },
+    { value: 'pastor_aleman', label: 'Pastor Aleman' },
+    { value: 'husky', label: 'Husky Siberiano' },
+    { value: 'shih_tzu', label: 'Shih Tzu' },
+    { value: 'dalmata', label: 'Dalmata' },
+    { value: 'otra', label: 'Otras' },
+  ];
+
   nombre = "";
   raza = ""
   tamano = "";
@@ -64,6 +78,12 @@ export class CreatePetComponent {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.breedRequired', 'error');
       return;
     }
+
+    const razasPermitidas = this.razasDisponibles.map((razaItem) => razaItem.value);
+    if (!razasPermitidas.includes(raza)) {
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.breedInvalid', 'error');
+      return;
+    }
     if(!tamano) {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.sizeRequired', 'error');
       return;
@@ -72,8 +92,13 @@ export class CreatePetComponent {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.genderRequired', 'error');
       return;
     }
-    if(edad === null || isNaN(edad)) {
+    if(edad === null || Number.isNaN(edad)) {
       this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.ageRequired', 'error');
+      return;
+    }
+
+    if (!Number.isInteger(edad) || edad < 1 || edad > 30) {
+      this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.ageOutOfRange', 'error');
       return;
     }
 
@@ -91,7 +116,7 @@ export class CreatePetComponent {
 
     this.enviando = true;
 
-    this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/pets', body).subscribe({
+    this.http.post('http://localhost:3000/pets', body).subscribe({
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;

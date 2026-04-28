@@ -25,7 +25,7 @@ export class Home {
   }
 
   irARegistroTrabajador(): void {
-    this.router.navigate(['/register-trabajador']);
+    this.router.navigate(['/register-worker']);
   }
 
   onLanguageChange(language: string): void {

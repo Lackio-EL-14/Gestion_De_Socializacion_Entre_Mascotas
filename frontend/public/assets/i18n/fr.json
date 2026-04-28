@@ -1,4 +1,49 @@
 {
+  "publications": {
+    "see": {
+      "title": "Publications",
+      "subtitle": "Flux communautaire et professionnels du secteur",
+      "avatarAlt": "Avatar de l'auteur de la publication",
+      "imageAlt": "Image de la publication",
+      "likeLabel": "J'aime",
+      "commentsLabel": "Commentaires",
+      "empty": {
+        "line1": "Il n'y a encore aucune publication.",
+        "line2": "Soyez le premier à partager !"
+      },
+      "loading": "Chargement des publications...",
+      "createButtonLabel": "Créer une publication",
+      "errors": {
+        "noSession": "Aucune session active. Connectez-vous à nouveau.",
+        "loadFailed": "Impossible de charger les publications.",
+        "empty": "Il n'y a pas encore de publications approuvées à afficher."
+      }
+    },
+    "create": {
+      "backLink": "Retour aux publications",
+      "title": "Créer une publication",
+      "subtitle": "Partagez des moments spéciaux de votre animal",
+      "imageLabel": "Ajouter une image",
+      "imagePlaceholder": "Cliquez pour ajouter une image",
+      "imageHint": "PNG, JPG ou WEBP jusqu'à 2 Mo",
+      "previewAlt": "Aperçu de l'image",
+      "removeImage": "Supprimer l'image",
+      "descriptionLabel": "Brève description",
+      "descriptionPlaceholder": "Que se passe-t-il ? Partagez quelque chose sur votre animal...",
+      "submit": "Publier",
+      "submitLoading": "Publication...",
+      "discard": "Annuler",
+      "messages": {
+        "noSession": "Aucune session active. Connectez-vous à nouveau.",
+        "descriptionRequired": "La description est obligatoire pour publier.",
+        "invalidImageType": "Format d'image invalide. Utilisez PNG, JPG ou WEBP.",
+        "imageTooLarge": "L'image dépasse la limite de 2 Mo.",
+        "uploadFailed": "Impossible de téléverser l'image. Réessayez.",
+        "createFailed": "Impossible de créer la publication. Réessayez.",
+        "createSuccess": "Publication créée avec succès."
+      }
+    }
+  },
   "home": {
     "login": "Se connecter",
     "heroTitle": "Bienvenue sur DogChat",
@@ -21,7 +66,7 @@
       "validation": {
         "invalidEmail": "Le format de l'email est invalide",
         "passwordRequired": "Le mot de passe est obligatoire",
-        "passwordMinLength": "Le mot de passe doit contenir au moins 6 caracteres",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 8 caracteres",
         "passwordsDoNotMatch": "Les mots de passe ne correspondent pas"
       }
     },
@@ -53,15 +98,23 @@
         "phoneLabel": "Telephone",
         "phonePlaceholder": "+34 612 345 678",
         "passwordLabel": "Mot de passe",
+        "passwordHint": "Minimum 8 caracteres, majuscule, minuscule, chiffre et caractere special (@$!%*?&)",
         "confirmPasswordLabel": "Confirmer le mot de passe",
         "submitting": "Creation du compte...",
         "submit": "Creer un compte"
       },
       "validation": {
         "nameRequired": "Le nom est obligatoire",
+        "nameMinLength": "Le nom doit contenir au moins 2 caracteres",
+        "nameMaxLength": "Le nom ne peut pas depasser 50 caracteres",
+        "nameInvalid": "Le nom ne peut contenir que des lettres et des espaces",
         "emailRequired": "L'email est obligatoire",
         "phoneRequired": "Le telephone est obligatoire",
+        "phoneMinLength": "Le telephone doit contenir au moins 7 chiffres",
         "phoneTooLong": "Le numero de telephone est trop long",
+        "phoneInvalid": "Le telephone ne peut contenir que des chiffres, des espaces et des caracteres valides (+, -, parentheses)",
+        "passwordWeak": "Le mot de passe doit contenir des majuscules, des minuscules, des chiffres et des caracteres speciaux (@$!%*?&)",
+        "passwordMaxLength": "Le mot de passe ne peut pas depasser 100 caracteres",
         "confirmPasswordRequired": "Vous devez confirmer le mot de passe"
       },
       "modal": {
@@ -72,6 +125,30 @@
       },
       "footer": {
         "hasAccount": "Vous avez deja un compte ?",
+        "loginLink": "Se connecter"
+      }
+    },
+    "registerWorker": {
+      "title": "DogChat Business",
+      "subtitle": "Créez votre compte professionnel",
+      "form": {
+        "nameLabel": "Nom",
+        "namePlaceholder": "Jean",
+        "emailLabel": "Email",
+        "emailPlaceholder": "entreprise@example.com",
+        "passwordLabel": "Mot de passe",
+        "confirmPasswordLabel": "Confirmer le mot de passe",
+        "phoneLabel": "Téléphone",
+        "phonePlaceholder": "+34 612 345 678",
+        "businessNameLabel": "Nom de l'entreprise",
+        "businessNamePlaceholder": "Mon Toilettage Canin",
+        "businessDescLabel": "Brève description de l'entreprise",
+        "businessDescPlaceholder": "Décrivez votre entreprise et les services que vous proposez...",
+        "submitting": "Création du compte...",
+        "submit": "Créer un compte"
+      },
+      "footer": {
+        "hasAccount": "Vous avez déjà un compte ?",
         "loginLink": "Se connecter"
       }
     },
@@ -148,6 +225,28 @@
       "requestTimeout": "La demande a pris trop de temps. Verifiez que le serveur est en cours d'execution et reessayez.",
       "connectionFailed": "Impossible de se connecter au backend a http://localhost:3000.",
       "loadFailed": "Impossible de charger le chien aleatoire. Reessayez."
+    },
+    "filters": {
+      "title": "Filtres de recherche",
+      "subtitle": "Personnalisez votre recherche pour trouver le match parfait",
+      "breed": "Race",
+      "age": "Age",
+      "ageMin": "Minimum",
+      "ageMax": "Maximum",
+      "size": "Taille",
+      "small": "Petit",
+      "medium": "Moyen",
+      "large": "Grand",
+      "gender": "Genre",
+      "male": "Male",
+      "female": "Femelle",
+      "healthStatus": "Etat de sante",
+      "healthy": "Sain",
+      "inTreatment": "En traitement",
+      "sick": "Malade",
+      "apply": "Appliquer les filtres",
+      "clear": "Effacer les filtres",
+      "cancel": "Annuler"
     }
   },
   "sidebar": {
@@ -163,7 +262,8 @@
     "logout": "Deconnexion",
     "manageUsers": "Gestion des Utilisateurs",
     "manageReports": "Gestion des Rapports",
-    "manageContent": "Gestion du Contenu"
+    "manageContent": "Gestion du Contenu",
+    "searchUsers": "Rechercher des utilisateurs"
   },
   "dashboard": {
     "admin": {
@@ -191,6 +291,31 @@
         "chatsDesc": "Discutez avec vos correspondances",
         "myPets": "Mes animaux de compagnie",
         "myPetsDesc": "Gerez vos chiens"
+      }
+    },
+    "worker": {
+      "welcome": "Bienvenue sur DogChat Business",
+      "subtitle": "Gérez votre présence sur la plateforme",
+      "greeting": "Bonjour, {{name}} !",
+      "banner": "Connectez-vous avec les propriétaires d'animaux et promouvez vos services dans la communauté DogMatch",
+      "quickAccess": "Accès rapides",
+      "activitySummary": "Résumé de l'activité",
+      "cards": {
+        "searchUsers": "Rechercher des utilisateurs",
+        "searchUsersDesc": "Trouvez des clients potentiels",
+        "publications": "Publications",
+        "publicationsDesc": "Explorez le contenu de la communauté",
+        "myPublications": "Mes Publications",
+        "myPublicationsDesc": "Gérez votre contenu",
+        "chats": "Discussions",
+        "chatsDesc": "Messages et demandes"
+      },
+      "metrics": {
+        "views": "Vues",
+        "likes": "J'aime",
+        "messages": "Messages",
+        "thisWeek": "cette semaine",
+        "unread": "non lus"
       }
     },
     "edit": {
@@ -274,9 +399,11 @@
       "validation": {
         "nameRequired": "Le nom est obligatoire",
         "breedRequired": "La race est obligatoire",
+        "breedInvalid": "La race selectionnee n'est pas valide",
         "sizeRequired": "La taille est obligatoire",
         "genderRequired": "Le genre est obligatoire",
-        "ageRequired": "L'age est obligatoire et doit etre un nombre valide"
+        "ageRequired": "L'age est obligatoire et doit etre un nombre valide",
+        "ageOutOfRange": "L'age doit etre un nombre entier entre 1 et 30"
       },
       "modal": {
         "successTitle": "Succes",

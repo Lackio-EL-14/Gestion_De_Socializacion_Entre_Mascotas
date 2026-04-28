@@ -1,0 +1,114 @@
+<div class="layout">
+  <app-sidebar-admin></app-sidebar-admin>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <p class="page-header__eyebrow">{{ 'admin.content.eyebrow' | translate }}</p>
+        <h1 class="page-header__title">{{ 'admin.content.title' | translate }}</h1>
+        <p class="page-header__subtitle">{{ 'admin.content.subtitle' | translate }}</p>
+      </div>
+
+      <div class="page-header__stats">
+        <div class="stat-chip">
+          <span class="stat-chip__value">{{ publicaciones.length }}</span>
+          <span class="stat-chip__label">{{ 'admin.content.stats.total' | translate }}</span>
+        </div>
+        <div class="stat-chip stat-chip--warning">
+          <span class="stat-chip__value">{{ pendientesCount }}</span>
+          <span class="stat-chip__label">{{ 'admin.content.stats.pending' | translate }}</span>
+        </div>
+      </div>
+    </header>
+
+    <div *ngIf="cargando" class="state-message">
+      {{ 'admin.content.loading' | translate }}
+    </div>
+
+    <div *ngIf="error && !cargando" class="state-message error">
+      {{ error }}
+    </div>
+
+    <div *ngIf="feedback" class="state-message" [ngClass]="feedbackType">
+      {{ feedback }}
+    </div>
+
+    <section *ngIf="!cargando && !error && hasPublicaciones" class="publications-grid">
+      <article *ngFor="let publicacion of publicaciones" class="publication-card">
+        <div class="publication-card__header">
+          <div>
+            <p class="publication-card__id">#{{ publicacion.id_publicacion }}</p>
+            <span class="status-badge" [ngClass]="getStatusClass(publicacion.estado)">
+              {{ getStatusLabel(publicacion.estado) }}
+            </span>
+          </div>
+
+          <span class="publication-card__date">{{ publicacion.fecha_publicacion | date:'mediumDate' }}</span>
+        </div>
+
+        <div class="publication-card__media">
+          <img
+            *ngIf="getImageUrl(publicacion); else imagePlaceholder"
+            [src]="getImageUrl(publicacion)"
+            [alt]="'admin.content.imageAlt' | translate"
+            class="publication-card__image"
+          />
+
+          <ng-template #imagePlaceholder>
+            <div class="publication-card__placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>{{ 'admin.content.noImage' | translate }}</span>
+            </div>
+          </ng-template>
+        </div>
+
+        <p class="publication-card__text">{{ publicacion.contenido_texto }}</p>
+
+        <div class="publication-card__meta">
+          <div>
+            <span class="publication-card__meta-label">{{ 'admin.content.meta.userId' | translate }}</span>
+            <strong>#{{ publicacion.id_usuario }}</strong>
+          </div>
+          <div>
+            <span class="publication-card__meta-label">{{ 'admin.content.meta.image' | translate }}</span>
+            <strong>{{ getImageUrl(publicacion) ? ('admin.content.meta.yes' | translate) : ('admin.content.meta.no' | translate) }}</strong>
+          </div>
+        </div>
+
+        <div *ngIf="isPending(publicacion); else reviewedState" class="publication-card__actions">
+          <button
+            type="button"
+            class="action-btn action-btn--approve"
+            [disabled]="processingId === publicacion.id_publicacion"
+            (click)="aprobar(publicacion)"
+          >
+            {{ 'admin.content.actions.approve' | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="action-btn action-btn--reject"
+            [disabled]="processingId === publicacion.id_publicacion"
+            (click)="rechazar(publicacion)"
+          >
+            {{ 'admin.content.actions.reject' | translate }}
+          </button>
+        </div>
+
+        <ng-template #reviewedState>
+          <p class="publication-card__reviewed">
+            {{ 'admin.content.reviewed' | translate }}
+          </p>
+        </ng-template>
+      </article>
+    </section>
+
+    <div *ngIf="!cargando && !error && !hasPublicaciones && emptyMessage" class="empty-state">
+      {{ emptyMessage }}
+    </div>
+  </main>
+</div>

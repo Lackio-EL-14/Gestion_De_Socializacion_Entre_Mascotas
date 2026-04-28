@@ -12,6 +12,18 @@ interface UsuarioPerfil {
   fecha_registro: string;
 }
 
+interface MascotaUsuario {
+  id_mascota: number;
+  nombre: string;
+  raza: string;
+  tamano: string;
+  edad: number;
+  genero: string;
+  estado_salud: string;
+  vacuna_imagen_url: string | null;
+  fecha_registro: string;
+}
+
 @Component({
   selector: 'app-public-profile-user',
   standalone: false,
@@ -20,11 +32,18 @@ interface UsuarioPerfil {
 })
 export class PublicProfileUserComponent implements OnInit {
   usuario: UsuarioPerfil | null = null;
+  mascotas: MascotaUsuario[] = [];
+
   cargando = false;
+  cargandoMascotas = false;
   error = '';
+  errorMascotas = '';
 
   readonly fotoPlaceholder =
     'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=300&q=80';
+
+  readonly mascotaPlaceholder =
+    'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80';
 
   constructor(
     private readonly http: HttpClient,
@@ -42,7 +61,9 @@ export class PublicProfileUserComponent implements OnInit {
       return;
     }
 
-    this.obtenerUsuario(Number(id));
+    const idUsuario = Number(id);
+    this.obtenerUsuario(idUsuario);
+    this.obtenerMascotasUsuario(idUsuario);
   }
 
   obtenerUsuario(id: number): void {
@@ -73,8 +94,51 @@ export class PublicProfileUserComponent implements OnInit {
     });
   }
 
+  obtenerMascotasUsuario(idUsuario: number): void {
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      this.errorMascotas = this.t('users.publicProfile.pets.errors.noSession');
+      return;
+    }
+
+    this.cargandoMascotas = true;
+    this.errorMascotas = '';
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.get<MascotaUsuario[]>(`http://localhost:3000/pets/user/${idUsuario}`, { headers }).subscribe({
+      next: (respuesta) => {
+        this.mascotas = Array.isArray(respuesta) ? respuesta : [];
+        this.cargandoMascotas = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar mascotas del usuario:', error);
+        this.errorMascotas = this.t('users.publicProfile.pets.errors.loadFailed');
+        this.cargandoMascotas = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   getFoto(): string {
     return this.usuario?.foto_perfil_url || this.fotoPlaceholder;
+  }
+
+  getMascotaPlaceholder(): string {
+    return this.mascotaPlaceholder;
+  }
+
+  getHealthBadgeClass(estadoSalud: string): string {
+    const health = estadoSalud?.toLowerCase().trim() ?? '';
+    return health.replace(/\s+/g, '-');
+  }
+
+  onVaccineCardClick(event: MouseEvent, vacunaUrl: string | null): void {
+    if (!vacunaUrl) {
+      event.preventDefault();
+    }
   }
 
   volver(): void {

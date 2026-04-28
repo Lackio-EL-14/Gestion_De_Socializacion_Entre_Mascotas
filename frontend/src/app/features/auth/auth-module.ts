@@ -8,9 +8,10 @@ import { Login } from './login/login';
 import { Register } from './register/register';
 import { RequestResetComponent } from './passwordRecover/requestReset/requestReset';
 import { ResetPasswordComponent } from './passwordRecover/changePassword/changePassword';
+import { RegisterWorkerComponent } from './register-worker/register-worker';
 
 @NgModule({
-  declarations: [Login, Register, RequestResetComponent, ResetPasswordComponent],
+  declarations: [Login, Register, RequestResetComponent, ResetPasswordComponent, RegisterWorkerComponent],
   imports: [CommonModule, AuthRoutingModule, FormsModule, TranslateModule],
 })
 export class AuthModule {}

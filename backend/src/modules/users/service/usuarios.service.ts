@@ -1,13 +1,17 @@
 import { Injectable, ConflictException, InternalServerErrorException, UnauthorizedException, BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Usuario } from '../entities/usuario.entity';
+import { PerfilProfesional } from '../entities/perfil_profesional.entity';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { CreateTrabajadorDto } from '../dto/create-trabajador.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
+import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsuariosService {
@@ -16,6 +20,9 @@ export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(PerfilProfesional)
+    private perfilProfesionalRepository: Repository<PerfilProfesional>,
+    private dataSource: DataSource,
     private jwtService: JwtService,
   ) {}
 
@@ -46,9 +53,74 @@ export class UsuariosService {
       this.logger.log(`[AUDIT-REGISTRO] Creación de identidad exitosa. ID de usuario asignado: ${usuarioGuardado.id_usuario}`);
       return usuarioSinContrasena;
 
-    } catch (error) {
-      this.logger.error(`[ERROR-PERSISTENCIA] Fallo crítico al insertar nuevo usuario: ${error.message}`, error.stack);
+    } catch (error: unknown) {
+      const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+      const stack = error instanceof Error ? error.stack : undefined;
+      this.logger.error(`[ERROR-PERSISTENCIA] Fallo crítico al insertar nuevo usuario: ${mensaje}`, stack);
       throw new InternalServerErrorException('Ocurrió un error al guardar el usuario');
+    }
+  }
+
+  async createTrabajador(createTrabajadorDto: CreateTrabajadorDto) {
+    const { nombre, email, contrasena_hash, telefono, nombre_servicio, descripcion } = createTrabajadorDto;
+
+    const usuarioExistente = await this.usuarioRepository.findOne({ where: { email } });
+    if (usuarioExistente) {
+      this.logger.warn(`[AUDIT-REGISTRO-WORKER] Intento de registro con correo ya existente: ${email}`);
+      throw new ConflictException('El correo electrónico ya está en uso');
+    }
+
+    // Usamos una transacción para asegurar que si falla el perfil, no se guarde el usuario a medias
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const contrasenaHash = await bcrypt.hash(contrasena_hash, salt);
+
+      // 1. Crear la entidad Usuario
+      const nuevoUsuario = queryRunner.manager.create(Usuario, {
+        nombre,
+        email,
+        contrasena_hash: contrasenaHash,
+        telefono,
+        rol: { id_rol: 3 } // <-- ASUMIENDO QUE EL ROL TRABAJADOR ES EL 3
+      });
+
+      const usuarioGuardado = await queryRunner.manager.save(nuevoUsuario);
+
+      // 2. Crear la entidad Perfil Profesional vinculada al usuario
+      const nuevoPerfil = queryRunner.manager.create(PerfilProfesional, {
+        usuario: usuarioGuardado,
+        nombre_servicio,
+        descripcion,
+        datos_contacto: telefono // Reutilizamos el teléfono como contacto inicial
+      });
+
+      await queryRunner.manager.save(nuevoPerfil);
+
+      // Si todo sale bien, confirmamos la transacción
+      await queryRunner.commitTransaction();
+
+      this.logger.log(`[AUDIT-REGISTRO-WORKER] Creación exitosa. Trabajador ID: ${usuarioGuardado.id_usuario}`);
+      
+      const { contrasena_hash: _, ...usuarioSinContrasena } = usuarioGuardado;
+      return {
+        ...usuarioSinContrasena,
+        perfil_profesional: {
+          nombre_servicio,
+          descripcion
+        }
+      };
+
+    } catch (error) {
+      // Si algo falla, deshacemos los cambios en la BD
+      await queryRunner.rollbackTransaction();
+      this.logger.error(`[ERROR-PERSISTENCIA-WORKER] Fallo al crear trabajador: ${error.message}`, error.stack);
+      throw new InternalServerErrorException('Ocurrió un error al guardar la cuenta de negocio');
+    } finally {
+      await queryRunner.release();
     }
   }
 
@@ -181,6 +253,51 @@ export class UsuariosService {
 
     return usuario;
   }
+
+  async updateMyProfile(userId: number, updateMyProfileDto: UpdateMyProfileDto) {
+    const usuario = await this.usuarioRepository.findOne({
+      where: { id_usuario: userId },
+    });
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    if (updateMyProfileDto.email && updateMyProfileDto.email !== usuario.email) {
+      const emailEnUso = await this.usuarioRepository.findOne({
+        where: { email: updateMyProfileDto.email },
+      });
+
+      if (emailEnUso && emailEnUso.id_usuario !== userId) {
+        throw new ConflictException('El correo electrónico ya está en uso');
+      }
+    }
+
+    if (typeof updateMyProfileDto.nombre === 'string') {
+      usuario.nombre = updateMyProfileDto.nombre.trim();
+    }
+
+    if (typeof updateMyProfileDto.email === 'string') {
+      usuario.email = updateMyProfileDto.email.trim();
+    }
+
+    if (typeof updateMyProfileDto.telefono === 'string') {
+      usuario.telefono = updateMyProfileDto.telefono.trim();
+    }
+
+    await this.usuarioRepository.save(usuario);
+
+    this.logger.log(`[AUDIT-USERS] Perfil actualizado por usuario ID: ${userId}`);
+
+    return {
+      id_usuario: usuario.id_usuario,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      telefono: usuario.telefono,
+      foto_perfil_url: usuario.foto_perfil_url,
+      fecha_registro: usuario.fecha_registro,
+    };
+  }
   
   async findAll() {
     this.logger.log(`[AUDIT-USERS] Consulta de lista general de usuarios`);
@@ -218,5 +335,30 @@ export class UsuariosService {
     }
 
     return usuario;
+  }
+
+  async updateProfile(userId: number, dto: UpdateUserDto) {
+    const user = await this.usuarioRepository.findOne({
+      where: { id_usuario: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    // Campos editables
+    user.nombre = dto.nombre ?? user.nombre;
+    user.email = dto.email ?? user.email;
+    user.telefono = dto.telefono ?? user.telefono;
+
+    if (dto.foto_perfil_url) {
+      user.foto_perfil_url = dto.foto_perfil_url;
+    }
+
+    const updatedUser = await this.usuarioRepository.save(user);
+
+    this.logger.log(`Usuario actualizado: ${userId}`);
+
+    return updatedUser;
   }
 }

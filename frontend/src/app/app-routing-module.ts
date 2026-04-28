@@ -4,11 +4,30 @@ import { Home } from './features/home/home';
 import { DashboardOwner } from './features/dashboards/dashboard-owner/dashboard-owner';
 import { DashboardEditOwner } from './features/dashboards/dashboard-edit_owner/dashboard-edit-owner';
 import { DashboardAdmin } from './features/dashboards/dashboard-admin/dashboard-admin';
+import { DashboardWorkerComponent } from './features/dashboards/dashboard-worker/dashboard-worker';
+import { AdminContentPublicationsComponent } from './features/dashboards/dashboard-admin/content-management/content-management';
 
 const routes: Routes = [
+  { path: 'dashboard-worker', component: DashboardWorkerComponent },
   { path: 'dashboard-owner', component: DashboardOwner },
   { path: 'dashboard-admin', component: DashboardAdmin },
+  { path: 'admin/content', component: AdminContentPublicationsComponent },
   { path: 'dashboard-edit-owner', component: DashboardEditOwner },
+  {
+    path: 'publications',
+    loadChildren: () =>
+      import('./features/publications/publications-module').then(m => m.PublicationsModule)
+  },
+  {
+    path: 'worker/publications',
+    loadChildren: () =>
+      import('./features/publications/publications-module').then(m => m.PublicationsModule)
+  },
+  {
+    path: 'worker/my-publications',
+    loadChildren: () =>
+      import('./features/publications/publications-module').then(m => m.PublicationsModule)
+  },
   {
     path: 'pets',
     loadChildren: () =>
@@ -31,6 +50,11 @@ const routes: Routes = [
   },
   {
     path: 'reports',
+    loadChildren: () =>
+      import('./features/reports/reports-module').then(m => m.ReportsModule)
+  },
+  {
+    path: 'admin/reports',
     loadChildren: () =>
       import('./features/reports/reports-module').then(m => m.ReportsModule)
   },

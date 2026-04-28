@@ -1,4 +1,50 @@
 {
+  "publications": {
+    "see": {
+      "title": "Publicaciones",
+      "subtitle": "Feed de la comunidad y trabajadores del rubro",
+      "avatarAlt": "Avatar del autor de la publicación",
+      "imageAlt": "Imagen de la publicación",
+      "likeLabel": "Me gusta",
+      "commentsLabel": "Comentarios",
+      "empty": {
+        "line1": "Aún no hay publicaciones.",
+        "line2": "¡Sé el primero en compartir!"
+      },
+      "loading": "Cargando publicaciones...",
+      "loadingMore": "Cargando más publicaciones...",
+      "createButtonLabel": "Crear publicación",
+      "errors": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "loadFailed": "No se pudieron cargar las publicaciones.",
+        "empty": "No hay publicaciones aprobadas para mostrar todavía."
+      }
+    },
+    "create": {
+      "backLink": "Volver a Publicaciones",
+      "title": "Crear Publicación",
+      "subtitle": "Comparte momentos especiales de tu mascota",
+      "imageLabel": "Subir Imagen",
+      "imagePlaceholder": "Click para subir imagen",
+      "imageHint": "PNG, JPG o WEBP hasta 2MB",
+      "previewAlt": "Vista previa de la imagen",
+      "removeImage": "Quitar imagen",
+      "descriptionLabel": "Descripción Breve",
+      "descriptionPlaceholder": "¿Qué está pasando? Comparte algo sobre tu mascota...",
+      "submit": "Publicar",
+      "submitLoading": "Publicando...",
+      "discard": "Descartar",
+      "messages": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "descriptionRequired": "La descripción es obligatoria para publicar.",
+        "invalidImageType": "Formato de imagen no válido. Usa PNG, JPG o WEBP.",
+        "imageTooLarge": "La imagen supera el máximo permitido de 2MB.",
+        "uploadFailed": "No se pudo subir la imagen. Intenta de nuevo.",
+        "createFailed": "No se pudo crear la publicación. Intenta de nuevo.",
+        "createSuccess": "Publicación creada correctamente."
+      }
+    }
+  },
   "home": {
     "login": "Iniciar sesion",
     "heroTitle": "Bienvenido a DogChat",
@@ -21,7 +67,7 @@
       "validation": {
         "invalidEmail": "El formato del correo no es valido",
         "passwordRequired": "La contrasena es obligatoria",
-        "passwordMinLength": "La contrasena debe tener al menos 6 caracteres",
+        "passwordMinLength": "La contrasena debe tener al menos 8 caracteres",
         "passwordsDoNotMatch": "Las contrasenas no coinciden"
       }
     },
@@ -53,15 +99,23 @@
         "phoneLabel": "Telefono",
         "phonePlaceholder": "+34 612 345 678",
         "passwordLabel": "Contrasena",
+        "passwordHint": "Minimo 8 caracteres, mayuscula, minuscula, numero y caracter especial (@$!%*?&)",
         "confirmPasswordLabel": "Confirmar Contrasena",
         "submitting": "Creando cuenta...",
         "submit": "Crear Cuenta"
       },
       "validation": {
         "nameRequired": "El nombre es obligatorio",
+        "nameMinLength": "El nombre debe tener al menos 2 caracteres",
+        "nameMaxLength": "El nombre no puede exceder 50 caracteres",
+        "nameInvalid": "El nombre solo puede contener letras y espacios",
         "emailRequired": "El correo electronico es obligatorio",
         "phoneRequired": "El telefono es obligatorio",
+        "phoneMinLength": "El telefono debe tener al menos 7 digitos",
         "phoneTooLong": "El telefono es demasiado largo",
+        "phoneInvalid": "El telefono solo puede contener numeros, espacios y caracteres validos (+, -, parentesis)",
+        "passwordWeak": "La contrasena debe contener mayusculas, minusculas, numeros y caracteres especiales (@$!%*?&)",
+        "passwordMaxLength": "La contrasena no puede exceder 100 caracteres",
         "confirmPasswordRequired": "Debes confirmar la contrasena"
       },
       "modal": {
@@ -73,6 +127,30 @@
       "footer": {
         "hasAccount": "Ya tienes cuenta?",
         "loginLink": "Inicia sesion"
+      }
+    },
+    "registerWorker": {
+      "title": "DogChat Business",
+      "subtitle": "Crea tu cuenta de negocio",
+      "form": {
+        "nameLabel": "Nombre",
+        "namePlaceholder": "Juan",
+        "emailLabel": "Email",
+        "emailPlaceholder": "negocio@example.com",
+        "passwordLabel": "Contraseña",
+        "confirmPasswordLabel": "Confirmar Contraseña",
+        "phoneLabel": "Teléfono",
+        "phonePlaceholder": "+34 612 345 678",
+        "businessNameLabel": "Nombre del Negocio",
+        "businessNamePlaceholder": "Mi Peluquería Canina",
+        "businessDescLabel": "Descripción Breve del Negocio",
+        "businessDescPlaceholder": "Describe tu negocio y los servicios que ofreces...",
+        "submitting": "Creando cuenta...",
+        "submit": "Crear Cuenta"
+      },
+      "footer": {
+        "hasAccount": "¿Ya tienes cuenta?",
+        "loginLink": "Inicia sesión"
       }
     },
     "passwordRecover": {
@@ -142,12 +220,47 @@
       "loading": "Cargando perrito aleatorio...",
       "report": "Reportar"
     },
+    "selector": {
+      "label": "Selecciona tu mascota",
+      "placeholder": "Seleccionar mascota",
+      "help": "Selecciona una mascota para poder dar huesito o pasar al siguiente."
+    },
+    "matchModal": {
+      "title": "¡Nuevo Match!",
+      "message": "¡Felicidades! Tu mascota hizo match con {{name}}.",
+      "accept": "Continuar"
+    },
     "errors": {
       "userIdNotFound": "No se encontro tu id de usuario en la sesion. Inicia sesion nuevamente.",
       "noPetsAvailable": "No hay perritos disponibles para mostrar en este momento.",
       "requestTimeout": "La solicitud tardo demasiado. Verifica que el backend este encendido e intenta nuevamente.",
       "connectionFailed": "No se pudo conectar con el backend en http://localhost:3000.",
-      "loadFailed": "No se pudo cargar el perrito aleatorio. Intenta de nuevo."
+      "loadFailed": "No se pudo cargar el perrito aleatorio. Intenta de nuevo.",
+      "noSession": "No hay sesión activa.",
+      "myPetsLoadFailed": "No se pudieron cargar tus mascotas.",
+      "interactionFailed": "No se pudo registrar la interacción."
+    },
+    "filters": {
+      "title": "Filtros de Búsqueda",
+      "subtitle": "Personaliza tu búsqueda para encontrar el match perfecto",
+      "breed": "Raza",
+      "age": "Edad",
+      "ageMin": "Minimo",
+      "ageMax": "Maximo",
+      "size": "Tamaño",
+      "small": "Pequeño",
+      "medium": "Mediano",
+      "large": "Grande",
+      "gender": "Género",
+      "male": "Macho",
+      "female": "Hembra",
+      "healthStatus": "Estado de Salud",
+      "healthy": "Saludable",
+      "inTreatment": "En tratamiento",
+      "sick": "Enfermo",
+      "apply": "Aplicar Filtros",
+      "clear": "Limpiar Filtros",
+      "cancel": "Cancelar"
     }
   },
   "sidebar": {
@@ -163,12 +276,19 @@
     "logout": "Cerrar Sesión",
     "manageUsers": "Gestión de Usuarios",
     "manageReports": "Gestión de Reportes",
-    "manageContent": "Gestión de Contenido"
+    "manageContent": "Gestión de Contenido",
+    "searchUsers": "Buscar Usuarios"
   },
   "dashboard": {
     "admin": {
       "title": "Dashboard",
       "subtitle": "Bienvenido al panel de administración",
+      "quickAccess": "Gestión de Contenido",
+      "quickAccessSubtitle": "Aprueba o rechaza publicaciones antes de que aparezcan en el feed público.",
+      "cards": {
+        "content": "Moderación de Publicaciones",
+        "contentDesc": "Revisa el contenido enviado por usuarios y trabajadores."
+      },
       "metrics": {
         "totalUsers": "Total de Usuarios",
         "activeUsers": "Usuarios Activos",
@@ -191,6 +311,31 @@
         "chatsDesc": "Conversa con tus matches",
         "myPets": "Mis Mascotas",
         "myPetsDesc": "Administra tus perritos"
+      }
+    },
+    "worker": {
+      "welcome": "Bienvenido a DogChat Business",
+      "subtitle": "Gestiona tu presencia en la plataforma",
+      "greeting": "¡Hola, {{name}}!",
+      "banner": "Conecta con dueños de mascotas y promociona tus servicios en la comunidad de DogMatch",
+      "quickAccess": "Accesos Rápidos",
+      "activitySummary": "Resumen de Actividad",
+      "cards": {
+        "searchUsers": "Buscar Usuarios",
+        "searchUsersDesc": "Encuentra potenciales clientes",
+        "publications": "Publicaciones",
+        "publicationsDesc": "Explora contenido de la comunidad",
+        "myPublications": "Mis Publicaciones",
+        "myPublicationsDesc": "Gestiona tu contenido",
+        "chats": "Chats",
+        "chatsDesc": "Mensajes y consultas"
+      },
+      "metrics": {
+        "views": "Visualizaciones",
+        "likes": "Me Gusta",
+        "messages": "Mensajes",
+        "thisWeek": "esta semana",
+        "unread": "sin leer"
       }
     },
     "edit": {
@@ -275,9 +420,11 @@
       "validation": {
         "nameRequired": "El nombre es obligatorio",
         "breedRequired": "La raza es obligatoria",
+        "breedInvalid": "La raza seleccionada no es valida",
         "sizeRequired": "El tamaño es obligatorio",
         "genderRequired": "El género es obligatorio",
-        "ageRequired": "La edad es obligatoria y debe ser un número válido"
+        "ageRequired": "La edad es obligatoria y debe ser un número válido",
+        "ageOutOfRange": "La edad debe ser un número entero entre 1 y 30"
       },
       "modal": {
         "successTitle": "Éxito",
@@ -335,6 +482,18 @@
         "invalidId": "ID de usuario no válido",
         "noSession": "No hay sesión activa",
         "loadFailed": "No se pudo cargar el perfil del usuario"
+      },
+      "pets": {
+        "title": "Mascotas del usuario",
+        "subtitle": "Explora las mascotas registradas por este usuario",
+        "loading": "Cargando mascotas...",
+        "empty": "Este usuario no tiene mascotas registradas.",
+        "photoAlt": "Foto de mascota",
+        "noName": "Sin nombre",
+        "errors": {
+          "noSession": "No hay sesión activa para cargar las mascotas.",
+          "loadFailed": "No se pudieron cargar las mascotas del usuario."
+        }
       }
     }
     , "list": {
@@ -391,6 +550,93 @@
         "successTitle": "Éxito",
         "successMessage": "El reporte fue enviado correctamente.",
         "errorMessage": "No se pudo enviar el reporte."
+      }
+    }
+  }
+  , "admin": {
+    "content": {
+      "eyebrow": "Gestión de Contenido",
+      "title": "Moderación de Publicaciones",
+      "subtitle": "Aprueba o rechaza publicaciones enviadas por los usuarios antes de mostrarlas en el feed público.",
+      "loading": "Cargando publicaciones para moderación...",
+      "empty": "No hay publicaciones para moderar en este momento.",
+      "noImage": "Sin imagen",
+      "imageAlt": "Imagen de la publicación",
+      "reviewed": "Esta publicación ya fue moderada.",
+      "actions": {
+        "approve": "Aprobar",
+        "reject": "Rechazar"
+      },
+      "stats": {
+        "total": "Total",
+        "pending": "Pendientes"
+      },
+      "meta": {
+        "userId": "Usuario",
+        "image": "Imagen",
+        "yes": "Sí",
+        "no": "No"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "messages": {
+        "approved": "La publicación fue aprobada correctamente.",
+        "rejected": "La publicación fue rechazada correctamente.",
+        "moderationFailed": "No se pudo moderar la publicación. Intenta de nuevo."
+      },
+      "errors": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "loadFailed": "No se pudieron cargar las publicaciones para moderación."
+      }
+    },
+    "reports": {
+      "title": "Gestión de Reportes",
+      "subtitle": "Revisa y gestiona los reportes de la comunidad",
+      "loading": "Cargando reportes...",
+      "empty": "No hay reportes pendientes.",
+      "view": "Ver",
+      "table": {
+        "reportDate": "Fecha del Reporte",
+        "reportedUser": "Usuario Reportado",
+        "reportType": "Tipo de Reporte",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobado",
+        "cancelled": "Anulado"
+      },
+      "errors": {
+        "noSession": "No hay sesión activa.",
+        "loadFailed": "No se pudieron cargar los reportes pendientes."
+      }
+    }
+    , "answerReport": {
+      "back": "Volver a Gestión de Reportes",
+      "title": "Detalle del Reporte",
+      "subtitle": "Revisa la información completa del reporte",
+      "loading": "Cargando reporte...",
+      "reporterName": "Nombre del Reportante",
+      "reportedUser": "Usuario Reportado",
+      "reportType": "Tipo de Reporte",
+      "status": "Estado",
+      "description": "Descripción del Reporte",
+      "evidence": "Evidencia",
+      "actions": {
+        "penalize": "Penalizar",
+        "ban": "Banear",
+        "ignore": "Ignorar"
+      },
+      "errors": {
+        "notFound": "No se encontró el reporte",
+        "notFoundRequested": "No se encontró el reporte solicitado",
+        "noSession": "No hay sesión activa",
+        "loadFailed": "No se pudo cargar el reporte",
+        "processFailed": "Error al procesar el reporte"
       }
     }
   }

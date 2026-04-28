@@ -1,4 +1,50 @@
 {
+  "publications": {
+    "see": {
+      "title": "Publications",
+      "subtitle": "Community feed and industry professionals",
+      "avatarAlt": "Publication author avatar",
+      "imageAlt": "Publication image",
+      "likeLabel": "Like",
+      "commentsLabel": "Comments",
+      "empty": {
+        "line1": "There are no publications yet.",
+        "line2": "Be the first to share!"
+      },
+      "loading": "Loading publications...",
+      "loadingMore": "Loading more publications...",
+      "createButtonLabel": "Create publication",
+      "errors": {
+        "noSession": "There is no active session. Please sign in again.",
+        "loadFailed": "Could not load the publications.",
+        "empty": "There are no approved publications to show yet."
+      }
+    },
+    "create": {
+      "backLink": "Back to Publications",
+      "title": "Create Publication",
+      "subtitle": "Share special moments of your pet",
+      "imageLabel": "Upload image",
+      "imagePlaceholder": "Click to upload an image",
+      "imageHint": "PNG, JPG or WEBP up to 2 MB",
+      "previewAlt": "Image preview",
+      "removeImage": "Remove image",
+      "descriptionLabel": "Short description",
+      "descriptionPlaceholder": "What's happening? Share something about your pet...",
+      "submit": "Publish",
+      "submitLoading": "Publishing...",
+      "discard": "Discard",
+      "messages": {
+        "noSession": "There is no active session. Please log in again.",
+        "descriptionRequired": "Description is required to publish.",
+        "invalidImageType": "Invalid image format. Use PNG, JPG, or WEBP.",
+        "imageTooLarge": "The image exceeds the 2 MB limit.",
+        "uploadFailed": "Image upload failed. Please try again.",
+        "createFailed": "Could not create publication. Please try again.",
+        "createSuccess": "Publication created successfully."
+      }
+    }
+  },
   "home": {
     "login": "Log in",
     "heroTitle": "Welcome to DogChat",
@@ -21,7 +67,7 @@
       "validation": {
         "invalidEmail": "Email format is invalid",
         "passwordRequired": "Password is required",
-        "passwordMinLength": "Password must be at least 6 characters",
+        "passwordMinLength": "Password must be at least 8 characters",
         "passwordsDoNotMatch": "Passwords do not match"
       }
     },
@@ -53,15 +99,23 @@
         "phoneLabel": "Phone",
         "phonePlaceholder": "+34 612 345 678",
         "passwordLabel": "Password",
+        "passwordHint": "Minimum 8 characters, uppercase, lowercase, number and special character (@$!%*?&)",
         "confirmPasswordLabel": "Confirm password",
         "submitting": "Creating account...",
         "submit": "Create account"
       },
       "validation": {
         "nameRequired": "Name is required",
+        "nameMinLength": "Name must have at least 2 characters",
+        "nameMaxLength": "Name cannot exceed 50 characters",
+        "nameInvalid": "Name can only contain letters and spaces",
         "emailRequired": "Email is required",
         "phoneRequired": "Phone is required",
+        "phoneMinLength": "Phone must have at least 7 digits",
         "phoneTooLong": "Phone number is too long",
+        "phoneInvalid": "Phone can only contain numbers, spaces and valid characters (+, -, parentheses)",
+        "passwordWeak": "Password must contain uppercase, lowercase, numbers and special characters (@$!%*?&)",
+        "passwordMaxLength": "Password cannot exceed 100 characters",
         "confirmPasswordRequired": "You must confirm your password"
       },
       "modal": {
@@ -69,6 +123,30 @@
         "successMessage": "Account created successfully",
         "errorTitle": "Registration error",
         "errorMessage": "An error occurred while registering"
+      },
+      "footer": {
+        "hasAccount": "Already have an account?",
+        "loginLink": "Log in"
+      }
+    },
+    "registerWorker": {
+      "title": "DogChat Business",
+      "subtitle": "Create your business account",
+      "form": {
+        "nameLabel": "Name",
+        "namePlaceholder": "John",
+        "emailLabel": "Email",
+        "emailPlaceholder": "business@example.com",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "phoneLabel": "Phone",
+        "phonePlaceholder": "+34 612 345 678",
+        "businessNameLabel": "Business Name",
+        "businessNamePlaceholder": "My Dog Grooming",
+        "businessDescLabel": "Brief Business Description",
+        "businessDescPlaceholder": "Describe your business and the services you offer...",
+        "submitting": "Creating account...",
+        "submit": "Create Account"
       },
       "footer": {
         "hasAccount": "Already have an account?",
@@ -142,12 +220,47 @@
       "loading": "Loading random dog...",
       "report": "Report"
     },
+    "selector": {
+      "label": "Select your pet",
+      "placeholder": "Select a pet",
+      "help": "Select a pet to give a bone or move to the next one."
+    },
+    "matchModal": {
+      "title": "New Match!",
+      "message": "Congratulations! Your pet matched with {{name}}.",
+      "accept": "Continue"
+    },
     "errors": {
       "userIdNotFound": "Your user ID was not found in the session. Log in again.",
       "noPetsAvailable": "There are no dogs available to show at the moment.",
       "requestTimeout": "The request took too long. Check that the backend is running and try again.",
       "connectionFailed": "Could not connect to the backend at http://localhost:3000.",
-      "loadFailed": "Could not load random dog. Try again."
+      "loadFailed": "Could not load random dog. Try again.",
+      "noSession": "There is no active session.",
+      "myPetsLoadFailed": "Could not load your pets.",
+      "interactionFailed": "Could not register the interaction."
+    },
+    "filters": {
+      "title": "Search Filters",
+      "subtitle": "Customize your search to find the perfect match",
+      "breed": "Breed",
+      "age": "Age",
+      "ageMin": "Minimum",
+      "ageMax": "Maximum",
+      "size": "Size",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "healthStatus": "Health Status",
+      "healthy": "Healthy",
+      "inTreatment": "In treatment",
+      "sick": "Sick",
+      "apply": "Apply Filters",
+      "clear": "Clear Filters",
+      "cancel": "Cancel"
     }
   },
   "sidebar": {
@@ -163,12 +276,19 @@
     "logout": "Log out",
     "manageUsers": "User Management",
     "manageReports": "Report Management",
-    "manageContent": "Content Management"
+    "manageContent": "Content Management",
+    "searchUsers": "Search Users"
   },
   "dashboard": {
     "admin": {
       "title": "Dashboard",
       "subtitle": "Welcome to the administration panel",
+      "quickAccess": "Content Management",
+      "quickAccessSubtitle": "Approve or reject publications before they appear in the public feed.",
+      "cards": {
+        "content": "Publication Moderation",
+        "contentDesc": "Review content submitted by users and workers."
+      },
       "metrics": {
         "totalUsers": "Total Users",
         "activeUsers": "Active Users",
@@ -191,6 +311,31 @@
         "chatsDesc": "Chat with your matches",
         "myPets": "My Pets",
         "myPetsDesc": "Manage your dogs"
+      }
+    },
+    "worker": {
+      "welcome": "Welcome to DogChat Business",
+      "subtitle": "Manage your presence on the platform",
+      "greeting": "Hello, {{name}}!",
+      "banner": "Connect with pet owners and promote your services in the DogMatch community",
+      "quickAccess": "Quick Access",
+      "activitySummary": "Activity Summary",
+      "cards": {
+        "searchUsers": "Search Users",
+        "searchUsersDesc": "Find potential clients",
+        "publications": "Publications",
+        "publicationsDesc": "Explore community content",
+        "myPublications": "My Publications",
+        "myPublicationsDesc": "Manage your content",
+        "chats": "Chats",
+        "chatsDesc": "Messages and inquiries"
+      },
+      "metrics": {
+        "views": "Views",
+        "likes": "Likes",
+        "messages": "Messages",
+        "thisWeek": "this week",
+        "unread": "unread"
       }
     },
     "edit": {
@@ -275,9 +420,11 @@
       "validation": {
         "nameRequired": "Name is required",
         "breedRequired": "Breed is required",
+        "breedInvalid": "Selected breed is not valid",
         "sizeRequired": "Size is required",
         "genderRequired": "Gender is required",
-        "ageRequired": "Age is required and must be a valid number"
+        "ageRequired": "Age is required and must be a valid number",
+        "ageOutOfRange": "Age must be an integer between 1 and 30"
       },
       "modal": {
         "successTitle": "Success",
@@ -335,6 +482,18 @@
         "invalidId": "Invalid user ID",
         "noSession": "There is no active session",
         "loadFailed": "Could not load the user profile"
+      },
+      "pets": {
+        "title": "User pets",
+        "subtitle": "Explore the pets registered by this user",
+        "loading": "Loading pets...",
+        "empty": "This user has no registered pets.",
+        "photoAlt": "Pet photo",
+        "noName": "No name",
+        "errors": {
+          "noSession": "There is no active session to load the pets.",
+          "loadFailed": "Could not load the user's pets."
+        }
       }
     }
     , "list": {
@@ -391,6 +550,93 @@
         "successTitle": "Success",
         "successMessage": "The report was sent successfully.",
         "errorMessage": "The report could not be sent."
+      }
+    }
+  }
+  , "admin": {
+    "content": {
+      "eyebrow": "Content Management",
+      "title": "Publication Moderation",
+      "subtitle": "Approve or reject publications submitted by users before they are shown in the public feed.",
+      "loading": "Loading publications for moderation...",
+      "empty": "There are no publications to moderate right now.",
+      "noImage": "No image",
+      "imageAlt": "Publication image",
+      "reviewed": "This publication has already been moderated.",
+      "actions": {
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "stats": {
+        "total": "Total",
+        "pending": "Pending"
+      },
+      "meta": {
+        "userId": "User",
+        "image": "Image",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "messages": {
+        "approved": "The publication was approved successfully.",
+        "rejected": "The publication was rejected successfully.",
+        "moderationFailed": "Could not moderate the publication. Please try again."
+      },
+      "errors": {
+        "noSession": "There is no active session. Please sign in again.",
+        "loadFailed": "Could not load publications for moderation."
+      }
+    },
+    "reports": {
+      "title": "Reports Management",
+      "subtitle": "Review and manage community reports",
+      "loading": "Loading reports...",
+      "empty": "There are no pending reports.",
+      "view": "View",
+      "table": {
+        "reportDate": "Report Date",
+        "reportedUser": "Reported User",
+        "reportType": "Report Type",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "cancelled": "Cancelled"
+      },
+      "errors": {
+        "noSession": "There is no active session.",
+        "loadFailed": "Could not load pending reports."
+      }
+    }
+    , "answerReport": {
+      "back": "Back to Report Management",
+      "title": "Report Details",
+      "subtitle": "Review the complete report information",
+      "loading": "Loading report...",
+      "reporterName": "Reporter Name",
+      "reportedUser": "Reported User",
+      "reportType": "Report Type",
+      "status": "Status",
+      "description": "Report Description",
+      "evidence": "Evidence",
+      "actions": {
+        "penalize": "Penalize",
+        "ban": "Ban",
+        "ignore": "Ignore"
+      },
+      "errors": {
+        "notFound": "Report not found",
+        "notFoundRequested": "The requested report was not found",
+        "noSession": "There is no active session",
+        "loadFailed": "Could not load the report",
+        "processFailed": "Error processing the report"
       }
     }
   }

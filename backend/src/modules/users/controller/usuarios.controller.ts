@@ -1,10 +1,13 @@
-import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, Get, Req, UseGuards, Param, ParseIntPipe, Patch } from '@nestjs/common';
 import { UsuariosService } from '../service/usuarios.service';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { CreateTrabajadorDto } from '../dto/create-trabajador.dto';
 import { LoginUsuarioDto } from '../dto/login-usuario.dto';
 import { SolicitarRecuperacionDto } from '../dto/solicitar-recuperacion.dto';
 import { RestablecerPasswordDto } from '../dto/restablecer-password.dto';
+import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -13,6 +16,11 @@ export class UsuariosController {
   @Post('registro')
   async registrarUsuario(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
+  }
+
+  @Post('registro-trabajador')
+  async registrarTrabajador(@Body() createTrabajadorDto: CreateTrabajadorDto) {
+    return this.usuariosService.createTrabajador(createTrabajadorDto);
   }
 
   @Post('login')
@@ -50,6 +58,13 @@ async loginAdmin(@Body() loginUsuarioDto: LoginUsuarioDto) {
     return this.usuariosService.findMyProfile(userId);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  updateMyProfile(@Req() req: any, @Body() updateMyProfileDto: UpdateMyProfileDto) {
+    const userId = req.user.userId;
+    return this.usuariosService.updateMyProfile(userId, updateMyProfileDto);
+  }
+
   @Get()
   async findAll() {
     return this.usuariosService.findAll();
@@ -59,5 +74,11 @@ async loginAdmin(@Body() loginUsuarioDto: LoginUsuarioDto) {
   @Get(':id')
   findPublicProfile(@Param('id', ParseIntPipe) id: number) {
     return this.usuariosService.findPublicProfile(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  updateProfile(@Req() req, @Body() dto: UpdateUserDto) {
+    return this.usuariosService.updateProfile(req.user.userId, dto);
   }
 }

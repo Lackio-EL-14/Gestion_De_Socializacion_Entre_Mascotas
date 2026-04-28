@@ -1,11 +1,8 @@
 import { APP_INITIALIZER, NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import {
-  TranslationObject,
-  TranslateLoader,
-  TranslateModule,
-} from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { TranslationObject, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing-module';
@@ -14,14 +11,16 @@ import { LanguageService } from './core/services/language.service';
 import { Home } from './features/home/home';
 import { DashboardOwner } from './features/dashboards/dashboard-owner/dashboard-owner';
 import { DashboardAdmin } from './features/dashboards/dashboard-admin/dashboard-admin';
+import { AdminContentPublicationsComponent } from './features/dashboards/dashboard-admin/content-management/content-management';
 import { DashboardEditOwner } from './features/dashboards/dashboard-edit_owner/dashboard-edit-owner';
 import { SharedModule } from './shared/shared-module';
+import { DashboardWorkerComponent as DashboardWorker} from './features/dashboards/dashboard-worker/dashboard-worker';
 
 class AppTranslateLoader implements TranslateLoader {
   constructor(private readonly http: HttpClient) {}
 
   getTranslation(lang: string): Observable<TranslationObject> {
-    return this.http.get<TranslationObject>(`/assets/i18n/${lang}.json`);
+    return this.http.get<TranslationObject>(`assets/i18n/${lang}.json`);
   }
 }
 
@@ -36,11 +35,12 @@ export function initializeLanguage(languageService: LanguageService): () => void
 }
 
 @NgModule({
-  declarations: [App, Home, DashboardOwner, DashboardEditOwner, DashboardAdmin],
+  declarations: [App, Home, DashboardOwner, DashboardEditOwner, DashboardAdmin, DashboardWorker, AdminContentPublicationsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     TranslateModule.forRoot({
       defaultLanguage: 'es',
       loader: {
@@ -49,7 +49,7 @@ export function initializeLanguage(languageService: LanguageService): () => void
         deps: [HttpClient],
       },
     }),
-    SharedModule
+    SharedModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
