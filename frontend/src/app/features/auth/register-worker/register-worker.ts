@@ -122,7 +122,7 @@ export class RegisterWorkerComponent {
     this.enviando = true;
 
     // --- Petición HTTP ---
-    this.http.post('http://localhost:3000/usuarios/registro-trabajador', body).subscribe({
+    this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/registro-trabajador', body).subscribe({
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;

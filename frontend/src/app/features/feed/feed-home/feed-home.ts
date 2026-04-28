@@ -52,7 +52,7 @@ interface InteractionResponse {
   styleUrl: './feed-home.scss',
 })
 export class FeedHome implements OnInit, OnDestroy {
-  private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
   private readonly maxFilterAttempts = 30;
   private readonly noFilteredPetsMessage =
     'No encontramos perritos con esos filtros. Prueba con otros criterios.';

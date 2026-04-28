@@ -85,7 +85,7 @@ export class DashboardEditOwner implements OnInit {
 		this.perfilMensaje = '';
 		this.perfilTipo = '';
 
-		this.http.patch<MyProfileResponse>('http://localhost:3000/usuarios/me', body, { headers }).subscribe({
+		this.http.patch<MyProfileResponse>('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/me', body, { headers }).subscribe({
 			next: (perfil) => {
 				this.enviandoPerfil = false;
 				this.aplicarPerfil(perfil);
@@ -124,7 +124,7 @@ export class DashboardEditOwner implements OnInit {
 		}
 
 		this.cargandoPerfil = true;
-		this.http.get<MyProfileResponse>('http://localhost:3000/usuarios/me', { headers }).subscribe({
+		this.http.get<MyProfileResponse>('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/me', { headers }).subscribe({
 			next: (perfil) => {
 				this.cargandoPerfil = false;
 				this.aplicarPerfil(perfil);
