@@ -88,7 +88,7 @@ export class CreateReportComponent {
 
     this.enviando = true;
 
-    this.http.post<CreateReportResponse>('https://gestion-de-socializacion-entre-mascotas.onrender.com/reports', body, { headers }).subscribe({
+    this.http.post<CreateReportResponse>('http://localhost:3000/reports', body, { headers }).subscribe({
       next: () => {
         this.enviando = false;
         this.mostrarModalByKey('reports.create.modal.successTitle', 'reports.create.modal.successMessage', 'success');

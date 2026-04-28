@@ -52,7 +52,7 @@ export class ListUsersComponent implements OnInit {
     this.cargando = true;
     this.error = '';
 
-    this.http.get<Usuario[]>('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios').subscribe({
+    this.http.get<Usuario[]>('http://localhost:3000/usuarios').subscribe({
       next: (respuesta) => {
         const idUsuarioLogeado = Number(localStorage.getItem('id_usuario') || 0);
 
