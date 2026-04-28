@@ -107,7 +107,7 @@ export class PublicProfileUserComponent implements OnInit {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<MascotaUsuario[]>(`http://localhost:3000/pets/user/${idUsuario}`, { headers }).subscribe({
+    this.http.get<MascotaUsuario[]>(`https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/user/${idUsuario}`, { headers }).subscribe({
       next: (respuesta) => {
         this.mascotas = Array.isArray(respuesta) ? respuesta : [];
         this.cargandoMascotas = false;

@@ -116,7 +116,7 @@ export class CreatePetComponent {
 
     this.enviando = true;
 
-    this.http.post('http://localhost:3000/pets', body).subscribe({
+    this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/pets', body).subscribe({
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;
