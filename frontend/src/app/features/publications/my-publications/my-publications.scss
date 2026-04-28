@@ -1,0 +1,150 @@
+@use 'sass:color';
+
+// Variables
+$color-main-bg:        #f8fafc;
+$color-card-bg:        #ffffff;
+$color-text-dark:      #0f172a;
+$color-text-muted:     #64748b;
+$color-border:         #e2e8f0;
+
+// Colores de las etiquetas (badges)
+$color-badge-pub-bg:   #d1fae5; // Verde claro
+$color-badge-pub-txt:  #065f46; // Verde oscuro
+$color-badge-pend-bg:  #fef08a; // Amarillo claro
+$color-badge-pend-txt: #854d0e; // Amarillo oscuro
+
+$font-family:          'Segoe UI', system-ui, -apple-system, sans-serif;
+$border-radius-card:   12px;
+$transition:           0.2s ease;
+
+// Base Layout
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: $color-main-bg;
+  font-family: $font-family;
+  color: $color-text-dark;
+}
+
+.main-content {
+  flex: 1;
+  padding: 36px 40px;
+  overflow-y: auto;
+}
+
+.main-header {
+  margin-bottom: 32px;
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-text-dark;
+    margin-bottom: 6px;
+  }
+
+  &__subtitle {
+    font-size: 0.95rem;
+    color: $color-text-muted;
+  }
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: $color-text-muted;
+  font-size: 1.1rem;
+}
+
+// Grid de publicaciones
+.publications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+// Tarjeta Individual
+.pub-card {
+  background: $color-card-bg;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-card;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform $transition, box-shadow $transition;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #e2e8f0; // Color de fondo mientras carga la imagen
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  // Etiqueta flotante
+  &__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    &--publicado {
+      background-color: $color-badge-pub-bg;
+      color: $color-badge-pub-txt;
+    }
+
+    &--pendiente {
+      background-color: $color-badge-pend-bg;
+      color: $color-badge-pend-txt;
+    }
+  }
+
+  &__content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: $color-text-dark;
+    line-height: 1.4;
+    margin: 0;
+    // Truncar texto a 2 líneas si es muy largo
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__date {
+    font-size: 0.8rem;
+    color: $color-text-muted;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .main-content {
+    padding: 24px 20px;
+  }
+
+  .publications-grid {
+    grid-template-columns: 1fr;
+  }
+}

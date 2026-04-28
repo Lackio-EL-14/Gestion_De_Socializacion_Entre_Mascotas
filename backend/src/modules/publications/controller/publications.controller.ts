@@ -47,6 +47,12 @@ export class PublicationsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('me')
+  findMyPublications(@Req() req: any) {
+    return this.publicationsService.findMyPublications(req.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/posts')
   createPost(
     @Body() dto: CreatePublicationDto,

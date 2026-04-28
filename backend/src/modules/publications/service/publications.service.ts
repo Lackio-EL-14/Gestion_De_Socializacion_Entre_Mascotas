@@ -93,6 +93,33 @@ export class PublicationsService {
     }));
   }
 
+  async findMyPublications(userId: number) {
+    this.logger.log(`[AUDIT-PUBLICATIONS] Consulta de mis publicaciones para el usuario: ${userId}`);
+
+    const publications = await this.publicationRepository.find({
+      where: {
+        id_usuario: userId,
+      },
+      order: {
+        fecha_publicacion: 'DESC',
+      },
+    });
+
+    return publications.map((pub) => {
+      const estadoCapitalizado = pub.estado.charAt(0).toUpperCase() + pub.estado.slice(1);
+      
+      const statusFinal = estadoCapitalizado === 'Aprobada' ? 'Publicado' : estadoCapitalizado;
+
+      return {
+        id: pub.id_publicacion,
+        imageUrl: pub.imagen_url || 'assets/placeholder-image.png', 
+        title: pub.contenido_texto,
+        date: pub.fecha_publicacion.toLocaleDateString(), 
+        status: statusFinal,
+      };
+    });
+  }
+
   async createPublication(dto: CreatePublicationDto, user: any) {
     console.log(user);
     // 🔥 VALIDACIÓN SOLO CON JWT

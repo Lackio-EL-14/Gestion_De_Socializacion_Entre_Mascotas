@@ -1,0 +1,39 @@
+<div class="layout">
+  <app-sidebar-worker></app-sidebar-worker>
+
+  <main class="main-content">
+
+    <header class="main-header">
+      <h1 class="main-header__title">{{ 'publications.myPublications.title' | translate }}</h1>
+      <p class="main-header__subtitle">{{ 'publications.myPublications.subtitle' | translate }}</p>
+    </header>
+
+    <div *ngIf="cargando" class="loading-state">
+      <p>Cargando tus publicaciones...</p>
+    </div>
+
+    <section class="publications-grid" *ngIf="!cargando">
+      <article class="pub-card" *ngFor="let pub of publications">
+
+        <div class="pub-card__image-wrapper">
+          <img [src]="pub.imageUrl" alt="Imagen de publicación" class="pub-card__image">
+
+          <span class="pub-card__badge"
+                [ngClass]="{
+                  'badge--publicado': pub.status === 'Publicado',
+                  'badge--pendiente': pub.status === 'Pendiente'
+                }">
+            {{ pub.status }}
+          </span>
+        </div>
+
+        <div class="pub-card__content">
+          <p class="pub-card__text">{{ pub.title }}</p>
+          <span class="pub-card__date">{{ pub.date }}</span>
+        </div>
+
+      </article>
+    </section>
+
+  </main>
+</div>
