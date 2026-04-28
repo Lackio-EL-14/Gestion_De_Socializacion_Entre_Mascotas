@@ -67,5 +67,29 @@
       </div>
     </section>
 
+    <section class="dashboard-section">
+      <div class="dashboard-section__header">
+        <div>
+          <h2 class="dashboard-section__title">{{ 'dashboard.admin.quickAccess' | translate }}</h2>
+          <p class="dashboard-section__subtitle">{{ 'dashboard.admin.quickAccessSubtitle' | translate }}</p>
+        </div>
+      </div>
+
+      <div class="quick-access__grid">
+        <a routerLink="/admin/content" class="quick-card">
+          <div class="quick-card__icon quick-card__icon--purple">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="quick-card__name">{{ 'dashboard.admin.cards.content' | translate }}</h3>
+          <p class="quick-card__desc">{{ 'dashboard.admin.cards.contentDesc' | translate }}</p>
+        </a>
+      </div>
+    </section>
+
   </main>
 </div>

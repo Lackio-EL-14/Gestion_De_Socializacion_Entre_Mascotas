@@ -50,6 +50,8 @@ $transition:            0.2s ease;
 a      { text-decoration: none; color: inherit; }
 button { cursor: pointer; font-family: $font-family; border: none; background: none; }
 
+.hidden { display: none !important; }
+
 :host {
   display: block;
   font-family: $font-family;
@@ -289,6 +291,25 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
   margin-top: 4px;
 }
 
+.form-feedback {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.86rem;
+  font-weight: 600;
+
+  &--error {
+    color: $color-danger;
+    background: $color-danger-light;
+    border: 1px solid rgba($color-danger, 0.2);
+  }
+
+  &--success {
+    color: #166534;
+    background: rgba(#22c55e, 0.1);
+    border: 1px solid rgba(#16a34a, 0.2);
+  }
+}
+
 .btn-publish {
   padding: 14px 20px;
   background: $color-primary;
@@ -308,6 +329,13 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
   }
 
   &:active { transform: translateY(0); }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 .btn-discard {
@@ -323,6 +351,11 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
   transition: background $transition;
 
   &:hover { background: $color-danger-light; }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 }
 
 // ============================================================

@@ -1,39 +1,39 @@
 <div class="layout">
-  <app-sidebar-owner></app-sidebar-owner>
+  <app-sidebar-worker></app-sidebar-worker>
 
   <main class="main-content">
-    <a routerLink="/publications" class="back-link">
+    <a routerLink="/worker/publications" class="back-link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
         <line x1="19" y1="12" x2="5" y2="12"></line>
         <polyline points="12 19 5 12 12 5"></polyline>
       </svg>
-      Volver a Publicaciones
+      {{ 'publications.create.backLink' | translate }}
     </a>
 
     <header class="page-header">
-      <h1 class="page-header__title">Crear Publicación</h1>
-      <p class="page-header__subtitle">Comparte momentos especiales de tu mascota</p>
+      <h1 class="page-header__title">{{ 'publications.create.title' | translate }}</h1>
+      <p class="page-header__subtitle">{{ 'publications.create.subtitle' | translate }}</p>
     </header>
 
     <div class="create-card">
-      <form class="create-form" id="formCrearPublicacion" action="#" method="POST" enctype="multipart/form-data" novalidate>
+      <form class="create-form" id="formCrearPublicacion" enctype="multipart/form-data" novalidate (submit)="onSubmit($event)">
         <div class="form-group">
-          <label class="form-label">Subir Imagen</label>
+          <label class="form-label">{{ 'publications.create.imageLabel' | translate }}</label>
 
           <label for="inputImagen" class="upload-zone" id="uploadZone">
-            <div class="upload-zone__placeholder" id="uploadPlaceholder">
+            <div class="upload-zone__placeholder" id="uploadPlaceholder" [class.hidden]="!!imagePreviewUrl">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="16 16 12 12 8 16"></polyline>
                 <line x1="12" y1="12" x2="12" y2="21"></line>
                 <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
               </svg>
-              <span class="upload-zone__text">Click para subir imagen</span>
-              <span class="upload-zone__hint">PNG, JPG hasta 10MB</span>
+              <span class="upload-zone__text">{{ 'publications.create.imagePlaceholder' | translate }}</span>
+              <span class="upload-zone__hint">{{ 'publications.create.imageHint' | translate }}</span>
             </div>
 
-            <div class="upload-zone__preview hidden" id="uploadPreview">
-              <img src="" alt="Preview" class="upload-zone__preview-img" id="previewImg" />
-              <button type="button" class="upload-zone__remove" id="btnRemoveImg" aria-label="Quitar imagen">
+            <div class="upload-zone__preview" id="uploadPreview" [class.hidden]="!imagePreviewUrl">
+              <img [src]="imagePreviewUrl || ''" [alt]="'publications.create.previewAlt' | translate" class="upload-zone__preview-img" id="previewImg" />
+              <button type="button" class="upload-zone__remove" id="btnRemoveImg" [attr.aria-label]="'publications.create.removeImage' | translate" (click)="removeImage($event)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -41,21 +41,24 @@
               </button>
             </div>
 
-            <input type="file" id="inputImagen" name="imagen" class="upload-zone__input" accept="image/png, image/jpeg, image/webp" />
+            <input type="file" id="inputImagen" name="imagen" class="upload-zone__input" accept="image/png, image/jpeg, image/webp" (change)="onImageSelected($event)" [disabled]="isSubmitting" />
           </label>
         </div>
 
         <div class="form-group">
-          <label for="inputDescripcion" class="form-label">Descripción Breve</label>
-          <textarea id="inputDescripcion" name="descripcion" class="form-textarea" placeholder="¿Qué está pasando? Comparte algo sobre tu mascota..." rows="3" maxlength="500"></textarea>
+          <label for="inputDescripcion" class="form-label">{{ 'publications.create.descriptionLabel' | translate }}</label>
+          <textarea id="inputDescripcion" name="descripcion" class="form-textarea" [placeholder]="'publications.create.descriptionPlaceholder' | translate" rows="3" maxlength="500" [value]="description" (input)="onDescriptionInput($event)" [disabled]="isSubmitting"></textarea>
           <span class="form-textarea__counter">
-            <span id="charCount">0</span>/500
-          </span>
+            <span id="charCount">{{ charCount }}</span>/{{ maxDescriptionLength }}</span>
         </div>
 
+        <p class="form-feedback" *ngIf="feedbackMessage" [class.form-feedback--error]="feedbackType === 'error'" [class.form-feedback--success]="feedbackType === 'success'">
+          {{ feedbackMessage }}
+        </p>
+
         <div class="form-actions">
-          <button type="submit" class="btn-publish">Publicar</button>
-          <button type="reset" class="btn-discard" id="btnDescartar">Descartar</button>
+          <button type="submit" class="btn-publish" [disabled]="isSubmitting">{{ (isSubmitting ? 'publications.create.submitLoading' : 'publications.create.submit') | translate }}</button>
+          <button type="button" class="btn-discard" id="btnDescartar" [disabled]="isSubmitting" (click)="resetForm()">{{ 'publications.create.discard' | translate }}</button>
         </div>
       </form>
     </div>

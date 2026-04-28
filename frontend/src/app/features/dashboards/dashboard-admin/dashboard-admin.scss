@@ -96,6 +96,87 @@ body {
   }
 }
 
+.dashboard-section {
+  margin-top: 34px;
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $color-text-dark;
+  }
+
+  &__subtitle {
+    margin-top: 6px;
+    color: $color-text-muted;
+    font-size: 0.95rem;
+  }
+}
+
+.quick-access__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.quick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid $color-border;
+  border-radius: $border-radius-card;
+  padding: 22px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 6px 18px rgba(15, 23, 42, 0.04);
+  transition: transform $transition, box-shadow $transition, border-color $transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  &__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+    }
+
+    &--purple {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $color-text-dark;
+  }
+
+  &__desc {
+    margin: 0;
+    color: $color-text-muted;
+    line-height: 1.5;
+  }
+}
+
 // ============================================================
 // MÉTRICAS (CARDS HORIZONTALES)
 // ============================================================
@@ -173,6 +254,14 @@ body {
 @media (max-width: 768px) {
   .main-content {
     padding: 24px 20px;
+  }
+
+  .quick-access__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-section__header {
+    align-items: flex-start;
   }
 }
 

@@ -1,4 +1,50 @@
 {
+  "publications": {
+    "see": {
+      "title": "Publications",
+      "subtitle": "Community feed and industry professionals",
+      "avatarAlt": "Publication author avatar",
+      "imageAlt": "Publication image",
+      "likeLabel": "Like",
+      "commentsLabel": "Comments",
+      "empty": {
+        "line1": "There are no publications yet.",
+        "line2": "Be the first to share!"
+      },
+      "loading": "Loading publications...",
+      "loadingMore": "Loading more publications...",
+      "createButtonLabel": "Create publication",
+      "errors": {
+        "noSession": "There is no active session. Please sign in again.",
+        "loadFailed": "Could not load the publications.",
+        "empty": "There are no approved publications to show yet."
+      }
+    },
+    "create": {
+      "backLink": "Back to Publications",
+      "title": "Create Publication",
+      "subtitle": "Share special moments of your pet",
+      "imageLabel": "Upload image",
+      "imagePlaceholder": "Click to upload an image",
+      "imageHint": "PNG, JPG or WEBP up to 2 MB",
+      "previewAlt": "Image preview",
+      "removeImage": "Remove image",
+      "descriptionLabel": "Short description",
+      "descriptionPlaceholder": "What's happening? Share something about your pet...",
+      "submit": "Publish",
+      "submitLoading": "Publishing...",
+      "discard": "Discard",
+      "messages": {
+        "noSession": "There is no active session. Please log in again.",
+        "descriptionRequired": "Description is required to publish.",
+        "invalidImageType": "Invalid image format. Use PNG, JPG, or WEBP.",
+        "imageTooLarge": "The image exceeds the 2 MB limit.",
+        "uploadFailed": "Image upload failed. Please try again.",
+        "createFailed": "Could not create publication. Please try again.",
+        "createSuccess": "Publication created successfully."
+      }
+    }
+  },
   "home": {
     "login": "Log in",
     "heroTitle": "Welcome to DogChat",
@@ -237,6 +283,12 @@
     "admin": {
       "title": "Dashboard",
       "subtitle": "Welcome to the administration panel",
+      "quickAccess": "Content Management",
+      "quickAccessSubtitle": "Approve or reject publications before they appear in the public feed.",
+      "cards": {
+        "content": "Publication Moderation",
+        "contentDesc": "Review content submitted by users and workers."
+      },
       "metrics": {
         "totalUsers": "Total Users",
         "activeUsers": "Active Users",
@@ -502,6 +554,44 @@
     }
   }
   , "admin": {
+    "content": {
+      "eyebrow": "Content Management",
+      "title": "Publication Moderation",
+      "subtitle": "Approve or reject publications submitted by users before they are shown in the public feed.",
+      "loading": "Loading publications for moderation...",
+      "empty": "There are no publications to moderate right now.",
+      "noImage": "No image",
+      "imageAlt": "Publication image",
+      "reviewed": "This publication has already been moderated.",
+      "actions": {
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "stats": {
+        "total": "Total",
+        "pending": "Pending"
+      },
+      "meta": {
+        "userId": "User",
+        "image": "Image",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "messages": {
+        "approved": "The publication was approved successfully.",
+        "rejected": "The publication was rejected successfully.",
+        "moderationFailed": "Could not moderate the publication. Please try again."
+      },
+      "errors": {
+        "noSession": "There is no active session. Please sign in again.",
+        "loadFailed": "Could not load publications for moderation."
+      }
+    },
     "reports": {
       "title": "Reports Management",
       "subtitle": "Review and manage community reports",

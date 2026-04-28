@@ -1,4 +1,50 @@
 {
+  "publications": {
+    "see": {
+      "title": "Publicaciones",
+      "subtitle": "Feed de la comunidad y trabajadores del rubro",
+      "avatarAlt": "Avatar del autor de la publicación",
+      "imageAlt": "Imagen de la publicación",
+      "likeLabel": "Me gusta",
+      "commentsLabel": "Comentarios",
+      "empty": {
+        "line1": "Aún no hay publicaciones.",
+        "line2": "¡Sé el primero en compartir!"
+      },
+      "loading": "Cargando publicaciones...",
+      "loadingMore": "Cargando más publicaciones...",
+      "createButtonLabel": "Crear publicación",
+      "errors": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "loadFailed": "No se pudieron cargar las publicaciones.",
+        "empty": "No hay publicaciones aprobadas para mostrar todavía."
+      }
+    },
+    "create": {
+      "backLink": "Volver a Publicaciones",
+      "title": "Crear Publicación",
+      "subtitle": "Comparte momentos especiales de tu mascota",
+      "imageLabel": "Subir Imagen",
+      "imagePlaceholder": "Click para subir imagen",
+      "imageHint": "PNG, JPG o WEBP hasta 2MB",
+      "previewAlt": "Vista previa de la imagen",
+      "removeImage": "Quitar imagen",
+      "descriptionLabel": "Descripción Breve",
+      "descriptionPlaceholder": "¿Qué está pasando? Comparte algo sobre tu mascota...",
+      "submit": "Publicar",
+      "submitLoading": "Publicando...",
+      "discard": "Descartar",
+      "messages": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "descriptionRequired": "La descripción es obligatoria para publicar.",
+        "invalidImageType": "Formato de imagen no válido. Usa PNG, JPG o WEBP.",
+        "imageTooLarge": "La imagen supera el máximo permitido de 2MB.",
+        "uploadFailed": "No se pudo subir la imagen. Intenta de nuevo.",
+        "createFailed": "No se pudo crear la publicación. Intenta de nuevo.",
+        "createSuccess": "Publicación creada correctamente."
+      }
+    }
+  },
   "home": {
     "login": "Iniciar sesion",
     "heroTitle": "Bienvenido a DogChat",
@@ -237,6 +283,12 @@
     "admin": {
       "title": "Dashboard",
       "subtitle": "Bienvenido al panel de administración",
+      "quickAccess": "Gestión de Contenido",
+      "quickAccessSubtitle": "Aprueba o rechaza publicaciones antes de que aparezcan en el feed público.",
+      "cards": {
+        "content": "Moderación de Publicaciones",
+        "contentDesc": "Revisa el contenido enviado por usuarios y trabajadores."
+      },
       "metrics": {
         "totalUsers": "Total de Usuarios",
         "activeUsers": "Usuarios Activos",
@@ -502,6 +554,44 @@
     }
   }
   , "admin": {
+    "content": {
+      "eyebrow": "Gestión de Contenido",
+      "title": "Moderación de Publicaciones",
+      "subtitle": "Aprueba o rechaza publicaciones enviadas por los usuarios antes de mostrarlas en el feed público.",
+      "loading": "Cargando publicaciones para moderación...",
+      "empty": "No hay publicaciones para moderar en este momento.",
+      "noImage": "Sin imagen",
+      "imageAlt": "Imagen de la publicación",
+      "reviewed": "Esta publicación ya fue moderada.",
+      "actions": {
+        "approve": "Aprobar",
+        "reject": "Rechazar"
+      },
+      "stats": {
+        "total": "Total",
+        "pending": "Pendientes"
+      },
+      "meta": {
+        "userId": "Usuario",
+        "image": "Imagen",
+        "yes": "Sí",
+        "no": "No"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "messages": {
+        "approved": "La publicación fue aprobada correctamente.",
+        "rejected": "La publicación fue rechazada correctamente.",
+        "moderationFailed": "No se pudo moderar la publicación. Intenta de nuevo."
+      },
+      "errors": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "loadFailed": "No se pudieron cargar las publicaciones para moderación."
+      }
+    },
     "reports": {
       "title": "Gestión de Reportes",
       "subtitle": "Revisa y gestiona los reportes de la comunidad",
