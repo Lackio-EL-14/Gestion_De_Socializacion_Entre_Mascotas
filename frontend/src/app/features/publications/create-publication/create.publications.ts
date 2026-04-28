@@ -135,7 +135,7 @@ export class CreatePublications {
 
 			this.resetForm();
 			this.showFeedback(this.t('publications.create.messages.createSuccess'), 'success');
-			this.router.navigate(['/publications']);
+			this.router.navigate(['/worker/publications']);
 		} catch (error: any) {
 			const backendMessage = error?.error?.message;
 			const readableMessage = Array.isArray(backendMessage)

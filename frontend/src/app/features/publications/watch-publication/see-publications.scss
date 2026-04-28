@@ -41,6 +41,8 @@ a      { text-decoration: none; color: inherit; }
 ul     { list-style: none; }
 button { cursor: pointer; font-family: $font-family; border: none; background: none; }
 
+.hidden { display: none !important; }
+
 :host {
   display: block;
   font-family: $font-family;

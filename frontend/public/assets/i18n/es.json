@@ -12,7 +12,13 @@
         "line2": "¡Sé el primero en compartir!"
       },
       "loading": "Cargando publicaciones...",
-      "createButtonLabel": "Crear publicación"
+      "loadingMore": "Cargando más publicaciones...",
+      "createButtonLabel": "Crear publicación",
+      "errors": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "loadFailed": "No se pudieron cargar las publicaciones.",
+        "empty": "No hay publicaciones aprobadas para mostrar todavía."
+      }
     },
     "create": {
       "backLink": "Volver a Publicaciones",
@@ -277,6 +283,12 @@
     "admin": {
       "title": "Dashboard",
       "subtitle": "Bienvenido al panel de administración",
+      "quickAccess": "Gestión de Contenido",
+      "quickAccessSubtitle": "Aprueba o rechaza publicaciones antes de que aparezcan en el feed público.",
+      "cards": {
+        "content": "Moderación de Publicaciones",
+        "contentDesc": "Revisa el contenido enviado por usuarios y trabajadores."
+      },
       "metrics": {
         "totalUsers": "Total de Usuarios",
         "activeUsers": "Usuarios Activos",
@@ -542,6 +554,44 @@
     }
   }
   , "admin": {
+    "content": {
+      "eyebrow": "Gestión de Contenido",
+      "title": "Moderación de Publicaciones",
+      "subtitle": "Aprueba o rechaza publicaciones enviadas por los usuarios antes de mostrarlas en el feed público.",
+      "loading": "Cargando publicaciones para moderación...",
+      "empty": "No hay publicaciones para moderar en este momento.",
+      "noImage": "Sin imagen",
+      "imageAlt": "Imagen de la publicación",
+      "reviewed": "Esta publicación ya fue moderada.",
+      "actions": {
+        "approve": "Aprobar",
+        "reject": "Rechazar"
+      },
+      "stats": {
+        "total": "Total",
+        "pending": "Pendientes"
+      },
+      "meta": {
+        "userId": "Usuario",
+        "image": "Imagen",
+        "yes": "Sí",
+        "no": "No"
+      },
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "messages": {
+        "approved": "La publicación fue aprobada correctamente.",
+        "rejected": "La publicación fue rechazada correctamente.",
+        "moderationFailed": "No se pudo moderar la publicación. Intenta de nuevo."
+      },
+      "errors": {
+        "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+        "loadFailed": "No se pudieron cargar las publicaciones para moderación."
+      }
+    },
     "reports": {
       "title": "Gestión de Reportes",
       "subtitle": "Revisa y gestiona los reportes de la comunidad",

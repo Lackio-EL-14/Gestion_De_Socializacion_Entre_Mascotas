@@ -12,7 +12,12 @@
         "line2": "Soyez le premier à partager !"
       },
       "loading": "Chargement des publications...",
-      "createButtonLabel": "Créer une publication"
+      "createButtonLabel": "Créer une publication",
+      "errors": {
+        "noSession": "Aucune session active. Connectez-vous à nouveau.",
+        "loadFailed": "Impossible de charger les publications.",
+        "empty": "Il n'y a pas encore de publications approuvées à afficher."
+      }
     },
     "create": {
       "backLink": "Retour aux publications",
