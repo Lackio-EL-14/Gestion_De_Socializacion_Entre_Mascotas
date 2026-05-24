@@ -13,12 +13,28 @@ import { PublicationsModule } from './modules/publications/publications.module';
 import { ProfessionalProfileModule } from './modules/professional-profile/professional-profile.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UploadModule } from './modules/upload/upload.module';
+import { EmailService } from './modules/users/service/EmailService';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
             ConfigModule.forRoot({
               isGlobal: true,
             }),
+
+            MailerModule.forRoot({
+              transport: {
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+
+                auth: {
+                  user: process.env.MAIL_USER,
+                  pass: process.env.MAIL_PASS,
+                },
+              },
+            }),
+
             UploadModule,
             AuthModule, 
             UsersModule, 
@@ -46,6 +62,6 @@ import { UploadModule } from './modules/upload/upload.module';
             }),
           ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EmailService],
 })
 export class AppModule {}

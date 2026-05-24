@@ -12,7 +12,8 @@ import { Interaccion } from './entities/interaccion.entity';
 import { Mascota } from './entities/mascota.entity';
 import { UsuariosController } from './controller/usuarios.controller';
 import { UsuariosService } from './service/usuarios.service';
-import { AuthModule } from '../auth/auth.module'; 
+import { AuthModule } from '../auth/auth.module';
+import { EmailService } from './service/EmailService';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { AuthModule } from '../auth/auth.module';
     forwardRef(() => AuthModule) 
   ],
   controllers: [UsuariosController],
-  providers: [UsuariosService],
+  providers: [UsuariosService, EmailService],
   exports: [UsuariosService] 
 })
 export class UsersModule {}
