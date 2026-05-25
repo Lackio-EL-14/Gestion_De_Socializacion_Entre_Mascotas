@@ -30,6 +30,7 @@ export class SeePublicationsOwner implements OnInit {
 	isLoading = false;
 	isLoadingMore = false;
 	errorMessage = '';
+	idRolUsuario: number | null = null;
 
 	private currentPage = 1;
 	private itemsPerPage = 10;
@@ -44,6 +45,7 @@ export class SeePublicationsOwner implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.idRolUsuario = Number(localStorage.getItem('id_rol'));
 		this.loadPublications();
 	}
 
@@ -67,6 +69,22 @@ export class SeePublicationsOwner implements OnInit {
 
 	get hasPublications(): boolean {
 		return this.publications.length > 0;
+	}
+
+	get puedeCrearPublicacion(): boolean {
+		return this.idRolUsuario !== 1;
+	}
+
+	get esOwner(): boolean {
+	return this.idRolUsuario === 1;
+	}
+
+	get esAdmin(): boolean {
+	return this.idRolUsuario === 2;
+	}
+
+	get esWorker(): boolean {
+	return this.idRolUsuario === 3;
 	}
 
 	getAuthorPhoto(publication: PublicationFeedItem): string {

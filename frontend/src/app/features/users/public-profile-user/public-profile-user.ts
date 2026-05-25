@@ -38,6 +38,7 @@ export class PublicProfileUserComponent implements OnInit {
   cargandoMascotas = false;
   error = '';
   errorMascotas = '';
+  idRolUsuario = Number(localStorage.getItem('id_rol'));
 
   readonly fotoPlaceholder =
     'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=300&q=80';
@@ -52,6 +53,18 @@ export class PublicProfileUserComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef,
     private readonly translate: TranslateService
   ) {}
+
+  get esOwner(): boolean {
+    return this.idRolUsuario === 1;
+  }
+
+  get esAdmin(): boolean {
+    return this.idRolUsuario === 2;
+  }
+
+  get esWorker(): boolean {
+    return this.idRolUsuario === 3;
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -142,6 +155,13 @@ export class PublicProfileUserComponent implements OnInit {
   }
 
   volver(): void {
+    const idRol = Number(localStorage.getItem('id_rol'));
+
+    if (idRol === 3) {
+      this.router.navigate(['/users/worker']);
+      return;
+    }
+
     this.router.navigate(['/users']);
   }
 

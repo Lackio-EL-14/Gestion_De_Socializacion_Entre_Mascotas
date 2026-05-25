@@ -179,4 +179,20 @@ export class CreatePublications {
 	private t(key: string): string {
 		return this.translate.instant(key);
 	}
+	
+	volverAPublicaciones(): void {
+		const idRol = Number(localStorage.getItem('id_rol'));
+
+		if (idRol === 1) {
+			this.router.navigate(['/publications/owner']);
+			return;
+		}
+
+		if (idRol === 3) {
+			this.router.navigate(['/publications/worker']);
+			return;
+		}
+
+		this.router.navigate(['/publications']);
+	}
 }

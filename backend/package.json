@@ -41,7 +41,7 @@
 		"multer": "^2.1.1",
 		"mysql2": "^3.19.0",
 		"nest-winston": "^1.10.2",
-		"nodemailer": "^8.0.7",
+		"nodemailer": "^8.0.8",
 		"passport": "^0.7.0",
 		"passport-jwt": "^4.0.1",
 		"reflect-metadata": "^0.2.2",

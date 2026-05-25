@@ -33,6 +33,7 @@ export class ListUsersComponent implements OnInit {
   cargando = false;
   error = '';
   busqueda = '';
+  idRolUsuario = Number(localStorage.getItem('id_rol'));
 
   readonly fotoPlaceholder =
     'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=300&q=80';
@@ -44,6 +45,18 @@ export class ListUsersComponent implements OnInit {
     private readonly translate: TranslateService
   ) {}
 
+  get esOwner(): boolean {
+    return this.idRolUsuario === 1;
+  }
+
+  get esAdmin(): boolean {
+    return this.idRolUsuario === 2;
+  }
+
+  get esWorker(): boolean {
+    return this.idRolUsuario === 3;
+  }
+  
   ngOnInit(): void {
     this.obtenerUsuarios();
   }

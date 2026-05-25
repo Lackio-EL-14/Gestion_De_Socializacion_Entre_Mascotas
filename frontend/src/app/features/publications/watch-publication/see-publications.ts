@@ -30,6 +30,7 @@ export class SeePublications implements OnInit {
 	isLoading = false;
 	isLoadingMore = false;
 	errorMessage = '';
+	idRolUsuario = Number(localStorage.getItem('id_rol'));
 	
 	private currentPage = 1;
 	private itemsPerPage = 10;
@@ -42,6 +43,18 @@ export class SeePublications implements OnInit {
 		private readonly translate: TranslateService,
 		private readonly cdr: ChangeDetectorRef,
 	) {}
+
+	get esOwner(): boolean {
+  	return this.idRolUsuario === 1;
+	}
+
+	get esAdmin(): boolean {
+	return this.idRolUsuario === 2;
+	}
+
+	get esWorker(): boolean {
+	return this.idRolUsuario === 3;
+	}
 
 	ngOnInit(): void {
 		this.loadPublications();
