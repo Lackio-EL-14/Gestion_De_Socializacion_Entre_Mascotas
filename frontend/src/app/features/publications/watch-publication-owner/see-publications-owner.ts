@@ -75,6 +75,18 @@ export class SeePublicationsOwner implements OnInit {
 		return this.idRolUsuario !== 1;
 	}
 
+	get esOwner(): boolean {
+	return this.idRolUsuario === 1;
+	}
+
+	get esAdmin(): boolean {
+	return this.idRolUsuario === 2;
+	}
+
+	get esWorker(): boolean {
+	return this.idRolUsuario === 3;
+	}
+
 	getAuthorPhoto(publication: PublicationFeedItem): string {
 		return publication.autor.foto || '';
 	}

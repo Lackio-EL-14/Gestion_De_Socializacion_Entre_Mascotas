@@ -1,5 +1,7 @@
 <div class="layout">
-  <app-sidebar-worker></app-sidebar-worker>
+  <app-sidebar-owner *ngIf="esOwner"></app-sidebar-owner>
+  <app-sidebar-admin *ngIf="esAdmin"></app-sidebar-admin>
+  <app-sidebar-worker *ngIf="esWorker"></app-sidebar-worker>
 
   <main class="main-content">
     <header class="page-header">
