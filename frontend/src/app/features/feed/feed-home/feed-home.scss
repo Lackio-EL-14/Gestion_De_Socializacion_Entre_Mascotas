@@ -622,6 +622,12 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
   }
 }
 
+/* Extra small-screen tuning */
+@media (max-width: 640px) {
+  .dog-card { max-width: 100%; }
+  .dog-card__photo-wrap { height: 300px; }
+}
+
 .pet-selector-card {
   max-width: 420px;
   margin: 0 auto 22px;
