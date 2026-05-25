@@ -6,6 +6,12 @@
   @media (max-width: 768px) {
     flex-direction: column;
   }
+
+  @media (max-width: 480px) {
+    .message-content { max-width: 95% !important; padding: 10px; }
+    .conversation-item { min-width: 120px; }
+    .chat-sidebar { max-height: 160px; }
+  }
 }
 
 .chat-sidebar {

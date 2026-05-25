@@ -1,0 +1,17 @@
+/* App-level responsive helpers */
+
+.layout {
+	display: flex;
+	min-height: 100vh;
+}
+
+.main-content {
+	flex: 1;
+	padding: 36px 40px;
+}
+
+@media (max-width: 768px) {
+	.layout { flex-direction: column; }
+	.main-content { padding: 20px; }
+}
+

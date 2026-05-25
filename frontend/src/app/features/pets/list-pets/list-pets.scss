@@ -263,3 +263,9 @@ ul {
     font-size: 1.5rem;
   }
 }
+
+/* Extra adjustments for intermediate small screens */
+@media (max-width: 640px) {
+  .pet-card { max-width: 100%; }
+  .pet-image { height: 180px; }
+}

@@ -177,6 +177,18 @@ $transition-speed: 0.2s;
     padding: 24px 20px;
   }
 
+
+/* Additional small-screen adjustments */
+@media (max-width: 640px) {
+  .pets-grid { justify-content: center; }
+
+  .pet-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .pet-image { height: 180px; }
+}
   .pets-grid {
     justify-content: center;
   }
