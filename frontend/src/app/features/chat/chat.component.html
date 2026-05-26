@@ -1,8 +1,35 @@
+<div class="chat-page">
+  <header class="chat-topbar">
+    <div class="chat-topbar__brand">
+      <div class="chat-topbar__eyebrow">DogChat</div>
+      <h1 class="chat-topbar__title">Mensajes</h1>
+      <p class="chat-topbar__subtitle">Sigue la conversación sin perder contexto.</p>
+    </div>
+
+    <nav class="chat-topbar__nav" aria-label="Navegacion del chat">
+      <a routerLink="/feed" class="chat-topbar__nav-link chat-topbar__nav-link--back">
+        ← Volver al feed
+      </a>
+      <a routerLink="/feed" routerLinkActive="chat-topbar__nav-link--active" [routerLinkActiveOptions]="{ exact: true }" class="chat-topbar__nav-link">
+        Feed
+      </a>
+      <a routerLink="/chats" routerLinkActive="chat-topbar__nav-link--active" [routerLinkActiveOptions]="{ exact: true }" class="chat-topbar__nav-link">
+        Chats
+      </a>
+      <a routerLink="/pets/list-pets" routerLinkActive="chat-topbar__nav-link--active" class="chat-topbar__nav-link">
+        Mascotas
+      </a>
+    </nav>
+  </header>
+
 <div class="chat-container">
   <!-- Sidebar con lista de conversaciones -->
   <aside class="chat-sidebar">
     <div class="sidebar-header">
-      <h2>Mensajes</h2>
+      <div>
+        <span class="sidebar-kicker">Centro de chat</span>
+        <h2>Mensajes</h2>
+      </div>
       <button class="refresh-btn" (click)="loadInbox()" [disabled]="loadingInbox" title="Actualizar">
         ⟳
       </button>
@@ -128,4 +155,5 @@
       </button>
     </div>
   </main>
+</div>
 </div>
