@@ -14,32 +14,32 @@ const routes: Routes = [
   { path: 'dashboard-admin', component: DashboardAdmin },
   { path: 'admin/content', component: AdminContentPublicationsComponent },
   { path: 'dashboard-edit-owner', component: DashboardEditOwner },*/
-  { 
-    path: 'dashboard-worker', 
+  {
+    path: 'dashboard-worker',
     component: DashboardWorkerComponent,
     canActivate: [roleGuard],
     data: { roles: [3] }
   },
-  { 
-    path: 'dashboard-owner', 
+  {
+    path: 'dashboard-owner',
     component: DashboardOwner,
     canActivate: [roleGuard],
     data: { roles: [1] }
   },
-  { 
-    path: 'dashboard-admin', 
+  {
+    path: 'dashboard-admin',
     component: DashboardAdmin,
     canActivate: [roleGuard],
     data: { roles: [2] }
   },
-  { 
-    path: 'admin/content', 
+  {
+    path: 'admin/content',
     component: AdminContentPublicationsComponent,
     canActivate: [roleGuard],
     data: { roles: [2] }
   },
-  { 
-    path: 'dashboard-edit-owner', 
+  {
+    path: 'dashboard-edit-owner',
     component: DashboardEditOwner,
     canActivate: [roleGuard],
     data: { roles: [1] }
@@ -52,12 +52,16 @@ const routes: Routes = [
   {
     path: 'worker/publications',
     loadChildren: () =>
-      import('./features/publications/publications-module').then(m => m.PublicationsModule)
+      import('./features/publications/publications-module').then(m => m.PublicationsModule),
+    canActivate: [roleGuard],
+    data: { roles: [3] }
   },
   {
     path: 'worker/my-publications',
     loadChildren: () =>
-      import('./features/publications/publications-module').then(m => m.PublicationsModule)
+      import('./features/publications/publications-module').then(m => m.PublicationsModule),
+    canActivate: [roleGuard],
+    data: { roles: [3] }
   },
   {
     path: 'pets',
@@ -67,7 +71,9 @@ const routes: Routes = [
   {
     path: 'chat',
     loadChildren: () =>
-      import('./features/chat/chat-module').then(m => m.ChatModule)
+      import('./features/chat/chat-module').then(m => m.ChatModule),
+    canActivate: [roleGuard],
+    data: { roles: [1, 3] }
   },
   {
     path: 'chats',
@@ -107,7 +113,9 @@ const routes: Routes = [
   {
     path: 'admin/reports',
     loadChildren: () =>
-      import('./features/reports/reports-module').then(m => m.ReportsModule)
+      import('./features/reports/reports-module').then(m => m.ReportsModule),
+    canActivate: [roleGuard],
+    data: { roles: [2] }
   },
   {
     path: 'users',
