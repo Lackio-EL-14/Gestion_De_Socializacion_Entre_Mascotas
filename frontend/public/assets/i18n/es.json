@@ -33,7 +33,7 @@
       "descriptionPlaceholder": "¿Qué está pasando? Comparte algo sobre tu mascota...",
       "submit": "Publicar",
       "submitLoading": "Publicando...",
-      "discard": "Descartar",
+      "discard": "Descartar cambios",
       "messages": {
         "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
         "descriptionRequired": "La descripción es obligatoria para publicar.",

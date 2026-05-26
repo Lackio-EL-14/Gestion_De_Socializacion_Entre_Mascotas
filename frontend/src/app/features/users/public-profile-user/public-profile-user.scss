@@ -48,7 +48,7 @@ $card-width: 360px;
 .back-btn {
   background: none;
   border: none;
-  color: $color-primary;
+  color: black;
   font-weight: 600;
   cursor: pointer;
 
@@ -382,24 +382,51 @@ $card-width: 360px;
 }
 
 @media (max-width: 640px) {
+
+  .top-link {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .profile-card {
+    padding: 32px 20px;
+    text-align: center;
+  }
+
   .profile-header {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column-reverse; 
+    align-items: center;
+    gap: 20px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .profile-photo {
+    width: 250px; 
+    height: 250px;
+    margin-top: 10px;
+  }
+
+  .profile-item {
+    align-items: center;
   }
 
   .profile-actions {
-    justify-content: stretch;
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 32px;
   }
 
   .report-btn {
-    width: 100%;
+    width: 50%; 
+    padding: 12px 10px;
   }
 
   .dog-card__info-grid {
     grid-template-columns: 1fr;
-  }
-
-  .dog-card__photo-wrap {
-    height: 280px;
   }
 }

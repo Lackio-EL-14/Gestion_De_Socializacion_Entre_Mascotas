@@ -398,6 +398,14 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
 @media (max-width: 768px) {
   .main-content { padding: 24px 16px 80px; }
 
+  .page-header {
+    text-align: center;
+    
+    &__title {
+      font-size: 1.5rem; // Un poco más pequeño para que no rompa en pantallas mini
+    }
+  }
+
   .feed { max-width: 100%; }
 
   .fab { bottom: 24px; right: 20px; }

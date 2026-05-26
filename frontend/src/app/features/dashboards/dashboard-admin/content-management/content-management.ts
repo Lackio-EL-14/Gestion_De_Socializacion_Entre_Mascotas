@@ -19,7 +19,7 @@ interface AdminPublicationItem {
   styleUrl: './content-management.scss',
 })
 export class AdminContentPublicationsComponent implements OnInit {
-  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
+  private readonly apiBaseUrl = 'http://localhost:3000';
 
   publicaciones: AdminPublicationItem[] = [];
   cargando = false;

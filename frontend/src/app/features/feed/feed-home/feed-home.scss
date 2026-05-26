@@ -602,6 +602,16 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
 @media (max-width: 768px) {
   .sidebar { display: none; }
   .main-content { padding: 24px 20px; }
+
+  .page-header {
+    text-align: center;
+
+    &__title {
+      width: 80%;           
+      margin-left: auto;    
+      margin-right: auto;   
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -610,6 +620,12 @@ button { cursor: pointer; font-family: $font-family; border: none; background: n
     &__body { padding: 18px 18px 16px; }
     &__name { font-size: 1.5rem; }
   }
+}
+
+/* Extra small-screen tuning */
+@media (max-width: 640px) {
+  .dog-card { max-width: 100%; }
+  .dog-card__photo-wrap { height: 300px; }
 }
 
 .pet-selector-card {

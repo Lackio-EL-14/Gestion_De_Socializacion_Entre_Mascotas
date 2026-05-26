@@ -133,3 +133,19 @@
     color: #10b981;
   }
 }
+
+@media (max-width: 768px) {
+  .main-content { padding: 20px; }
+
+  .report-card {
+    padding: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .grid { grid-template-columns: 1fr; }
+
+  .acciones { flex-direction: column; }
+
+  .evidencia img { max-width: 100%; height: auto; }
+}

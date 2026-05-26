@@ -233,3 +233,18 @@ $font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: #64748b;
   text-align: right;
 }
+
+@media (max-width: 768px) {
+  .report-card {
+    padding: 20px;
+    max-width: 100%;
+    margin: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .report-form { gap: 12px; }
+
+  .actions { flex-direction: column; gap: 10px; }
+
+  .btn-send, .btn-cancel { width: 100%; }
+}

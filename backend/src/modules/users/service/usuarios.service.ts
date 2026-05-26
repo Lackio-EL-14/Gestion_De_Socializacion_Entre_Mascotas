@@ -12,6 +12,7 @@ import { UpdateMyProfileDto } from '../dto/update-my-profile.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { EmailService } from './EmailService';
 
 @Injectable()
 export class UsuariosService {
@@ -24,6 +25,7 @@ export class UsuariosService {
     private perfilProfesionalRepository: Repository<PerfilProfesional>,
     private dataSource: DataSource,
     private jwtService: JwtService,
+    private emailService: EmailService,
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Partial<Usuario>> {
@@ -195,7 +197,12 @@ export class UsuariosService {
     const linkSimulado = `http://localhost:3000/restablecer?token=${tokenRecuperacion}`;
     
     this.logger.log(`[AUDIT-RECOVERY] Token de recuperación temporal generado exitosamente para ID: ${usuario.id_usuario}`);
-    this.logger.debug(`SIMULACIÓN DE CORREO SMTP -> DESTINO: ${email} | ENLACE: ${linkSimulado}`);
+    //this.logger.debug(`SIMULACIÓN DE CORREO SMTP -> DESTINO: ${email} | ENLACE: ${linkSimulado}`);
+    await this.emailService.enviarRecuperacion(
+      usuario.email,
+      usuario.nombre,
+      linkSimulado
+    );
 
     return { 
       message: 'Si el correo existe, se ha enviado un enlace de recuperación.',

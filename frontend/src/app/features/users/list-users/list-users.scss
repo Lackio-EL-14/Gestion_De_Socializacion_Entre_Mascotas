@@ -210,3 +210,74 @@ $transition: 0.2s ease;
     white-space: nowrap;
   }
 }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+
+  .main-content { padding: 20px 16px; }
+
+  .page-header {
+    text-align: center;
+    &__title { font-size: 1.8rem; }
+  }
+
+  .users-table {
+    display: block; 
+    border: none;
+
+    thead {
+      display: none; 
+    }
+
+    tbody, tr, td {
+      display: block; 
+      width: 100%;
+    }
+
+    tr {
+      background: $color-card-bg;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: $border-radius-card;
+      border: 1px solid $color-border;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      
+      display: grid;
+      grid-template-columns: 100px 1fr; 
+      gap: 20px;
+      align-items: start;
+    }
+
+    td {
+      padding: 0 !important;
+      border: none !important;
+      text-align: left !important;
+      white-space: normal !important; 
+
+      &:first-child {
+        grid-row: span 4; 
+      }
+
+      &.user-name {
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+      }
+
+      .view-btn {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .user-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px; 
+  }
+
+  .status-badge {
+    margin: 5px 0;
+  }
+}

@@ -216,7 +216,7 @@ onVaccineSelected(event: Event) {
   cerrarModal(): void {
     this.modalVisible = false;
     if(this.modalTipo === 'success') {
-      this.router.navigate(['/dashboard-owner']);
+      this.router.navigate(['/pets/list-pets']);
     }
   }
 }

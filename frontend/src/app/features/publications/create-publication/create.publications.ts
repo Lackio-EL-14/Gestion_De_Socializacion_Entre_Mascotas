@@ -20,7 +20,7 @@ interface CreatePublicationRequest {
 	styleUrl: './create-publications.scss',
 })
 export class CreatePublications {
-	private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
+	private readonly apiBaseUrl = 'http://localhost:3000';
 	private readonly allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
 	private readonly maxFileSizeBytes = 2 * 1024 * 1024;
 
@@ -178,5 +178,21 @@ export class CreatePublications {
 
 	private t(key: string): string {
 		return this.translate.instant(key);
+	}
+	
+	volverAPublicaciones(): void {
+		const idRol = Number(localStorage.getItem('id_rol'));
+
+		if (idRol === 1) {
+			this.router.navigate(['/publications/owner']);
+			return;
+		}
+
+		if (idRol === 3) {
+			this.router.navigate(['/publications/worker']);
+			return;
+		}
+
+		this.router.navigate(['/publications']);
 	}
 }
