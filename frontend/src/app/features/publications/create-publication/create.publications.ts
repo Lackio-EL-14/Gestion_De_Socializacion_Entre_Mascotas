@@ -20,7 +20,7 @@ interface CreatePublicationRequest {
 	styleUrl: './create-publications.scss',
 })
 export class CreatePublications {
-	private readonly apiBaseUrl = 'http://localhost:3000';
+	private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
 	private readonly allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
 	private readonly maxFileSizeBytes = 2 * 1024 * 1024;
 
