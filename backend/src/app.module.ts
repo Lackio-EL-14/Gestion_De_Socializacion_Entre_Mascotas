@@ -46,9 +46,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
             PublicationsModule, 
             ProfessionalProfileModule,
             TypeOrmModule.forRoot({//
-              type: 'mariadb',
+              type: 'mysql',
               host: process.env.DB_HOST,
-              port: 27497,
+              port: parseInt(process.env.DB_PORT||"11359", 10),
               username: process.env.DB_USERNAME,
               password: process.env.DB_PASSWORD,
               database: process.env.DB_DATABASE,
@@ -57,6 +57,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
 
               ssl: {
                 rejectUnauthorized: false,
+              },
+              extra: {
+                allowPublicKeyRetrieval: true,
               },
 
             }),
