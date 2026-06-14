@@ -409,6 +409,10 @@
       "gender": {
         "male": "Macho",
         "female": "Hembra"
+      },
+      "imageInfo": "Máximo 2MB. Formatos aceptados: JPG, PNG, WEBP.",
+      "validation": {
+        "fileTooLarge": "El archivo es demasiado pesado. El límite máximo es de 2MB."
       }
     },
     "list": {
