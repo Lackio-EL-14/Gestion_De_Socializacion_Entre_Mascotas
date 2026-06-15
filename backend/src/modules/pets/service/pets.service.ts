@@ -57,11 +57,6 @@ export class PetsService {
     return pets.map(({ id_usuario, ...pet }) => pet);
   }
 
- /*  async findAll() {
-    this.logger.log(`[AUDIT-PETS] Consulta global de entidades mascota ejecutada en el sistema.`);
-    return this.petsRepository.find();
-  } */
-
   async update(id: number, updatePetDto: UpdatePetDto) {
     const pet = await this.petsRepository.findOne({
       where: { id_mascota: id }

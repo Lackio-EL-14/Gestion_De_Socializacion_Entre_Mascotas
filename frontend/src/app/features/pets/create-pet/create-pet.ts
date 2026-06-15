@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from "rxjs";
 
+const MAX_FILE_SIZE_MB = 2;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 interface CreatePetRequest {
   nombre: string;
   raza: string;
@@ -178,7 +180,14 @@ export class CreatePetComponent {
   const input = event.target as HTMLInputElement;
 
   if (input.files && input.files.length > 0) {
-    this.imagen = input.files[0];
+    const file = input.files[0];
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.common.validation.fileTooLarge', 'error');
+        input.value = '';
+        this.imagen = null;
+        return;
+      }
+      this.imagen=file;
   }
 }
 
@@ -186,6 +195,13 @@ onVaccineSelected(event: Event) {
   const input = event.target as HTMLInputElement;
 
   if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.common.validation.fileTooLarge', 'error');
+        input.value = '';
+        this.archivoVacunas = null;
+        return;
+      }
     this.archivoVacunas = input.files[0];
   }
 }

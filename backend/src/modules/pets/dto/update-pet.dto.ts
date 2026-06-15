@@ -47,6 +47,10 @@ export class UpdatePetDto {
   vacuna_imagen_url?: string;
 
   @IsOptional()
+  @IsString()
+  relfil_imagen_url?: string;
+
+  @IsOptional()
   @IsInt()
   id_usuario?: number;
 }
