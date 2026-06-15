@@ -1,6 +1,9 @@
 .chat-page {
+  width: 100%;
   min-height: 100vh;
-  padding: 18px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   background:
     radial-gradient(circle at top left, rgba(76, 175, 80, 0.12), transparent 28%),
     radial-gradient(circle at top right, rgba(46, 125, 50, 0.08), transparent 24%),
@@ -485,6 +488,7 @@
   display: flex;
   width: 100%;
   min-height: 100vh;
+  align-items: stretch;
 }
 
 .chat-content {
@@ -524,7 +528,7 @@
 
 @media (max-width: 768px) {
   .chat-page {
-    padding: 10px;
+    padding: 0;
   }
 
   .chat-topbar {
