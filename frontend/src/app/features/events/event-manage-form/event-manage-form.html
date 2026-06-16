@@ -1,0 +1,148 @@
+<div class="layout">
+  <app-sidebar-owner *ngIf="esOwner"></app-sidebar-owner>
+  <app-sidebar-admin *ngIf="esAdmin"></app-sidebar-admin>
+  <app-sidebar-worker *ngIf="esWorker"></app-sidebar-worker>
+
+  <main class="main-content">
+    <a class="back-link" href="javascript:void(0)" (click)="goToCatalog()">
+      {{ 'events.form.backToCatalog' | translate }}
+    </a>
+
+    <header class="page-header">
+      <h1 class="page-header__title">{{ 'events.form.title' | translate }}</h1>
+      <p class="page-header__subtitle">{{ 'events.form.subtitle' | translate }}</p>
+    </header>
+
+    <div
+      *ngIf="feedbackMessage"
+      class="feedback"
+      [class.feedback--error]="feedbackType === 'error'"
+      [class.feedback--success]="feedbackType === 'success'"
+    >
+      {{ feedbackMessage }}
+    </div>
+
+    <form class="event-form" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-group form-group--full">
+          <label for="nombre">{{ 'events.form.fields.name' | translate }}</label>
+          <input
+            id="nombre"
+            type="text"
+            name="nombre"
+            [(ngModel)]="form.nombre"
+            (ngModelChange)="onFieldChange('nombre')"
+            [class.invalid]="hasFieldError('nombre')"
+            maxlength="150"
+          />
+          <small *ngIf="hasFieldError('nombre')">{{ fieldErrors.nombre }}</small>
+        </div>
+
+        <div class="form-group form-group--full">
+          <label for="descripcion">{{ 'events.form.fields.description' | translate }}</label>
+          <textarea
+            id="descripcion"
+            name="descripcion"
+            [(ngModel)]="form.descripcion"
+            (ngModelChange)="onFieldChange('descripcion')"
+            [class.invalid]="hasFieldError('descripcion')"
+            rows="4"
+          ></textarea>
+          <small *ngIf="hasFieldError('descripcion')">{{ fieldErrors.descripcion }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="fecha_hora">{{ 'events.form.fields.datetime' | translate }}</label>
+          <input
+            id="fecha_hora"
+            type="datetime-local"
+            name="fecha_hora"
+            [(ngModel)]="form.fecha_hora"
+            (ngModelChange)="onFieldChange('fecha_hora')"
+            [class.invalid]="hasFieldError('fecha_hora')"
+          />
+          <small *ngIf="hasFieldError('fecha_hora')">{{ fieldErrors.fecha_hora }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="tipo_actividad">{{ 'events.form.fields.activityType' | translate }}</label>
+          <input
+            id="tipo_actividad"
+            type="text"
+            name="tipo_actividad"
+            [(ngModel)]="form.tipo_actividad"
+            (ngModelChange)="onFieldChange('tipo_actividad')"
+            [class.invalid]="hasFieldError('tipo_actividad')"
+            maxlength="100"
+          />
+          <small *ngIf="hasFieldError('tipo_actividad')">{{ fieldErrors.tipo_actividad }}</small>
+        </div>
+
+        <div class="form-group form-group--full">
+          <label for="direccion">{{ 'events.form.fields.address' | translate }}</label>
+          <input
+            id="direccion"
+            type="text"
+            name="direccion"
+            [(ngModel)]="form.direccion"
+            (ngModelChange)="onFieldChange('direccion')"
+            [class.invalid]="hasFieldError('direccion')"
+            maxlength="200"
+          />
+          <small *ngIf="hasFieldError('direccion')">{{ fieldErrors.direccion }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="capacidad_maxima">{{ 'events.form.fields.capacity' | translate }}</label>
+          <input
+            id="capacidad_maxima"
+            type="number"
+            name="capacidad_maxima"
+            [(ngModel)]="form.capacidad_maxima"
+            (ngModelChange)="onFieldChange('capacidad_maxima')"
+            [class.invalid]="hasFieldError('capacidad_maxima')"
+            min="1"
+          />
+          <small *ngIf="hasFieldError('capacidad_maxima')">{{ fieldErrors.capacidad_maxima }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="latitud">{{ 'events.form.fields.latitude' | translate }}</label>
+          <input
+            id="latitud"
+            type="number"
+            name="latitud"
+            [(ngModel)]="form.latitud"
+            (ngModelChange)="onFieldChange('latitud')"
+            [class.invalid]="hasFieldError('latitud')"
+            step="0.0000001"
+          />
+          <small *ngIf="hasFieldError('latitud')">{{ fieldErrors.latitud }}</small>
+        </div>
+
+        <div class="form-group">
+          <label for="longitud">{{ 'events.form.fields.longitude' | translate }}</label>
+          <input
+            id="longitud"
+            type="number"
+            name="longitud"
+            [(ngModel)]="form.longitud"
+            (ngModelChange)="onFieldChange('longitud')"
+            [class.invalid]="hasFieldError('longitud')"
+            step="0.0000001"
+          />
+          <small *ngIf="hasFieldError('longitud')">{{ fieldErrors.longitud }}</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn--ghost" (click)="goToCatalog()">
+          {{ 'events.form.actions.cancel' | translate }}
+        </button>
+        <button type="submit" class="btn btn--primary" [disabled]="isSubmitting">
+          {{ isSubmitting ? ('events.form.actions.saving' | translate) : ('events.form.actions.save' | translate) }}
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

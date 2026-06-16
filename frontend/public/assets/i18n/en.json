@@ -286,6 +286,7 @@
     "dashboard": "Dashboard",
     "cards": "Cards",
     "bones": "Bones",
+    "events": "Events",
     "publications": "Publications",
     "myPublications": "My Publications",
     "chats": "Chats",
@@ -297,6 +298,76 @@
     "manageReports": "Report Management",
     "manageContent": "Content Management",
     "searchUsers": "Search Users"
+  },
+  "events": {
+    "catalog": {
+      "title": "Events Catalog",
+      "subtitle": "Browse all scheduled activities in the community",
+      "createButton": "Create Event",
+      "filters": {
+        "from": "From",
+        "to": "To",
+        "clear": "Clear filters"
+      },
+      "loading": "Loading events...",
+      "emptyTitle": "No active events",
+      "emptySubtitle": "No activities have been published yet.",
+      "card": {
+        "date": "Date",
+        "location": "Location",
+        "capacity": "Capacity",
+        "available": "Available spots"
+      },
+      "actions": {
+        "attend": "Confirm attendance",
+        "cancel": "Cancel attendance",
+        "processing": "Processing..."
+      },
+      "messages": {
+        "loadError": "Could not load events.",
+        "noSession": "No active session found to confirm attendance.",
+        "attendanceConfirmed": "Attendance confirmed successfully.",
+        "attendanceError": "Could not confirm attendance.",
+        "attendanceCancelled": "Attendance cancelled successfully.",
+        "cancelError": "Could not cancel attendance."
+      }
+    },
+    "form": {
+      "backToCatalog": "Back to catalog",
+      "title": "Event Management",
+      "subtitle": "Complete the form to publish a new activity",
+      "fields": {
+        "name": "Event name",
+        "description": "Description",
+        "datetime": "Date and time",
+        "activityType": "Activity type",
+        "address": "Address",
+        "capacity": "Maximum capacity",
+        "latitude": "Latitude (optional)",
+        "longitude": "Longitude (optional)"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save event",
+        "saving": "Saving..."
+      },
+      "validation": {
+        "required": "This field is required.",
+        "minName": "Name must be at least 4 characters long.",
+        "minDescription": "Description must be at least 15 characters long.",
+        "invalidDate": "Date is not valid.",
+        "futureDate": "Date must be in the future.",
+        "capacity": "Capacity must be an integer greater than 0.",
+        "latitude": "Latitude must be between -90 and 90.",
+        "longitude": "Longitude must be between -180 and 180."
+      },
+      "messages": {
+        "validationError": "Review the highlighted fields before submitting.",
+        "noSession": "No active session found to create events.",
+        "success": "Event created successfully.",
+        "error": "Could not create event."
+      }
+    }
   },
   "dashboard": {
     "admin": {
