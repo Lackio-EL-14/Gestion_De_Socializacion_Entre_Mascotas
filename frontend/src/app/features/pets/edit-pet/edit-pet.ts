@@ -253,7 +253,7 @@ cargarMascota(): void {
         genero,
         edad: edad!,
         estado_salud,
-        vacuna_imagen_url: this.vacuna_imagen_url || '',
+        vacuna_imagen_url: nuevaUrlVacuna || '',
         perfil_imagen_url: nuevaUrlFoto || ''
       };
 

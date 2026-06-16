@@ -48,7 +48,7 @@ export class UpdatePetDto {
 
   @IsOptional()
   @IsString()
-  relfil_imagen_url?: string;
+  perfil_imagen_url?: string;
 
   @IsOptional()
   @IsInt()
