@@ -98,5 +98,69 @@ export class EventsService {
     } finally {
       await queryRunner.release();
     }
-  } 
+  }
+
+  async cancelarAsistencia(idEvento: number, idUsuario: number) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const asistencia = await queryRunner.manager.findOne(AsistenciaEvento, {
+        where: { evento: { id_evento: idEvento }, usuario: { id_usuario: idUsuario } },
+        relations: ['evento']
+      });
+
+      if (!asistencia || asistencia.estado_asistencia === 'CANCELADO') {
+        throw new BadRequestException('No estás registrado en este evento o ya cancelaste tu participación.');
+      }
+
+      const evento = await queryRunner.manager.findOne(Evento, {
+        where: { id_evento: idEvento },
+        lock: { mode: 'pessimistic_write' }
+      });
+
+      if (!evento) {
+        throw new NotFoundException('El evento ya no existe.');
+      }
+
+      asistencia.estado_asistencia = 'CANCELADO';
+      await queryRunner.manager.save(asistencia);
+
+      evento.asistentes_actuales -= 1;
+      await queryRunner.manager.save(evento);
+
+      await queryRunner.commitTransaction();
+      return { 
+        message: 'Participación cancelada exitosamente. Se ha liberado tu cupo.',
+        cupos_restantes: evento.capacidad_maxima - evento.asistentes_actuales
+      };
+
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async obtenerParticipantes(idEvento: number) {
+    const evento = await this.eventoRepository.findOne({ where: { id_evento: idEvento } });
+    if (!evento) throw new NotFoundException('El evento no existe.');
+
+    const asistentes = await this.asistenciaRepository.find({
+      where: { evento: { id_evento: idEvento }, estado_asistencia: 'CONFIRMADO' },
+      relations: ['usuario'],
+    });
+
+    return asistentes.map(a => ({
+      id_asistencia: a.id_asistencia,
+      fecha_registro: a.fecha_registro,
+      usuario: {
+        id_usuario: a.usuario.id_usuario,
+        nombres: a.usuario.nombre,
+      }
+    }));
+  }
+
 }

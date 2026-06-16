@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { EventsService } from '../service/events.service';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { CreateAssistanceDto } from '../dto/events-assistance.dto';
@@ -21,6 +21,19 @@ export class EventsController {
   @Post('attend')
   async confirmarAsistencia(@Body() dto: CreateAssistanceDto) {
     return this.eventsService.confirmarAsistencia(dto);
+  }
+
+  @Get(':id/participants')
+  async obtenerParticipantes(@Param('id', ParseIntPipe) idEvento: number) {
+    return this.eventsService.obtenerParticipantes(idEvento);
+  }
+
+  @Delete(':idEvento/attend/:idUsuario')
+  async cancelarAsistencia(
+    @Param('idEvento', ParseIntPipe) idEvento: number,
+    @Param('idUsuario', ParseIntPipe) idUsuario: number,
+  ) {
+    return this.eventsService.cancelarAsistencia(idEvento, idUsuario);
   }
 
 }
