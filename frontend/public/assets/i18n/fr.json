@@ -253,6 +253,7 @@
     "dashboard": "Tableau de bord",
     "cards": "Cartes",
     "bones": "Os",
+    "events": "Evenements",
     "publications": "Publications",
     "myPublications": "Mes Publications",
     "chats": "Discussions",
@@ -264,6 +265,76 @@
     "manageReports": "Gestion des Rapports",
     "manageContent": "Gestion du Contenu",
     "searchUsers": "Rechercher des utilisateurs"
+  },
+  "events": {
+    "catalog": {
+      "title": "Catalogue des evenements",
+      "subtitle": "Parcourez toutes les activites planifiees de la communaute",
+      "createButton": "Creer un evenement",
+      "filters": {
+        "from": "De",
+        "to": "A",
+        "clear": "Effacer les filtres"
+      },
+      "loading": "Chargement des evenements...",
+      "emptyTitle": "Aucun evenement actif",
+      "emptySubtitle": "Aucune activite n'a encore ete publiee.",
+      "card": {
+        "date": "Date",
+        "location": "Lieu",
+        "capacity": "Capacite",
+        "available": "Places disponibles"
+      },
+      "actions": {
+        "attend": "Confirmer la participation",
+        "cancel": "Annuler la participation",
+        "processing": "Traitement..."
+      },
+      "messages": {
+        "loadError": "Impossible de charger les evenements.",
+        "noSession": "Aucune session active pour confirmer la participation.",
+        "attendanceConfirmed": "Participation confirmee avec succes.",
+        "attendanceError": "Impossible de confirmer la participation.",
+        "attendanceCancelled": "Participation annulee avec succes.",
+        "cancelError": "Impossible d'annuler la participation."
+      }
+    },
+    "form": {
+      "backToCatalog": "Retour au catalogue",
+      "title": "Gestion des evenements",
+      "subtitle": "Remplissez le formulaire pour publier une nouvelle activite",
+      "fields": {
+        "name": "Nom de l'evenement",
+        "description": "Description",
+        "datetime": "Date et heure",
+        "activityType": "Type d'activite",
+        "address": "Adresse",
+        "capacity": "Capacite maximale",
+        "latitude": "Latitude (optionnel)",
+        "longitude": "Longitude (optionnel)"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "save": "Enregistrer l'evenement",
+        "saving": "Enregistrement..."
+      },
+      "validation": {
+        "required": "Ce champ est obligatoire.",
+        "minName": "Le nom doit contenir au moins 4 caracteres.",
+        "minDescription": "La description doit contenir au moins 15 caracteres.",
+        "invalidDate": "La date n'est pas valide.",
+        "futureDate": "La date doit etre future.",
+        "capacity": "La capacite doit etre un entier superieur a 0.",
+        "latitude": "La latitude doit etre comprise entre -90 et 90.",
+        "longitude": "La longitude doit etre comprise entre -180 et 180."
+      },
+      "messages": {
+        "validationError": "Verifiez les champs en rouge avant d'envoyer.",
+        "noSession": "Aucune session active pour creer des evenements.",
+        "success": "Evenement cree avec succes.",
+        "error": "Impossible de creer l'evenement."
+      }
+    }
   },
   "dashboard": {
     "admin": {
@@ -451,16 +522,6 @@
         "successMessage": "L'animal a ete mis a jour avec succes",
         "errorMessage": "Une erreur est survenue lors de la mise a jour de l'animal"
       }
-    }
-  },
-  "publications": {
-    "myPublications": {
-      "title": "Mes Publicaciones",
-      "subtitle": "Gestion et revision du statut de vos publications"
-    },
-    "see": {
-      "title": "Publicaciones",
-      "subtitle": "Feed de la comunidad y trabajadores del rubro"
     }
   }
 }

@@ -286,6 +286,7 @@
     "dashboard": "Dashboard",
     "cards": "Tarjetas",
     "bones": "Huesitos",
+    "events": "Eventos",
     "publications": "Publicaciones",
     "myPublications": "Mis Publicaciones",
     "chats": "Chats",
@@ -297,6 +298,76 @@
     "manageReports": "Gestión de Reportes",
     "manageContent": "Gestión de Contenido",
     "searchUsers": "Buscar Usuarios"
+  },
+  "events": {
+    "catalog": {
+      "title": "Catálogo de Eventos",
+      "subtitle": "Explora todas las actividades programadas para la comunidad",
+      "createButton": "Crear Evento",
+      "filters": {
+        "from": "Desde",
+        "to": "Hasta",
+        "clear": "Limpiar filtros"
+      },
+      "loading": "Cargando eventos...",
+      "emptyTitle": "No hay eventos activos",
+      "emptySubtitle": "Aún no se han publicado actividades.",
+      "card": {
+        "date": "Fecha",
+        "location": "Ubicación",
+        "capacity": "Aforo",
+        "available": "Cupos disponibles"
+      },
+      "actions": {
+        "attend": "Confirmar asistencia",
+        "cancel": "Cancelar asistencia",
+        "processing": "Procesando..."
+      },
+      "messages": {
+        "loadError": "No se pudieron cargar los eventos.",
+        "noSession": "No hay sesión activa para confirmar asistencia.",
+        "attendanceConfirmed": "Asistencia confirmada correctamente.",
+        "attendanceError": "No se pudo confirmar la asistencia.",
+        "attendanceCancelled": "Asistencia cancelada correctamente.",
+        "cancelError": "No se pudo cancelar la asistencia."
+      }
+    },
+    "form": {
+      "backToCatalog": "Volver al catálogo",
+      "title": "Gestión de Eventos",
+      "subtitle": "Completa el formulario para publicar una nueva actividad",
+      "fields": {
+        "name": "Nombre del evento",
+        "description": "Descripción",
+        "datetime": "Fecha y hora",
+        "activityType": "Tipo de actividad",
+        "address": "Dirección",
+        "capacity": "Capacidad máxima",
+        "latitude": "Latitud (opcional)",
+        "longitude": "Longitud (opcional)"
+      },
+      "actions": {
+        "cancel": "Cancelar",
+        "save": "Guardar evento",
+        "saving": "Guardando..."
+      },
+      "validation": {
+        "required": "Este campo es obligatorio.",
+        "minName": "El nombre debe tener al menos 4 caracteres.",
+        "minDescription": "La descripción debe tener al menos 15 caracteres.",
+        "invalidDate": "La fecha no es válida.",
+        "futureDate": "La fecha debe ser futura.",
+        "capacity": "La capacidad debe ser un número entero mayor a 0.",
+        "latitude": "La latitud debe estar entre -90 y 90.",
+        "longitude": "La longitud debe estar entre -180 y 180."
+      },
+      "messages": {
+        "validationError": "Revisa los campos marcados en rojo antes de enviar.",
+        "noSession": "No hay sesión activa para crear eventos.",
+        "success": "Evento creado exitosamente.",
+        "error": "No se pudo crear el evento."
+      }
+    }
   },
   "dashboard": {
     "admin": {

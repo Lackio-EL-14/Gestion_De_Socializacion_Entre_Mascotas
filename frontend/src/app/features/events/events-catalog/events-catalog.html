@@ -1,0 +1,103 @@
+<div class="layout">
+  <app-sidebar-owner *ngIf="esOwner"></app-sidebar-owner>
+  <app-sidebar-admin *ngIf="esAdmin"></app-sidebar-admin>
+  <app-sidebar-worker *ngIf="esWorker"></app-sidebar-worker>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h1 class="page-header__title">{{ 'events.catalog.title' | translate }}</h1>
+        <p class="page-header__subtitle">{{ 'events.catalog.subtitle' | translate }}</p>
+      </div>
+
+      <a routerLink="/events/create" class="create-button">
+        <svg class="create-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        {{ 'events.catalog.createButton' | translate }}
+      </a>
+    </header>
+
+    <div
+      *ngIf="feedbackMessage"
+      class="feedback"
+      [class.feedback--error]="feedbackType === 'error'"
+      [class.feedback--success]="feedbackType === 'success'"
+    >
+      {{ feedbackMessage }}
+    </div>
+
+    <section class="filters">
+      <div class="filters__group">
+        <label for="fromDate">{{ 'events.catalog.filters.from' | translate }}</label>
+        <input id="fromDate" type="date" [(ngModel)]="filterFromDate" />
+      </div>
+      <div class="filters__group">
+        <label for="toDate">{{ 'events.catalog.filters.to' | translate }}</label>
+        <input id="toDate" type="date" [(ngModel)]="filterToDate" />
+      </div>
+      <button type="button" class="filters__clear" (click)="clearDateFilters()">
+        {{ 'events.catalog.filters.clear' | translate }}
+      </button>
+    </section>
+
+    <section class="events-loading" *ngIf="isLoading">
+      <div class="events-loading__spinner"></div>
+      <span>{{ 'events.catalog.loading' | translate }}</span>
+    </section>
+
+    <section class="events-empty" *ngIf="!isLoading && !hasEvents">
+      <h2>{{ 'events.catalog.emptyTitle' | translate }}</h2>
+      <p>{{ 'events.catalog.emptySubtitle' | translate }}</p>
+    </section>
+
+    <section class="events-grid" *ngIf="!isLoading && hasEvents">
+      <article class="event-card" *ngFor="let event of filteredEvents">
+        <div class="event-card__head">
+          <span class="event-type">{{ event.tipo_actividad }}</span>
+          <span class="event-status">{{ event.estado_evento }}</span>
+        </div>
+
+        <h3 class="event-card__title">{{ event.nombre }}</h3>
+        <p class="event-card__desc">{{ event.descripcion }}</p>
+
+        <ul class="event-card__meta">
+          <li>
+            <strong>{{ 'events.catalog.card.date' | translate }}:</strong>
+            {{ event.fecha_hora | date:'medium' }}
+          </li>
+          <li>
+            <strong>{{ 'events.catalog.card.location' | translate }}:</strong>
+            {{ event.direccion }}
+          </li>
+          <li>
+            <strong>{{ 'events.catalog.card.capacity' | translate }}:</strong>
+            {{ event.asistentes_actuales }} / {{ event.capacidad_maxima }}
+          </li>
+          <li>
+            <strong>{{ 'events.catalog.card.available' | translate }}:</strong>
+            {{ getAvailableSpots(event) }}
+          </li>
+        </ul>
+
+        <div class="event-card__actions">
+          <button
+            type="button"
+            class="attendance-btn"
+            [class.attendance-btn--cancel]="isConfirmed(event.id_evento)"
+            [disabled]="!canAttend(event) || isProcessing(event.id_evento)"
+            (click)="toggleAttendance(event)"
+          >
+            <span *ngIf="!isProcessing(event.id_evento)">
+              {{ isConfirmed(event.id_evento)
+                ? ('events.catalog.actions.cancel' | translate)
+                : ('events.catalog.actions.attend' | translate) }}
+            </span>
+            <span *ngIf="isProcessing(event.id_evento)">{{ 'events.catalog.actions.processing' | translate }}</span>
+          </button>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>

@@ -96,6 +96,11 @@ const routes: Routes = [
       import('./features/feed/feed-module').then(m => m.FeedModule)
   },
   {
+    path: 'events',
+    loadChildren: () =>
+      import('./features/events/events-module').then(m => m.EventsModule)
+  },
+  {
     path: '',
     pathMatch: 'full',
     component: Home,
