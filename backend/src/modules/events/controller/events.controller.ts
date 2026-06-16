@@ -1,6 +1,8 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
 import { EventsService } from '../service/events.service';
 import { CreateEventDto } from '../dto/create-event.dto';
+import { CreateAssistanceDto } from '../dto/events-assistance.dto';
+
 
 @Controller('events')
 export class EventsController {
@@ -15,4 +17,10 @@ export class EventsController {
   async getActiveEvents() {
     return this.eventsService.getActiveEvents();
   }
+
+  @Post('attend')
+  async confirmarAsistencia(@Body() dto: CreateAssistanceDto) {
+    return this.eventsService.confirmarAsistencia(dto);
+  }
+
 }
