@@ -36,4 +36,8 @@ export class EventsController {
     return this.eventsService.cancelarAsistencia(idEvento, idUsuario);
   }
 
+  @Get('map')
+  async getEventsForMap() {
+    return this.eventsService.getEventsForMap();
+  }
 }
