@@ -280,7 +280,43 @@
         "noSession": "There is no active session.",
         "loadFailed": "Could not load your pets."
       }
+    },
+    "compatibility": {
+    "eyebrow": "Automatic analysis",
+    "title": "Compatibility",
+    "calculating": "Calculating compatibility...",
+    "match": "Matches",
+    "different": "Different",
+    "recommendationsTitle": "Interaction recommendations",
+    "level": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "fields": {
+      "breed": "Breed",
+      "size": "Size",
+      "age": "Age",
+      "gender": "Gender",
+      "health": "Health"
+    },
+    "recommendations": {
+      "high": "They have high compatibility. They can interact with normal supervision.",
+      "medium": "Compatibility is moderate. Introduce them gradually.",
+      "low": "Compatibility is low. Prefer short and closely supervised meetings.",
+      "breed": "They are different breeds; observe their play styles before letting them interact freely.",
+      "size": "They have different sizes; avoid rough play and supervise contact.",
+      "age": "The age difference may affect their energy levels; adjust the length of the meeting.",
+      "gender": "They have different genders; consider their temperament and neutering status.",
+      "health": "Their health conditions differ; verify that both can interact safely.",
+      "allMatch": "They match in every evaluated criterion."
+    },
+    "errors": {
+      "timeout": "The compatibility calculation took too long.",
+      "connectionFailed": "Could not connect to the compatibility service.",
+      "loadFailed": "Compatibility could not be calculated."
     }
+  }
   },
   "sidebar": {
     "dashboard": "Dashboard",
