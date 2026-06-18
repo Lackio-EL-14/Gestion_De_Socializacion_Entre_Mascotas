@@ -366,6 +366,28 @@
         "attendanceError": "Could not confirm attendance.",
         "attendanceCancelled": "Attendance cancelled successfully.",
         "cancelError": "Could not cancel attendance."
+      },
+      "actions": {
+        "request": "Request participation",
+        "confirm": "Confirm attendance",
+        "cancel": "Cancel participation",
+        "goBack": "Go back",
+        "processing": "Processing..."
+      },
+      "status": {
+        "confirmed": "Attendance confirmed"
+      },
+      "confirmation": {
+        "title": "Confirm participation",
+        "message": "Do you want to confirm your attendance at {{name}}?"
+      },
+      "participants": {
+        "title": "Participants",
+        "loading": "Loading participants...",
+        "empty": "There are no confirmed participants yet.",
+        "loadError": "The participant list could not be loaded.",
+        "unknownUser": "User",
+        "you": "You"
       }
     },
     "form": {

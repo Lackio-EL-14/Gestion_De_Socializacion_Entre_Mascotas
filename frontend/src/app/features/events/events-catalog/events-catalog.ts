@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 
 interface EventCreator {
   id_usuario: number;
@@ -29,6 +30,29 @@ interface EventMapItem {
   longitud: number;
 }
 
+interface EventParticipantUser {
+  id_usuario: number;
+  nombres: string;
+  apellidos?: string | null;
+}
+
+interface EventParticipant {
+  id_asistencia: number;
+  fecha_registro: string;
+  usuario: EventParticipantUser;
+}
+
+interface AttendEventResponse {
+  message: string;
+  evento: string;
+  cupos_restantes: number;
+}
+
+interface CancelAttendanceResponse {
+  message: string;
+  cupos_restantes: number;
+}
+
 @Component({
   selector: 'app-events-catalog',
   standalone: false,
@@ -45,11 +69,17 @@ export class EventsCatalogComponent implements OnInit {
   feedbackMessage = '';
   feedbackType: 'success' | 'error' = 'success';
   selectedEvent: EventItem | null = null;
+  selectedParticipants: EventParticipant[] = [];
+  participantsLoading = false;
+  participantsError = '';
+
+  attendanceRequestEventId: number | null = null;
   readonly idRolUsuario = Number(localStorage.getItem('id_rol'));
-  private readonly currentUserId = Number(localStorage.getItem('id_usuario') || 0);
+  readonly currentUserId = Number(localStorage.getItem('id_usuario') || 0);
   private readonly confirmedEventIds = new Set<number>();
   private readonly processingEventIds = new Set<number>();
   private readonly mapCoordinatesByEventId = new Map<number, { latitud: number; longitud: number }>();
+  private readonly participantsByEventId =  new Map<number, EventParticipant[]>();
 
   constructor(
     private readonly http: HttpClient,
@@ -116,7 +146,13 @@ export class EventsCatalogComponent implements OnInit {
     this.http.get<EventItem[]>(`${this.apiBaseUrl}/events`).subscribe({
       next: (response) => {
         this.events = Array.isArray(response) ? response : [];
+
         this.loadEventsForMapCoordinates();
+
+        // Recupera participantes y el estado de asistencia
+        // aunque el usuario haya recargado la página.
+        void this.synchronizeAttendanceState();
+
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -152,7 +188,10 @@ export class EventsCatalogComponent implements OnInit {
 
   toggleAttendance(event: EventItem): void {
     if (this.currentUserId <= 0) {
-      this.showFeedback(this.t('events.catalog.messages.noSession'), 'error');
+      this.showFeedback(
+        this.t('events.catalog.messages.noSession'),
+        'error'
+      );
       return;
     }
 
@@ -165,55 +204,173 @@ export class EventsCatalogComponent implements OnInit {
       return;
     }
 
-    this.confirmAttendance(event);
+    this.requestParticipation(event);
   }
 
-  private confirmAttendance(event: EventItem): void {
+confirmAttendance(event: EventItem): void {
+    if (
+      this.currentUserId <= 0 ||
+      this.isProcessing(event.id_evento)
+    ) {
+      return;
+    }
+
+    if (!this.canAttend(event)) {
+      this.attendanceRequestEventId = null;
+
+      this.showFeedback(
+        this.t('events.catalog.messages.noAvailableSpots'),
+        'error'
+      );
+      return;
+    }
+
     this.processingEventIds.add(event.id_evento);
 
-    this.http.post(
+    this.http.post<AttendEventResponse>(
       `${this.apiBaseUrl}/events/attend`,
-      { id_evento: event.id_evento, id_usuario: this.currentUserId },
-      { headers: this.buildHeaders() }
+      {
+        id_evento: event.id_evento,
+        id_usuario: this.currentUserId
+      },
+      {
+        headers: this.buildHeaders()
+      }
     ).subscribe({
-      next: () => {
+      next: (response) => {
         this.confirmedEventIds.add(event.id_evento);
-        event.asistentes_actuales += 1;
+        this.attendanceRequestEventId = null;
+
+        const cuposRestantes = Number(response.cupos_restantes);
+
+        if (Number.isFinite(cuposRestantes)) {
+          event.asistentes_actuales = Math.max(
+            0,
+            event.capacidad_maxima - cuposRestantes
+          );
+        } else {
+          event.asistentes_actuales = Math.min(
+            event.capacidad_maxima,
+            event.asistentes_actuales + 1
+          );
+        }
+
         this.processingEventIds.delete(event.id_evento);
-        this.showFeedback(this.t('events.catalog.messages.attendanceConfirmed'), 'success');
+
+        this.showFeedback(
+          response.message ||
+            this.t('events.catalog.messages.attendanceConfirmed'),
+          'success'
+        );
+
+        // Actualiza la lista mostrada y la caché.
+        void this.loadParticipants(event.id_evento, true);
+
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al confirmar asistencia:', error);
+
         this.processingEventIds.delete(event.id_evento);
-        this.showFeedback(this.extractBackendMessage(error, this.t('events.catalog.messages.attendanceError')), 'error');
+
+        /*
+        * Si devuelve 409, significa que ya estaba registrado.
+        * Sincronizamos el frontend para que muestre el estado correcto.
+        */
+        if (error?.status === 409) {
+          this.confirmedEventIds.add(event.id_evento);
+          this.attendanceRequestEventId = null;
+
+          void this.loadParticipants(event.id_evento, true);
+
+          this.showFeedback(
+            this.extractBackendMessage(
+              error,
+              this.t('events.catalog.messages.alreadyConfirmed')
+            ),
+            'success'
+          );
+
+          this.cdr.detectChanges();
+          return;
+        }
+
+        this.showFeedback(
+          this.extractBackendMessage(
+            error,
+            this.t('events.catalog.messages.attendanceError')
+          ),
+          'error'
+        );
+
         this.cdr.detectChanges();
       }
     });
   }
 
-  private cancelAttendance(event: EventItem): void {
-    this.processingEventIds.add(event.id_evento);
-
-    this.http.delete(
-      `${this.apiBaseUrl}/events/${event.id_evento}/attend/${this.currentUserId}`,
-      { headers: this.buildHeaders() }
-    ).subscribe({
-      next: () => {
-        this.confirmedEventIds.delete(event.id_evento);
-        event.asistentes_actuales = Math.max(0, event.asistentes_actuales - 1);
-        this.processingEventIds.delete(event.id_evento);
-        this.showFeedback(this.t('events.catalog.messages.attendanceCancelled'), 'success');
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error al cancelar asistencia:', error);
-        this.processingEventIds.delete(event.id_evento);
-        this.showFeedback(this.extractBackendMessage(error, this.t('events.catalog.messages.cancelError')), 'error');
-        this.cdr.detectChanges();
-      }
-    });
+cancelAttendance(event: EventItem): void {
+  if (
+    this.currentUserId <= 0 ||
+    this.isProcessing(event.id_evento)
+  ) {
+    return;
   }
+
+  this.processingEventIds.add(event.id_evento);
+
+  this.http.delete<CancelAttendanceResponse>(
+    `${this.apiBaseUrl}/events/${event.id_evento}/attend/${this.currentUserId}`,
+    {
+      headers: this.buildHeaders()
+    }
+  ).subscribe({
+    next: (response) => {
+      this.confirmedEventIds.delete(event.id_evento);
+      this.attendanceRequestEventId = null;
+
+      const cuposRestantes = Number(response.cupos_restantes);
+
+      if (Number.isFinite(cuposRestantes)) {
+        event.asistentes_actuales = Math.max(
+          0,
+          event.capacidad_maxima - cuposRestantes
+        );
+      } else {
+        event.asistentes_actuales = Math.max(
+          0,
+          event.asistentes_actuales - 1
+        );
+      }
+
+      this.processingEventIds.delete(event.id_evento);
+
+      this.showFeedback(
+        response.message ||
+          this.t('events.catalog.messages.attendanceCancelled'),
+        'success'
+      );
+
+      void this.loadParticipants(event.id_evento, true);
+
+      this.cdr.detectChanges();
+    },
+    error: (error) => {
+      console.error('Error al cancelar asistencia:', error);
+
+      this.processingEventIds.delete(event.id_evento);
+
+      this.showFeedback(
+        this.extractBackendMessage(
+          error,
+          this.t('events.catalog.messages.cancelError')
+        ),
+        'error'
+      );
+
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   private buildHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -250,11 +407,22 @@ export class EventsCatalogComponent implements OnInit {
 
   openModal(event: EventItem): void {
     this.selectedEvent = event;
+    this.selectedParticipants = [];
+    this.participantsError = '';
+    this.attendanceRequestEventId = null;
+
     document.body.style.overflow = 'hidden';
+
+    void this.loadParticipants(event.id_evento);
   }
 
   closeModal(): void {
     this.selectedEvent = null;
+    this.selectedParticipants = [];
+    this.participantsError = '';
+    this.participantsLoading = false;
+    this.attendanceRequestEventId = null;
+
     document.body.style.overflow = 'auto';
   }
 
@@ -348,5 +516,192 @@ export class EventsCatalogComponent implements OnInit {
     }
 
     return { latitud: lat, longitud: lng };
+  }
+
+  requestParticipation(event: EventItem): void {
+    if (this.currentUserId <= 0) {
+      this.showFeedback(
+        this.t('events.catalog.messages.noSession'),
+        'error'
+      );
+      return;
+    }
+
+    if (this.isConfirmed(event.id_evento)) {
+      return;
+    }
+
+    if (!this.canAttend(event)) {
+      this.showFeedback(
+        this.t('events.catalog.messages.noAvailableSpots'),
+        'error'
+      );
+      return;
+    }
+
+    if (
+      !this.selectedEvent ||
+      this.selectedEvent.id_evento !== event.id_evento
+    ) {
+      this.openModal(event);
+    }
+
+    this.attendanceRequestEventId = event.id_evento;
+    this.cdr.detectChanges();
+  }
+
+  cancelParticipationRequest(): void {
+    this.attendanceRequestEventId = null;
+  }
+
+  isParticipationRequestOpen(eventId: number): boolean {
+    return this.attendanceRequestEventId === eventId;
+  }
+
+  private async synchronizeAttendanceState(): Promise<void> {
+    this.confirmedEventIds.clear();
+    this.participantsByEventId.clear();
+
+    if (this.events.length === 0) {
+      return;
+    }
+
+    const requests = this.events.map(async (event) => {
+      try {
+        const response = await firstValueFrom(
+          this.http.get<EventParticipant[]>(
+            `${this.apiBaseUrl}/events/${event.id_evento}/participants`,
+            {
+              headers: this.buildHeaders()
+            }
+          )
+        );
+
+        const participants = Array.isArray(response)
+          ? response
+          : [];
+
+        this.participantsByEventId.set(
+          event.id_evento,
+          participants
+        );
+
+        /*
+        * La lista del backend es la fuente más confiable
+        * para asistentes actuales.
+        */
+        event.asistentes_actuales = participants.length;
+
+        const currentUserIsParticipant = participants.some(
+          (participant) =>
+            participant.usuario?.id_usuario === this.currentUserId
+        );
+
+        if (currentUserIsParticipant) {
+          this.confirmedEventIds.add(event.id_evento);
+        }
+      } catch (error) {
+        /*
+        * El fallo de un evento no debe impedir que se cargue
+        * todo el catálogo.
+        */
+        console.error(
+          `No se pudieron sincronizar los participantes del evento ${event.id_evento}:`,
+          error
+        );
+      }
+    });
+
+    await Promise.all(requests);
+    this.cdr.detectChanges();
+  }
+
+  async loadParticipants(
+    eventId: number,
+    forceReload = false
+  ): Promise<void> {
+    if (!forceReload) {
+      const cachedParticipants =
+        this.participantsByEventId.get(eventId);
+
+      if (cachedParticipants) {
+        this.selectedParticipants = cachedParticipants;
+        this.participantsError = '';
+        this.participantsLoading = false;
+        return;
+      }
+    }
+
+    this.participantsLoading = true;
+    this.participantsError = '';
+
+    try {
+      const response = await firstValueFrom(
+        this.http.get<EventParticipant[]>(
+          `${this.apiBaseUrl}/events/${eventId}/participants`,
+          {
+            headers: this.buildHeaders()
+          }
+        )
+      );
+
+      const participants = Array.isArray(response)
+        ? response
+        : [];
+
+      this.participantsByEventId.set(
+        eventId,
+        participants
+      );
+
+      const event = this.events.find(
+        (item) => item.id_evento === eventId
+      );
+
+      if (event) {
+        event.asistentes_actuales = participants.length;
+      }
+
+      const currentUserIsParticipant = participants.some(
+        (participant) =>
+          participant.usuario?.id_usuario === this.currentUserId
+      );
+
+      if (currentUserIsParticipant) {
+        this.confirmedEventIds.add(eventId);
+      } else {
+        this.confirmedEventIds.delete(eventId);
+      }
+
+      if (this.selectedEvent?.id_evento === eventId) {
+        this.selectedParticipants = participants;
+      }
+    } catch (error) {
+      console.error('Error al cargar participantes:', error);
+
+      if (this.selectedEvent?.id_evento === eventId) {
+        this.selectedParticipants = [];
+        this.participantsError =
+          this.t('events.catalog.participants.loadError');
+      }
+    } finally {
+      if (this.selectedEvent?.id_evento === eventId) {
+        this.participantsLoading = false;
+        this.cdr.detectChanges();
+      }
+    }
+  }
+
+  getParticipantName(participant: EventParticipant): string {
+    const nombres =
+      participant.usuario?.nombres?.trim() || '';
+
+    const apellidos =
+      participant.usuario?.apellidos?.trim() || '';
+
+    const fullName = `${nombres} ${apellidos}`.trim();
+
+    return fullName ||
+      this.t('events.catalog.participants.unknownUser');
   }
 }

@@ -333,6 +333,28 @@
         "attendanceError": "Impossible de confirmer la participation.",
         "attendanceCancelled": "Participation annulee avec succes.",
         "cancelError": "Impossible d'annuler la participation."
+      },
+      "actions": {
+        "request": "Demander à participer",
+        "confirm": "Confirmer la présence",
+        "cancel": "Annuler la participation",
+        "goBack": "Retour",
+        "processing": "Traitement..."
+      },
+      "status": {
+        "confirmed": "Présence confirmée"
+      },
+      "confirmation": {
+        "title": "Confirmer la participation",
+        "message": "Voulez-vous confirmer votre présence à l’événement {{name}} ?"
+      },
+      "participants": {
+        "title": "Participants",
+        "loading": "Chargement des participants...",
+        "empty": "Il n’y a pas encore de participants confirmés.",
+        "loadError": "Impossible de charger la liste des participants.",
+        "unknownUser": "Utilisateur",
+        "you": "Vous"
       }
     },
     "form": {
