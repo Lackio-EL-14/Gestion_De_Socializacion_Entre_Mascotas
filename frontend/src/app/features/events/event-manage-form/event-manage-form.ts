@@ -34,7 +34,7 @@ interface EventFormData {
   styleUrl: './event-manage-form.scss'
 })
 export class EventManageFormComponent implements AfterViewInit, OnDestroy {
-  private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
   private readonly defaultMapCenter: L.LatLngExpression = [4.711, -74.0721];
 
   @ViewChild('eventLocationMap')

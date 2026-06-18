@@ -119,7 +119,7 @@ obtenerMascotas(): void {
     this.eliminando = true;
 
     this.http.delete(
-      `http://localhost:3000/pets/${this.mascotaSeleccionada.id_mascota}`,
+      `https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/${this.mascotaSeleccionada.id_mascota}`,
       { headers }
     ).subscribe({
 

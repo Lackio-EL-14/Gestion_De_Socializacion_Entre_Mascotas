@@ -231,7 +231,7 @@ cargarMascota(): void {
         formData.append('file', this.imagen);
 
         const uploadRes: any = await firstValueFrom(
-          this.http.post('http://localhost:3000/upload', formData, { headers })
+          this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/upload', formData, { headers })
         );
         nuevaUrlFoto = uploadRes.url;
       }
@@ -241,7 +241,7 @@ cargarMascota(): void {
         formData.append('file', this.archivoVacunas);
 
         const uploadRes: any = await firstValueFrom(
-          this.http.post('http://localhost:3000/upload', formData, { headers })
+          this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/upload', formData, { headers })
         );
         nuevaUrlVacuna = uploadRes.url;
       }
@@ -258,7 +258,7 @@ cargarMascota(): void {
       };
 
       await firstValueFrom(
-        this.http.patch(`http://localhost:3000/pets/${this.idMascota}`, body)
+        this.http.patch(`https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/${this.idMascota}`, body)
       );
 
       this.enviando = false;

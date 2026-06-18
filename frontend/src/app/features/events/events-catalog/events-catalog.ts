@@ -60,7 +60,7 @@ interface CancelAttendanceResponse {
   styleUrl: './events-catalog.scss'
 })
 export class EventsCatalogComponent implements OnInit {
-  private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
 
   events: EventItem[] = [];
   filterFromDate = '';

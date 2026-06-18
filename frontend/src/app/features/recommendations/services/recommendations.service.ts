@@ -8,7 +8,7 @@ import { RecommendationsResponse } from '../models/recommendations.models';
   providedIn: 'root'
 })
 export class RecommendationsService {
-  private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
 
   constructor(private readonly http: HttpClient) {}
 
