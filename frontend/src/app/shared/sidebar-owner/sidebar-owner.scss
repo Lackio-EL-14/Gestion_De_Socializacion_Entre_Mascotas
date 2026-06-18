@@ -161,6 +161,14 @@ ul {
     }
   }
 }
+.sidebar__logout {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
 
 @media (max-width: 768px) {
   .sidebar-mobile-toggle {

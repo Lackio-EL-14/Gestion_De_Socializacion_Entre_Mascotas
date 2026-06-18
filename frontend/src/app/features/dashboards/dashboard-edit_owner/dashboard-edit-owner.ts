@@ -89,8 +89,6 @@ export class DashboardEditOwner implements OnInit {
 			next: (perfil) => {
 				this.enviandoPerfil = false;
 				this.aplicarPerfil(perfil);
-				sessionStorage.setItem('usuarioNombre', this.nombreUsuario);
-				sessionStorage.setItem('usuarioEmail', this.emailUsuario);
 				this.setPerfilEstado('success', 'Perfil actualizado correctamente');
 				this.cdr.detectChanges();
 			},
@@ -117,8 +115,8 @@ export class DashboardEditOwner implements OnInit {
 	private cargarPerfil(): void {
 		const headers = this.getAuthHeaders();
 		if (!headers) {
-			this.nombreUsuario = sessionStorage.getItem('usuarioNombre') || 'Usuario';
-			this.emailUsuario = sessionStorage.getItem('usuarioEmail') || 'correo@no-disponible.com';
+			this.nombreUsuario = localStorage.getItem('usuarioNombre') || 'Usuario';
+			this.emailUsuario = localStorage.getItem('usuarioEmail') || 'correo@no-disponible.com';
 			this.restaurarPerfil();
 			return;
 		}
@@ -132,8 +130,8 @@ export class DashboardEditOwner implements OnInit {
 			},
 			error: () => {
 				this.cargandoPerfil = false;
-				this.nombreUsuario = sessionStorage.getItem('usuarioNombre') || 'Usuario';
-				this.emailUsuario = sessionStorage.getItem('usuarioEmail') || 'correo@no-disponible.com';
+				this.nombreUsuario = localStorage.getItem('usuarioNombre') || 'Usuario';
+				this.emailUsuario = localStorage.getItem('usuarioEmail') || 'correo@no-disponible.com';
 				this.telefonoUsuario = '';
 				this.restaurarPerfil();
 				this.setPerfilEstado('error', 'No se pudo cargar el perfil');
@@ -150,6 +148,9 @@ export class DashboardEditOwner implements OnInit {
 		this.nombre = this.nombreUsuario;
 		this.email = this.emailUsuario;
 		this.telefono = this.telefonoUsuario;
+
+		localStorage.setItem('usuarioNombre', this.nombreUsuario);
+		localStorage.setItem('usuarioEmail', this.emailUsuario);
 	}
 
 	private getAuthHeaders(): HttpHeaders | null {
