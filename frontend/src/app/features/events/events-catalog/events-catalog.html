@@ -53,7 +53,7 @@
     </section>
 
     <section class="events-grid" *ngIf="!isLoading && hasEvents">
-      <article class="event-card" *ngFor="let event of filteredEvents">
+      <article class="event-card" *ngFor="let event of filteredEvents" (click)="openModal(event)" style="cursor: pointer;">
         <div class="event-card__head">
           <span class="event-type">{{ event.tipo_actividad }}</span>
           <span class="event-status">{{ event.estado_evento }}</span>
@@ -87,7 +87,7 @@
             class="attendance-btn"
             [class.attendance-btn--cancel]="isConfirmed(event.id_evento)"
             [disabled]="!canAttend(event) || isProcessing(event.id_evento)"
-            (click)="toggleAttendance(event)"
+            (click)="$event.stopPropagation(); toggleAttendance(event)"
           >
             <span *ngIf="!isProcessing(event.id_evento)">
               {{ isConfirmed(event.id_evento)
@@ -100,4 +100,75 @@
       </article>
     </section>
   </main>
+</div>
+
+<div class="event-modal-overlay" *ngIf="selectedEvent" (click)="closeModal()">
+  <div class="event-modal-content" (click)="$event.stopPropagation()">
+
+    <button class="event-modal-close" (click)="closeModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="event-modal-header">
+      <div class="event-modal-badges">
+        <span class="badge badge-type">{{ selectedEvent.tipo_actividad }}</span>
+        <span class="badge badge-status" [ngClass]="selectedEvent.estado_evento.toLowerCase()">
+          {{ selectedEvent.estado_evento }}
+        </span>
+      </div>
+      <h2 class="event-modal-title">{{ selectedEvent.nombre }}</h2>
+    </div>
+
+    <div class="event-modal-body">
+      <div class="event-modal-main">
+        <h3>{{ 'events.catalog.detail.description' | translate }}</h3>
+        <p class="event-modal-desc">{{ selectedEvent.descripcion }}</p>
+
+        <div class="event-modal-map-placeholder" *ngIf="selectedEvent.latitud">
+          Mapa: {{ selectedEvent.latitud }}, {{ selectedEvent.longitud }}
+        </div>
+      </div>
+
+      <div class="event-modal-sidebar">
+        <div class="meta-block">
+          <span class="meta-label">Fecha y Hora</span>
+          <span class="meta-value">{{ selectedEvent.fecha_hora | date:'fullDate' }}<br>{{ selectedEvent.fecha_hora | date:'shortTime' }}</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Ubicación</span>
+          <span class="meta-value">{{ selectedEvent.direccion }}</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Aforo</span>
+          <span class="meta-value">{{ selectedEvent.asistentes_actuales }} / {{ selectedEvent.capacidad_maxima }} confirmados</span>
+          <small class="meta-sub">({{ getAvailableSpots(selectedEvent) }} cupos disponibles)</small>
+        </div>
+        <div class="meta-block" *ngIf="selectedEvent.creador">
+          <span class="meta-label">Organizado por</span>
+          <span class="meta-value">{{ selectedEvent.creador.nombre }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-modal-footer">
+      <button
+        type="button"
+        class="attendance-btn large-btn"
+        [class.attendance-btn--cancel]="isConfirmed(selectedEvent.id_evento)"
+        [disabled]="!canAttend(selectedEvent) || isProcessing(selectedEvent.id_evento)"
+        (click)="toggleAttendance(selectedEvent)"
+      >
+        <span *ngIf="!isProcessing(selectedEvent.id_evento)">
+          {{ isConfirmed(selectedEvent.id_evento)
+            ? ('events.catalog.actions.cancel' | translate)
+            : ('events.catalog.actions.attend' | translate) }}
+        </span>
+        <span *ngIf="isProcessing(selectedEvent.id_evento)">{{ 'events.catalog.actions.processing' | translate }}</span>
+      </button>
+    </div>
+
+  </div>
 </div>

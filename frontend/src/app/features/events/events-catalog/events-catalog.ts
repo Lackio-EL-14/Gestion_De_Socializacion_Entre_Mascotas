@@ -37,7 +37,7 @@ export class EventsCatalogComponent implements OnInit {
   isLoading = false;
   feedbackMessage = '';
   feedbackType: 'success' | 'error' = 'success';
-
+  selectedEvent: EventItem | null = null;
   readonly idRolUsuario = Number(localStorage.getItem('id_rol'));
   private readonly currentUserId = Number(localStorage.getItem('id_usuario') || 0);
   private readonly confirmedEventIds = new Set<number>();
@@ -236,5 +236,15 @@ export class EventsCatalogComponent implements OnInit {
 
   private t(key: string): string {
     return this.translate.instant(key);
+  }
+
+  openModal(event: EventItem): void {
+    this.selectedEvent = event;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal(): void {
+    this.selectedEvent = null;
+    document.body.style.overflow = 'auto';
   }
 }
