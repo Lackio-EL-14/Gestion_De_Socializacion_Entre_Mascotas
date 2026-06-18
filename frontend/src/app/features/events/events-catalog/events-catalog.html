@@ -127,9 +127,38 @@
         <h3>{{ 'events.catalog.detail.description' | translate }}</h3>
         <p class="event-modal-desc">{{ selectedEvent.descripcion }}</p>
 
-        <div class="event-modal-map-placeholder" *ngIf="selectedEvent.latitud">
-          Mapa: {{ selectedEvent.latitud }}, {{ selectedEvent.longitud }}
+        <div class="event-modal-map" *ngIf="hasCoordinates(selectedEvent); else noCoordinatesTemplate">
+          <iframe
+            class="event-modal-map__frame"
+            [src]="getEventMapEmbedUrl(selectedEvent)"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa del evento"
+          ></iframe>
+          <div class="event-modal-map__links">
+            <a
+              class="event-modal-map__link"
+              [href]="getOpenStreetMapUrl(selectedEvent)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir en OpenStreetMap
+            </a>
+            <a
+              class="event-modal-map__link"
+              [href]="getGoogleMapsUrl(selectedEvent)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir en Google Maps
+            </a>
+          </div>
         </div>
+        <ng-template #noCoordinatesTemplate>
+          <div class="event-modal-map-placeholder">
+            Este evento no tiene coordenadas para mostrar en el mapa.
+          </div>
+        </ng-template>
       </div>
 
       <div class="event-modal-sidebar">

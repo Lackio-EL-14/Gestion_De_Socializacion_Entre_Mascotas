@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
 interface EventCreator {
@@ -22,6 +23,12 @@ interface EventItem {
   creador?: EventCreator;
 }
 
+interface EventMapItem {
+  id_evento: number;
+  latitud: number;
+  longitud: number;
+}
+
 @Component({
   selector: 'app-events-catalog',
   standalone: false,
@@ -42,11 +49,13 @@ export class EventsCatalogComponent implements OnInit {
   private readonly currentUserId = Number(localStorage.getItem('id_usuario') || 0);
   private readonly confirmedEventIds = new Set<number>();
   private readonly processingEventIds = new Set<number>();
+  private readonly mapCoordinatesByEventId = new Map<number, { latitud: number; longitud: number }>();
 
   constructor(
     private readonly http: HttpClient,
     private readonly cdr: ChangeDetectorRef,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly sanitizer: DomSanitizer
   ) {}
 
   get esOwner(): boolean {
@@ -107,6 +116,7 @@ export class EventsCatalogComponent implements OnInit {
     this.http.get<EventItem[]>(`${this.apiBaseUrl}/events`).subscribe({
       next: (response) => {
         this.events = Array.isArray(response) ? response : [];
+        this.loadEventsForMapCoordinates();
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -246,5 +256,97 @@ export class EventsCatalogComponent implements OnInit {
   closeModal(): void {
     this.selectedEvent = null;
     document.body.style.overflow = 'auto';
+  }
+
+  hasCoordinates(event: EventItem): boolean {
+    return !!this.getCoordinates(event);
+  }
+
+  getEventMapEmbedUrl(event: EventItem): SafeResourceUrl | null {
+    const coordinates = this.getCoordinates(event);
+
+    if (!coordinates) {
+      return null;
+    }
+
+    const lat = Number(coordinates.latitud.toFixed(6));
+    const lng = Number(coordinates.longitud.toFixed(6));
+    const delta = 0.008;
+    const left = (lng - delta).toFixed(6);
+    const right = (lng + delta).toFixed(6);
+    const top = (lat + delta).toFixed(6);
+    const bottom = (lat - delta).toFixed(6);
+    const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lng}`;
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(mapUrl);
+  }
+
+  getOpenStreetMapUrl(event: EventItem): string | null {
+    const coordinates = this.getCoordinates(event);
+
+    if (!coordinates) {
+      return null;
+    }
+
+    const lat = Number(coordinates.latitud.toFixed(6));
+    const lng = Number(coordinates.longitud.toFixed(6));
+    return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`;
+  }
+
+  getGoogleMapsUrl(event: EventItem): string | null {
+    const coordinates = this.getCoordinates(event);
+
+    if (!coordinates) {
+      return null;
+    }
+
+    const lat = Number(coordinates.latitud.toFixed(6));
+    const lng = Number(coordinates.longitud.toFixed(6));
+    return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  }
+
+  private loadEventsForMapCoordinates(): void {
+    this.http.get<EventMapItem[]>(`${this.apiBaseUrl}/events/map`).subscribe({
+      next: (response) => {
+        this.mapCoordinatesByEventId.clear();
+
+        const items = Array.isArray(response) ? response : [];
+        items.forEach((eventMapItem) => {
+          const lat = Number(eventMapItem.latitud);
+          const lng = Number(eventMapItem.longitud);
+
+          if (Number.isNaN(lat) || Number.isNaN(lng)) {
+            return;
+          }
+
+          this.mapCoordinatesByEventId.set(eventMapItem.id_evento, { latitud: lat, longitud: lng });
+        });
+
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar coordenadas de eventos para mapa:', error);
+      },
+    });
+  }
+
+  private getCoordinates(event: EventItem): { latitud: number; longitud: number } | null {
+    const fromMapEndpoint = this.mapCoordinatesByEventId.get(event.id_evento);
+    if (fromMapEndpoint) {
+      return fromMapEndpoint;
+    }
+
+    if (event.latitud === null || event.latitud === undefined || event.longitud === null || event.longitud === undefined) {
+      return null;
+    }
+
+    const lat = Number(event.latitud);
+    const lng = Number(event.longitud);
+
+    if (Number.isNaN(lat) || Number.isNaN(lng)) {
+      return null;
+    }
+
+    return { latitud: lat, longitud: lng };
   }
 }

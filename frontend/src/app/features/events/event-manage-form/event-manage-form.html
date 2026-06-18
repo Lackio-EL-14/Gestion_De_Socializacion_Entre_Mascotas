@@ -92,6 +92,19 @@
           <small *ngIf="hasFieldError('direccion')">{{ fieldErrors.direccion }}</small>
         </div>
 
+        <div class="form-group form-group--full">
+          <label>{{ 'events.form.fields.mapPicker' | translate }}</label>
+          <p class="map-hint">{{ 'events.form.fields.mapHint' | translate }}</p>
+          <div
+            #eventLocationMap
+            class="event-location-map"
+            [class.event-location-map--invalid]="hasFieldError('latitud') || hasFieldError('longitud')"
+          ></div>
+          <p class="map-coordinates" *ngIf="form.latitud && form.longitud">
+            {{ 'events.form.fields.mapSelection' | translate }}: {{ form.latitud }}, {{ form.longitud }}
+          </p>
+        </div>
+
         <div class="form-group">
           <label for="capacidad_maxima">{{ 'events.form.fields.capacity' | translate }}</label>
           <input

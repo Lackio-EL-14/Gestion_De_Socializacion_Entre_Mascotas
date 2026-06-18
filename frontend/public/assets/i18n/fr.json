@@ -347,7 +347,10 @@
         "address": "Adresse",
         "capacity": "Capacite maximale",
         "latitude": "Latitude (optionnel)",
-        "longitude": "Longitude (optionnel)"
+        "longitude": "Longitude (optionnel)",
+        "mapPicker": "Emplacement sur la carte",
+        "mapHint": "Cliquez sur la carte pour selectionner l'emplacement de l'evenement.",
+        "mapSelection": "Emplacement selectionne"
       },
       "actions": {
         "cancel": "Annuler",
