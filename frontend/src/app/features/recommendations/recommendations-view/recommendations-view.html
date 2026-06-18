@@ -1,0 +1,158 @@
+<div class="layout">
+  <app-sidebar-owner *ngIf="esOwner"></app-sidebar-owner>
+  <app-sidebar-admin *ngIf="esAdmin"></app-sidebar-admin>
+  <app-sidebar-worker *ngIf="esWorker"></app-sidebar-worker>
+
+  <main class="main-content">
+    <header class="hero">
+      <div class="hero__content">
+        <span class="hero__eyebrow">{{ 'recommendations.eyebrow' | translate }}</span>
+        <h1>{{ 'recommendations.title' | translate }}</h1>
+        <p>{{ 'recommendations.subtitle' | translate }}</p>
+      </div>
+
+      <button type="button" class="refresh-btn" (click)="loadRecommendations()">
+        {{ 'recommendations.actions.refresh' | translate }}
+      </button>
+    </header>
+
+    <div class="state-card state-card--loading" *ngIf="isLoading">
+      <span class="spinner"></span>
+      <p>{{ 'recommendations.loading' | translate }}</p>
+    </div>
+
+    <div class="state-card state-card--error" *ngIf="!isLoading && errorMessage">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <section class="recommendations-summary" *ngIf="!isLoading && recommendations">
+      <div class="summary-card">
+        <div class="summary-card__top">
+          <span class="summary-badge" [class.summary-badge--fallback]="isFallbackRecommendation">
+            {{
+              isFallbackRecommendation
+                ? ('recommendations.type.fallback' | translate)
+                : ('recommendations.type.personalized' | translate)
+            }}
+          </span>
+        </div>
+
+        <h2>{{ 'recommendations.summary.title' | translate }}</h2>
+
+        <p *ngIf="recommendations.mensaje; else defaultSummaryMessage">
+          {{ recommendations.mensaje }}
+        </p>
+
+        <ng-template #defaultSummaryMessage>
+          <p>
+            {{
+              isFallbackRecommendation
+                ? ('recommendations.summary.fallbackMessage' | translate)
+                : ('recommendations.summary.personalizedMessage' | translate)
+            }}
+          </p>
+        </ng-template>
+      </div>
+
+      <div class="stats-grid" *ngIf="hasStats">
+        <article class="stat-card">
+          <span class="stat-card__label">{{ 'recommendations.stats.attendances' | translate }}</span>
+          <strong>{{ recommendations.estadisticas_base?.total_asistencias_previas || 0 }}</strong>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-card__label">{{ 'recommendations.stats.matches' | translate }}</span>
+          <strong>{{ recommendations.estadisticas_base?.total_matches_previos || 0 }}</strong>
+        </article>
+
+        <article class="stat-card stat-card--activities">
+          <span class="stat-card__label">{{ 'recommendations.stats.activities' | translate }}</span>
+
+          <div class="activity-list" *ngIf="favoriteActivities.length > 0; else emptyActivities">
+            <span class="activity-chip" *ngFor="let activity of favoriteActivities">{{ activity }}</span>
+          </div>
+
+          <ng-template #emptyActivities>
+            <small>{{ 'recommendations.stats.noActivities' | translate }}</small>
+          </ng-template>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section" *ngIf="!isLoading && recommendations">
+      <div class="section-header">
+        <h2>{{ 'recommendations.events.title' | translate }}</h2>
+        <p>{{ 'recommendations.events.subtitle' | translate }}</p>
+      </div>
+
+      <div class="empty-state" *ngIf="recommendedEvents.length === 0">
+        {{ 'recommendations.events.empty' | translate }}
+      </div>
+
+      <div class="events-grid" *ngIf="recommendedEvents.length > 0">
+        <article class="event-card" *ngFor="let event of recommendedEvents">
+          <div class="event-card__head">
+            <span class="event-type">{{ event.tipo_actividad }}</span>
+            <span class="event-status" [ngClass]="getStatusClass(event.estado_evento)">
+              {{ event.estado_evento }}
+            </span>
+          </div>
+
+          <h3>{{ event.nombre }}</h3>
+          <p>{{ event.descripcion }}</p>
+
+          <ul>
+            <li>
+              <strong>{{ 'recommendations.events.fields.date' | translate }}:</strong>
+              {{ event.fecha_hora | date:'medium' }}
+            </li>
+            <li>
+              <strong>{{ 'recommendations.events.fields.address' | translate }}:</strong>
+              {{ event.direccion }}
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section" *ngIf="!isLoading && recommendations">
+      <div class="section-header">
+        <h2>{{ 'recommendations.pets.title' | translate }}</h2>
+        <p>{{ 'recommendations.pets.subtitle' | translate }}</p>
+      </div>
+
+      <div class="empty-state" *ngIf="suggestedPets.length === 0">
+        {{ 'recommendations.pets.empty' | translate }}
+      </div>
+
+      <div class="pets-grid" *ngIf="suggestedPets.length > 0">
+        <article class="pet-card" *ngFor="let pet of suggestedPets">
+          <img [src]="getPetImage(pet.perfil_imagen_url)" [alt]="pet.nombre" />
+
+          <div class="pet-card__body">
+            <h3>{{ pet.nombre }}</h3>
+
+            <ul>
+              <li>
+                <strong>{{ 'recommendations.pets.fields.breed' | translate }}:</strong>
+                {{ pet.raza || '--' }}
+              </li>
+              <li>
+                <strong>{{ 'recommendations.pets.fields.size' | translate }}:</strong>
+                {{ pet.tamano || '--' }}
+              </li>
+              <li>
+                <strong>{{ 'recommendations.pets.fields.age' | translate }}:</strong>
+                {{ pet.edad }}
+              </li>
+              <li>
+                <strong>{{ 'recommendations.pets.fields.health' | translate }}:</strong>
+                {{ pet.estado_salud || '--' }}
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>
