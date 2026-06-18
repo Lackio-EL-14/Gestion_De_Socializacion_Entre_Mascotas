@@ -275,3 +275,129 @@ $color-muted: #64748b;
     }
   }
 }
+.event-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.7); // Oscurecer el fondo
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.event-modal-content {
+  background: #ffffff;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: modalFadeIn 0.3s ease-out;
+
+  .event-modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.2s;
+    &:hover { color: #111827; }
+  }
+
+  .event-modal-header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    .event-modal-badges {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      .badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .badge-type { background: #eff6ff; color: #2563eb; }
+      .badge-status.activo { background: #dcfce7; color: #166534; }
+      .badge-status.finalizado { background: #f3f4f6; color: #4b5563; }
+      .badge-status.cancelado { background: #fee2e2; color: #991b1b; }
+    }
+
+    .event-modal-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #111827;
+      margin: 0;
+      line-height: 1.2;
+    }
+  }
+
+  .event-modal-body {
+    padding: 2rem;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .event-modal-main {
+      h3 { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+      .event-modal-desc { color: #4b5563; line-height: 1.7; white-space: pre-wrap; font-size: 1.05rem;}
+      .event-modal-map-placeholder {
+        margin-top: 2rem; padding: 2rem; background: #f3f4f6; border-radius: 8px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;
+      }
+    }
+
+    .event-modal-sidebar {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 12px;
+      height: fit-content;
+
+      .meta-block {
+        margin-bottom: 1.5rem;
+        &:last-child { margin-bottom: 0; }
+
+        .meta-label { display: block; font-size: 0.85rem; font-weight: 600; color: #6b7280; margin-bottom: 0.25rem; }
+        .meta-value { display: block; font-size: 1rem; font-weight: 600; color: #111827; }
+        .meta-sub { display: block; font-size: 0.8rem; color: #059669; margin-top: 0.2rem; }
+      }
+    }
+  }
+
+  .event-modal-footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+    display: flex;
+    justify-content: flex-end;
+
+    .large-btn {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
