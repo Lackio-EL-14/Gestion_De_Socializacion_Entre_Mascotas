@@ -29,9 +29,10 @@ export class PetsController {
     return this.petsService.update(id, updatePetDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.petsService.remove(id);
+  remove(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return this.petsService.remove(id, req.user.userId);
   }
 
   @Get('random/:userId')
