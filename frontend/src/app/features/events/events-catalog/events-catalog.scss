@@ -361,6 +361,47 @@ $color-muted: #64748b;
     .event-modal-main {
       h3 { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
       .event-modal-desc { color: #4b5563; line-height: 1.7; white-space: pre-wrap; font-size: 1.05rem;}
+      .event-modal-map {
+        margin-top: 1.5rem;
+        border: 1px solid #dbe2ea;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .event-modal-map__frame {
+        width: 100%;
+        min-height: 280px;
+        border: none;
+        display: block;
+      }
+
+      .event-modal-map__links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 10px 12px 12px;
+        background: #f8fafc;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .event-modal-map__link {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 7px 10px;
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #1e3a8a;
+        background: #ffffff;
+        text-decoration: none;
+
+        &:hover {
+          border-color: #93c5fd;
+          background: #eff6ff;
+        }
+      }
+
       .event-modal-map-placeholder {
         margin-top: 2rem; padding: 2rem; background: #f3f4f6; border-radius: 8px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;
       }

@@ -380,7 +380,10 @@
         "address": "Dirección",
         "capacity": "Capacidad máxima",
         "latitude": "Latitud (opcional)",
-        "longitude": "Longitud (opcional)"
+        "longitude": "Longitud (opcional)",
+        "mapPicker": "Ubicación en mapa",
+        "mapHint": "Haz clic sobre el mapa para seleccionar la ubicación del evento.",
+        "mapSelection": "Ubicación seleccionada"
       },
       "actions": {
         "cancel": "Cancelar",

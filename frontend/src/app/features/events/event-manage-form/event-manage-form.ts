@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import * as L from 'leaflet';
 
 interface CreateEventRequest {
   nombre: string;
@@ -32,8 +33,15 @@ interface EventFormData {
   templateUrl: './event-manage-form.html',
   styleUrl: './event-manage-form.scss'
 })
-export class EventManageFormComponent {
+export class EventManageFormComponent implements AfterViewInit, OnDestroy {
   private readonly apiBaseUrl = 'http://localhost:3000';
+  private readonly defaultMapCenter: L.LatLngExpression = [4.711, -74.0721];
+
+  @ViewChild('eventLocationMap')
+  private mapContainer?: ElementRef<HTMLDivElement>;
+
+  private mapInstance?: L.Map;
+  private selectedLocationMarker?: L.CircleMarker;
 
   readonly idRolUsuario = Number(localStorage.getItem('id_rol'));
 
@@ -84,6 +92,10 @@ export class EventManageFormComponent {
 
   onFieldChange(field: keyof EventFormData): void {
     this.validateField(field);
+
+    if (field === 'latitud' || field === 'longitud') {
+      this.updateMapFromFormCoordinates();
+    }
   }
 
   validateField(field: keyof EventFormData): void {
@@ -218,6 +230,7 @@ export class EventManageFormComponent {
           tipo_actividad: '',
           capacidad_maxima: '',
         };
+        this.clearMapSelection();
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -235,6 +248,14 @@ export class EventManageFormComponent {
 
   hasFieldError(field: keyof EventFormData): boolean {
     return !!this.fieldErrors[field];
+  }
+
+  ngAfterViewInit(): void {
+    this.initializeMap();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyMap();
   }
 
   private buildHeaders(): HttpHeaders {
@@ -264,6 +285,104 @@ export class EventManageFormComponent {
   private showFeedback(message: string, type: 'success' | 'error'): void {
     this.feedbackMessage = message;
     this.feedbackType = type;
+  }
+
+  private initializeMap(): void {
+    if (!this.mapContainer || this.mapInstance) {
+      return;
+    }
+
+    this.mapInstance = L.map(this.mapContainer.nativeElement, {
+      zoomControl: true,
+      attributionControl: true,
+    }).setView(this.defaultMapCenter, 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(this.mapInstance);
+
+    this.mapInstance.on('click', (event: L.LeafletMouseEvent) => {
+      this.setCoordinatesFromMap(event.latlng.lat, event.latlng.lng);
+    });
+
+    this.updateMapFromFormCoordinates();
+
+    // Ensure Leaflet recalculates size when Angular finishes layout rendering.
+    setTimeout(() => this.mapInstance?.invalidateSize(), 0);
+  }
+
+  private setCoordinatesFromMap(lat: number, lng: number): void {
+    this.form.latitud = lat.toFixed(7);
+    this.form.longitud = lng.toFixed(7);
+    this.validateField('latitud');
+    this.validateField('longitud');
+    this.updateMapFromFormCoordinates();
+  }
+
+  private updateMapFromFormCoordinates(): void {
+    if (!this.mapInstance) {
+      return;
+    }
+
+    const latText = this.toText(this.form.latitud);
+    const lngText = this.toText(this.form.longitud);
+
+    if (!latText || !lngText) {
+      this.clearMarkerOnly();
+      return;
+    }
+
+    const lat = Number(latText);
+    const lng = Number(lngText);
+
+    if (Number.isNaN(lat) || Number.isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+      this.clearMarkerOnly();
+      return;
+    }
+
+    const selectedPoint = L.latLng(lat, lng);
+
+    if (!this.selectedLocationMarker) {
+      this.selectedLocationMarker = L.circleMarker(selectedPoint, {
+        radius: 8,
+        color: '#1d4ed8',
+        weight: 2,
+        fillColor: '#60a5fa',
+        fillOpacity: 0.9,
+      }).addTo(this.mapInstance);
+    } else {
+      this.selectedLocationMarker.setLatLng(selectedPoint);
+    }
+
+    this.mapInstance.setView(selectedPoint, 14);
+  }
+
+  private clearMapSelection(): void {
+    this.clearMarkerOnly();
+
+    if (this.mapInstance) {
+      this.mapInstance.setView(this.defaultMapCenter, 12);
+    }
+  }
+
+  private clearMarkerOnly(): void {
+    if (!this.mapInstance || !this.selectedLocationMarker) {
+      return;
+    }
+
+    this.mapInstance.removeLayer(this.selectedLocationMarker);
+    this.selectedLocationMarker = undefined;
+  }
+
+  private destroyMap(): void {
+    if (!this.mapInstance) {
+      return;
+    }
+
+    this.mapInstance.remove();
+    this.mapInstance = undefined;
+    this.selectedLocationMarker = undefined;
   }
 
   private t(key: string): string {
