@@ -63,6 +63,15 @@
             </li>
 
             <li class="sidebar__nav-item" routerLinkActive="sidebar__nav-item--active">
+                <a routerLink="/recommendations" class="sidebar__nav-link" (click)="closeMobileSidebar()">
+                <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                <span>{{ 'sidebar.recommendations' | translate }}</span>
+                </a>
+            </li>
+
+            <li class="sidebar__nav-item" routerLinkActive="sidebar__nav-item--active">
                 <!--<a routerLink="/dashboard-owner" class="sidebar__nav-link">-->
                 <a href="javascript:void(0)" class="sidebar__nav-link" (click)="closeMobileSidebar()"> <!--Temporal hata tener la pagina correspondiente-->
                 <!-- Icono Huesitos (corazón) -->

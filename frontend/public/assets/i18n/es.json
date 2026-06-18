@@ -323,6 +323,7 @@
     "cards": "Tarjetas",
     "bones": "Huesitos",
     "events": "Eventos",
+    "recommendations": "Recomendaciones",
     "publications": "Publicaciones",
     "myPublications": "Mis Publicaciones",
     "chats": "Chats",
@@ -334,6 +335,55 @@
     "manageReports": "Gestión de Reportes",
     "manageContent": "Gestión de Contenido",
     "searchUsers": "Buscar Usuarios"
+  },
+  "recommendations": {
+    "eyebrow": "Sugerencias inteligentes",
+    "title": "Recomendaciones personalizadas",
+    "subtitle": "Basadas en tu historial de actividad y matches para ayudarte a socializar mejor.",
+    "loading": "Analizando tu perfil para generar recomendaciones...",
+    "actions": {
+      "refresh": "Actualizar recomendaciones"
+    },
+    "type": {
+      "fallback": "Inicio guiado",
+      "personalized": "Perfil personalizado"
+    },
+    "summary": {
+      "title": "Resumen de la recomendación",
+      "fallbackMessage": "Aún estamos aprendiendo de tus interacciones. Mientras tanto, te mostramos sugerencias destacadas.",
+      "personalizedMessage": "Estas recomendaciones están ajustadas a tus preferencias detectadas automáticamente."
+    },
+    "stats": {
+      "attendances": "Asistencias previas",
+      "matches": "Matches previos",
+      "activities": "Actividades favoritas",
+      "noActivities": "Sin actividades detectadas aún"
+    },
+    "events": {
+      "title": "Eventos recomendados",
+      "subtitle": "Actividades que pueden encajar con tus gustos",
+      "empty": "No hay eventos sugeridos por ahora.",
+      "fields": {
+        "date": "Fecha",
+        "address": "Dirección"
+      }
+    },
+    "pets": {
+      "title": "Mascotas sugeridas",
+      "subtitle": "Perfiles recientes para explorar nuevas conexiones",
+      "empty": "No hay mascotas sugeridas en este momento.",
+      "fields": {
+        "breed": "Raza",
+        "size": "Tamaño",
+        "age": "Edad",
+        "health": "Salud"
+      }
+    },
+    "errors": {
+      "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+      "connection": "No se pudo conectar al backend en http://localhost:3000.",
+      "load": "No se pudieron cargar tus recomendaciones."
+    }
   },
   "events": {
     "catalog": {

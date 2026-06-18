@@ -323,6 +323,7 @@
     "cards": "Cards",
     "bones": "Bones",
     "events": "Events",
+    "recommendations": "Recommendations",
     "publications": "Publications",
     "myPublications": "My Publications",
     "chats": "Chats",
@@ -334,6 +335,55 @@
     "manageReports": "Report Management",
     "manageContent": "Content Management",
     "searchUsers": "Search Users"
+  },
+  "recommendations": {
+    "eyebrow": "Smart suggestions",
+    "title": "Personalized recommendations",
+    "subtitle": "Based on your activity and match history to help you socialize better.",
+    "loading": "Analyzing your profile to generate recommendations...",
+    "actions": {
+      "refresh": "Refresh recommendations"
+    },
+    "type": {
+      "fallback": "Guided start",
+      "personalized": "Personalized profile"
+    },
+    "summary": {
+      "title": "Recommendation summary",
+      "fallbackMessage": "We are still learning from your interactions. Meanwhile, we show featured suggestions.",
+      "personalizedMessage": "These recommendations are adjusted to your automatically detected preferences."
+    },
+    "stats": {
+      "attendances": "Previous attendances",
+      "matches": "Previous matches",
+      "activities": "Favorite activities",
+      "noActivities": "No activities detected yet"
+    },
+    "events": {
+      "title": "Recommended events",
+      "subtitle": "Activities that may match your interests",
+      "empty": "There are no suggested events for now.",
+      "fields": {
+        "date": "Date",
+        "address": "Address"
+      }
+    },
+    "pets": {
+      "title": "Suggested pets",
+      "subtitle": "Recent profiles to explore new connections",
+      "empty": "There are no suggested pets at this moment.",
+      "fields": {
+        "breed": "Breed",
+        "size": "Size",
+        "age": "Age",
+        "health": "Health"
+      }
+    },
+    "errors": {
+      "noSession": "There is no active session. Please log in again.",
+      "connection": "Could not connect to backend at http://localhost:3000.",
+      "load": "Could not load your recommendations."
+    }
   },
   "events": {
     "catalog": {

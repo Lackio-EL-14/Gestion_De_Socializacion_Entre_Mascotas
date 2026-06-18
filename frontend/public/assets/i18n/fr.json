@@ -290,6 +290,7 @@
     "cards": "Cartes",
     "bones": "Os",
     "events": "Evenements",
+    "recommendations": "Recommandations",
     "publications": "Publications",
     "myPublications": "Mes Publications",
     "chats": "Discussions",
@@ -301,6 +302,55 @@
     "manageReports": "Gestion des Rapports",
     "manageContent": "Gestion du Contenu",
     "searchUsers": "Rechercher des utilisateurs"
+  },
+  "recommendations": {
+    "eyebrow": "Suggestions intelligentes",
+    "title": "Recommandations personnalisees",
+    "subtitle": "Basees sur votre activite et vos matchs pour mieux socialiser.",
+    "loading": "Analyse de votre profil pour generer des recommandations...",
+    "actions": {
+      "refresh": "Actualiser les recommandations"
+    },
+    "type": {
+      "fallback": "Demarrage guide",
+      "personalized": "Profil personnalise"
+    },
+    "summary": {
+      "title": "Resume de la recommandation",
+      "fallbackMessage": "Nous apprenons encore de vos interactions. En attendant, voici des suggestions mises en avant.",
+      "personalizedMessage": "Ces recommandations sont adaptees a vos preferences detectees automatiquement."
+    },
+    "stats": {
+      "attendances": "Participations precedentes",
+      "matches": "Matchs precedents",
+      "activities": "Activites favorites",
+      "noActivities": "Aucune activite detectee pour le moment"
+    },
+    "events": {
+      "title": "Evenements recommandes",
+      "subtitle": "Activites susceptibles de correspondre a vos gouts",
+      "empty": "Aucun evenement suggere pour le moment.",
+      "fields": {
+        "date": "Date",
+        "address": "Adresse"
+      }
+    },
+    "pets": {
+      "title": "Animaux suggeres",
+      "subtitle": "Profils recents pour explorer de nouvelles connexions",
+      "empty": "Aucun animal suggere pour le moment.",
+      "fields": {
+        "breed": "Race",
+        "size": "Taille",
+        "age": "Age",
+        "health": "Sante"
+      }
+    },
+    "errors": {
+      "noSession": "Aucune session active. Connectez-vous a nouveau.",
+      "connection": "Impossible de se connecter au backend sur http://localhost:3000.",
+      "load": "Impossible de charger vos recommandations."
+    }
   },
   "events": {
     "catalog": {
