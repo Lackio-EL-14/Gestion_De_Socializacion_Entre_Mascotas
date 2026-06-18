@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   currentUserId: number | null = null;
   currentMascotaId: number | null = null;
-  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
+  private readonly apiBaseUrl = 'http://localhost:3000';
 
   // Control de carrera de condiciones
   private inboxLoadGeneration = 0;

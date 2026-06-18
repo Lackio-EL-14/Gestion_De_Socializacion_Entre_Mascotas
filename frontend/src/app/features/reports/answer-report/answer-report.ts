@@ -24,7 +24,7 @@ export class AnswerReportComponent implements OnInit {
 
   readonly placeholderImg = 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b';
 
-  private readonly apiUrl = 'https://admin-service-dogchat.onrender.com/api/admin/reportes';
+  private readonly apiUrl = 'http://localhost:8080/api/admin/reportes';
 
   constructor(
     private readonly http: HttpClient,
@@ -99,7 +99,7 @@ export class AnswerReportComponent implements OnInit {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.http
-      .get<any[]>('https://admin-service-dogchat.onrender.com/api/admin/reportes/pendientes', { headers })
+      .get<any[]>('http://localhost:8080/api/admin/reportes/pendientes', { headers })
       .subscribe({
         next: (reportes) => {
           this.reporte = reportes.find(r => r.idReporte === idReporte) || null;

@@ -40,7 +40,7 @@ export class ReportsPanelComponent implements OnInit {
   cargando = false;
   error = '';
 
-  private readonly apiUrl = 'https://admin-service-dogchat.onrender.com/api/admin/reportes/pendientes';
+  private readonly apiUrl = 'http://localhost:8080/api/admin/reportes/pendientes';
 
   constructor(
     private readonly http: HttpClient,

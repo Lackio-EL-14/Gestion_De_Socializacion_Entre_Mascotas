@@ -112,7 +112,7 @@ cargarMascota(): void {
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
   this.http.get<Mascota[] | Mascota>(
-    'https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/my-pets',
+    'http://localhost:3000/pets/my-pets',
     { headers }
   ).subscribe({
     next: (respuesta) => {

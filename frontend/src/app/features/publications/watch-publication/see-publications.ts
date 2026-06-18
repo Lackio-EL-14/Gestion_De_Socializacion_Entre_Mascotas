@@ -24,7 +24,7 @@ interface PublicationFeedItem {
 	styleUrl: './see-publications.scss',
 })
 export class SeePublications implements OnInit {
-	private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
+	private readonly apiBaseUrl = 'http://localhost:3000';
 
 	publications: PublicationFeedItem[] = [];
 	isLoading = false;

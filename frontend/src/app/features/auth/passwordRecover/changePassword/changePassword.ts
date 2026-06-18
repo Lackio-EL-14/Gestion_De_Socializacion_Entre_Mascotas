@@ -90,7 +90,7 @@ export class ResetPasswordComponent implements OnInit {
     this.enviando = true;
 
     this.http
-      .post('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/restablecer-password', {
+      .post('http://localhost:3000/usuarios/restablecer-password', {
         token: this.token,
         nueva_contrasena: password,
       })
