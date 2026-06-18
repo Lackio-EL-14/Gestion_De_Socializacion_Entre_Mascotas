@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 	styleUrl: './dashboard-owner.scss'
 })
 export class DashboardOwner {
-	nombreUsuario = sessionStorage.getItem('usuarioNombre') || 'Usuario';
+	nombreUsuario = localStorage.getItem('usuarioNombre') || 'Usuario';
 
 	constructor(private readonly translate: TranslateService) {}
 

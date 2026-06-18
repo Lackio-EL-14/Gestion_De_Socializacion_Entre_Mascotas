@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './dashboard-worker.scss'
 })
 export class DashboardWorkerComponent {
-  nombreNegocio = sessionStorage.getItem('usuarioNombre') || 'Mi Peluquería Canina';
+  nombreNegocio = localStorage.getItem('usuarioNombre') || 'Mi Peluquería Canina';
 
   constructor(private readonly translate: TranslateService) {}
 }

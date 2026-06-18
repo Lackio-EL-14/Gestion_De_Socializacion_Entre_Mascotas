@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './dashboard-admin.scss'
 })
 export class DashboardAdmin {
+  nombreUsuario = localStorage.getItem('usuarioNombre') || 'Administrador';
 
   constructor(private readonly translate: TranslateService) {}
 

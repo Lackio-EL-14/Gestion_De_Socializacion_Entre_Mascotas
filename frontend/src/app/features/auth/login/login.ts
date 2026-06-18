@@ -95,10 +95,10 @@ export class Login {
       next: (respuesta) => {
         console.log('Login exitoso:', respuesta);
 
-        sessionStorage.setItem('usuarioEmail', respuesta.email || email);
+        localStorage.setItem('usuarioEmail', respuesta.email || email);
         localStorage.setItem('id_usuario', String(respuesta.id_usuario));
         localStorage.setItem('access_token', respuesta.access_token);
-        sessionStorage.setItem('usuarioNombre', respuesta.nombre);
+        localStorage.setItem('usuarioNombre', respuesta.nombre || 'Usuario');
         localStorage.setItem('id_rol', String(respuesta.rol?.id_rol || 1));
 
         this.enviando = false;
