@@ -280,7 +280,43 @@
         "noSession": "No hay sesión activa.",
         "loadFailed": "No se pudieron cargar tus mascotas."
       }
+    },
+    "compatibility": {
+    "eyebrow": "Análisis automático",
+    "title": "Compatibilidad",
+    "calculating": "Calculando compatibilidad...",
+    "match": "Coincide",
+    "different": "Diferente",
+    "recommendationsTitle": "Recomendaciones de interacción",
+    "level": {
+      "high": "Alta",
+      "medium": "Media",
+      "low": "Baja"
+    },
+    "fields": {
+      "breed": "Raza",
+      "size": "Tamaño",
+      "age": "Edad",
+      "gender": "Género",
+      "health": "Salud"
+    },
+    "recommendations": {
+      "high": "Tienen una compatibilidad alta. Pueden interactuar con supervisión normal.",
+      "medium": "La compatibilidad es moderada. Realiza una presentación gradual.",
+      "low": "La compatibilidad es baja. Prioriza encuentros cortos y supervisados.",
+      "breed": "Son de razas distintas; observa sus estilos de juego antes de soltarlos.",
+      "size": "Tienen tamaños distintos; evita juegos bruscos y supervisa el contacto.",
+      "age": "La diferencia de edad puede afectar su energía; adapta la duración del encuentro.",
+      "gender": "Tienen géneros distintos; considera su temperamento y esterilización.",
+      "health": "Sus estados de salud son diferentes; verifica que ambos puedan interactuar de forma segura.",
+      "allMatch": "Coinciden en todos los criterios evaluados."
+    },
+    "errors": {
+      "timeout": "El cálculo de compatibilidad tardó demasiado.",
+      "connectionFailed": "No se pudo conectar con el servicio de compatibilidad.",
+      "loadFailed": "No se pudo calcular la compatibilidad."
     }
+  }
   },
   "sidebar": {
     "dashboard": "Dashboard",

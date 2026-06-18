@@ -247,7 +247,43 @@
       "apply": "Appliquer les filtres",
       "clear": "Effacer les filtres",
       "cancel": "Annuler"
+    },
+    "compatibility": {
+    "eyebrow": "Analyse automatique",
+    "title": "Compatibilité",
+    "calculating": "Calcul de la compatibilité...",
+    "match": "Correspond",
+    "different": "Différent",
+    "recommendationsTitle": "Recommandations d'interaction",
+    "level": {
+      "high": "Élevée",
+      "medium": "Moyenne",
+      "low": "Faible"
+    },
+    "fields": {
+      "breed": "Race",
+      "size": "Taille",
+      "age": "Âge",
+      "gender": "Genre",
+      "health": "Santé"
+    },
+    "recommendations": {
+      "high": "Ils ont une compatibilité élevée. Ils peuvent interagir sous une supervision normale.",
+      "medium": "La compatibilité est moyenne. Présentez-les progressivement.",
+      "low": "La compatibilité est faible. Privilégiez des rencontres courtes et surveillées.",
+      "breed": "Ils sont de races différentes; observez leur manière de jouer avant de les laisser interagir librement.",
+      "size": "Ils ont des tailles différentes; évitez les jeux brusques et surveillez le contact.",
+      "age": "La différence d'âge peut influencer leur énergie; adaptez la durée de la rencontre.",
+      "gender": "Ils ont des genres différents; tenez compte de leur tempérament et de leur stérilisation.",
+      "health": "Leur état de santé est différent; vérifiez qu'ils peuvent interagir en toute sécurité.",
+      "allMatch": "Ils correspondent dans tous les critères évalués."
+    },
+    "errors": {
+      "timeout": "Le calcul de compatibilité a pris trop de temps.",
+      "connectionFailed": "Impossible de se connecter au service de compatibilité.",
+      "loadFailed": "Impossible de calculer la compatibilité."
     }
+  }
   },
   "sidebar": {
     "dashboard": "Tableau de bord",

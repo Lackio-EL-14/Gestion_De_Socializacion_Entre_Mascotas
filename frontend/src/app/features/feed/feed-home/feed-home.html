@@ -113,6 +113,109 @@
 
             </div>
 
+            <section
+              class="compatibility-card"
+              *ngIf="pet"
+              aria-live="polite"
+            >
+              <div class="compatibility-card__header">
+                <div>
+                  <span class="compatibility-card__eyebrow">
+                    {{ 'feed.compatibility.eyebrow' | translate }}
+                  </span>
+
+                  <h3 class="compatibility-card__title">
+                    {{ 'feed.compatibility.title' | translate }}
+                  </h3>
+                </div>
+
+                <div
+                  *ngIf="compatibilidad"
+                  class="compatibility-card__score"
+                  [ngClass]="compatibilidadNivelClase"
+                >
+                  <strong>{{ compatibilidadPorcentaje }}%</strong>
+
+                  <span>
+                    {{ compatibilidadNivelKey | translate }}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                class="compatibility-card__loading"
+                *ngIf="cargandoCompatibilidad"
+              >
+                <span class="compatibility-card__spinner"></span>
+
+                <span>
+                  {{ 'feed.compatibility.calculating' | translate }}
+                </span>
+              </div>
+
+              <ng-container
+                *ngIf="!cargandoCompatibilidad && compatibilidad as resultado"
+              >
+                <div class="compatibility-card__bar">
+                  <div
+                    class="compatibility-card__bar-fill"
+                    [ngClass]="compatibilidadNivelClase"
+                    [style.width.%]="compatibilidadPorcentaje"
+                  ></div>
+                </div>
+
+                <div class="compatibility-card__indicators">
+                  <div
+                    class="compatibility-card__indicator"
+                    *ngFor="let campo of camposCompatibilidad"
+                  >
+                    <span class="compatibility-card__indicator-label">
+                      {{ campo.labelKey | translate }}
+                    </span>
+
+                    <span
+                      class="compatibility-card__indicator-status"
+                      [class.is-match]="resultado.coincidencias[campo.key]"
+                      [class.is-different]="!resultado.coincidencias[campo.key]"
+                    >
+                      <span aria-hidden="true">
+                        {{ resultado.coincidencias[campo.key] ? '✓' : '—' }}
+                      </span>
+
+                      {{
+                        (
+                          resultado.coincidencias[campo.key]
+                            ? 'feed.compatibility.match'
+                            : 'feed.compatibility.different'
+                        ) | translate
+                      }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="compatibility-card__recommendations">
+                  <h4>
+                    {{ 'feed.compatibility.recommendationsTitle' | translate }}
+                  </h4>
+
+                  <ul>
+                    <li
+                      *ngFor="let recomendacion of recomendacionesCompatibilidad"
+                    >
+                      {{ recomendacion }}
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+
+              <p
+                class="compatibility-card__error"
+                *ngIf="!cargandoCompatibilidad && errorCompatibilidad"
+              >
+                {{ errorCompatibilidad }}
+              </p>
+            </section>
+
             <!-- Botón cartilla de vacunas -->
             <!-- href se llena con vacuna_imagen_url desde el backend -->
             <a
