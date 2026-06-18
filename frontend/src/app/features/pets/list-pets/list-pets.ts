@@ -28,6 +28,10 @@ export class ListPetsComponent implements OnInit {
   cargando = false;
   error = '';
 
+  modalEliminarVisible = false;
+  mascotaSeleccionada: Mascota | null = null;
+  eliminando = false;
+
   readonly imagenPlaceholder =
     'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80';
 
@@ -87,4 +91,58 @@ obtenerMascotas(): void {
   private t(key: string): string {
     return this.translate.instant(key);
   }
+
+  abrirModalEliminar(mascota: Mascota): void {
+    this.mascotaSeleccionada = mascota;
+    this.modalEliminarVisible = true;
+  }
+
+  cerrarModalEliminar(): void {
+    this.modalEliminarVisible = false;
+    this.mascotaSeleccionada = null;
+    this.eliminando = false;
+  }
+
+  eliminarMascota(): void {
+
+    const token = localStorage.getItem('access_token');
+
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${token}`
+    );
+
+    if (!this.mascotaSeleccionada) {
+      return;
+    }
+
+    this.eliminando = true;
+
+    this.http.delete(
+      `http://localhost:3000/pets/${this.mascotaSeleccionada.id_mascota}`,
+      { headers }
+    ).subscribe({
+
+      next: () => {
+
+        this.mascotas = this.mascotas.filter(
+          mascota =>
+            mascota.id_mascota !==
+            this.mascotaSeleccionada?.id_mascota
+        );
+
+        this.eliminando = false;
+        this.cerrarModalEliminar();
+        this.cdr.detectChanges();
+      },
+
+      error: (error) => {
+        console.error(error);
+        this.eliminando = false;
+        alert('No se pudo eliminar la mascota');
+      }
+    });
+  }
+
+
 }

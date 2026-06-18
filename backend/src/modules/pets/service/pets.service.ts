@@ -73,9 +73,12 @@ export class PetsService {
     return updated;
   }
 
-  async remove(id: number) {
+  async remove(id: number, userId: number) {
     const pet = await this.petsRepository.findOne({
-      where: { id_mascota: id }
+      where: {
+        id_mascota: id,
+        id_usuario: userId,
+      }
     });
 
     if (!pet) {
