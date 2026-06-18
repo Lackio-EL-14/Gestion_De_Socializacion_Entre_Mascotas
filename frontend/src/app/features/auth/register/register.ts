@@ -199,7 +199,7 @@ export class Register {
 
     this.enviando = true;
 
-    this.http.post('http://localhost:3000/usuarios/registro', body).subscribe({
+    this.http.post('https://gestion-de-socializacion-entre-mascotas.onrender.com/usuarios/registro', body).subscribe({
       next: () => {
         this.limpiarFormulario();
         this.enviando = false;

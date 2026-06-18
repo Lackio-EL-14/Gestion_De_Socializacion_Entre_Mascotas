@@ -55,7 +55,7 @@ export class MyPublicationsComponent implements OnInit {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     // 2. Hacemos la petición
-    this.http.get<Publication[]>('http://localhost:3000/publications/me', { headers }).subscribe({
+    this.http.get<Publication[]>('https://gestion-de-socializacion-entre-mascotas.onrender.com/publications/me', { headers }).subscribe({
       next: (response) => {
         // 3. Nos aseguramos de que siempre sea un Array (como tu compañero)
         this.publications = Array.isArray(response) ? response : [];

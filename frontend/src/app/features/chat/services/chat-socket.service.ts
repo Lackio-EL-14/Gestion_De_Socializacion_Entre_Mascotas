@@ -7,7 +7,7 @@ import { ChatMessage, SendMessagePayload, JoinChatPayload, MatchCreatedPayload }
   providedIn: 'root'
 })
 export class ChatSocketService {
-  private readonly socketUrl = 'http://localhost:3000';
+  private readonly socketUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com';
   private socket: Socket | null = null;
   private messageReceivedSubject = new Subject<ChatMessage>();
   private matchCreatedSubject = new Subject<MatchCreatedPayload>();

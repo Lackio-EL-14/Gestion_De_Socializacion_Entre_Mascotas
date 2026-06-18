@@ -7,7 +7,7 @@ import { InboxChat, ChatMessage } from '../models/chat.models';
   providedIn: 'root'
 })
 export class ChatService {
-  private readonly apiBaseUrl = 'http://localhost:3000/messages';
+  private readonly apiBaseUrl = 'https://gestion-de-socializacion-entre-mascotas.onrender.com/messages';
 
   constructor(private readonly http: HttpClient) {}
 

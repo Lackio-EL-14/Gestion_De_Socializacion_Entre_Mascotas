@@ -56,7 +56,7 @@ export class ChoosePetComponent implements OnInit {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<Mascota[] | Mascota>('http://localhost:3000/pets/my-pets', { headers })
+    this.http.get<Mascota[] | Mascota>('https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/my-pets', { headers })
       .subscribe({
         next: (respuesta) => {
           this.mascotas = Array.isArray(respuesta) ? respuesta : [respuesta];
