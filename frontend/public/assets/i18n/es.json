@@ -280,12 +280,50 @@
         "noSession": "No hay sesión activa.",
         "loadFailed": "No se pudieron cargar tus mascotas."
       }
+    },
+    "compatibility": {
+    "eyebrow": "Análisis automático",
+    "title": "Compatibilidad",
+    "calculating": "Calculando compatibilidad...",
+    "match": "Coincide",
+    "different": "Diferente",
+    "recommendationsTitle": "Recomendaciones de interacción",
+    "level": {
+      "high": "Alta",
+      "medium": "Media",
+      "low": "Baja"
+    },
+    "fields": {
+      "breed": "Raza",
+      "size": "Tamaño",
+      "age": "Edad",
+      "gender": "Género",
+      "health": "Salud"
+    },
+    "recommendations": {
+      "high": "Tienen una compatibilidad alta. Pueden interactuar con supervisión normal.",
+      "medium": "La compatibilidad es moderada. Realiza una presentación gradual.",
+      "low": "La compatibilidad es baja. Prioriza encuentros cortos y supervisados.",
+      "breed": "Son de razas distintas; observa sus estilos de juego antes de soltarlos.",
+      "size": "Tienen tamaños distintos; evita juegos bruscos y supervisa el contacto.",
+      "age": "La diferencia de edad puede afectar su energía; adapta la duración del encuentro.",
+      "gender": "Tienen géneros distintos; considera su temperamento y esterilización.",
+      "health": "Sus estados de salud son diferentes; verifica que ambos puedan interactuar de forma segura.",
+      "allMatch": "Coinciden en todos los criterios evaluados."
+    },
+    "errors": {
+      "timeout": "El cálculo de compatibilidad tardó demasiado.",
+      "connectionFailed": "No se pudo conectar con el servicio de compatibilidad.",
+      "loadFailed": "No se pudo calcular la compatibilidad."
     }
+  }
   },
   "sidebar": {
     "dashboard": "Dashboard",
     "cards": "Tarjetas",
     "bones": "Huesitos",
+    "events": "Eventos",
+    "recommendations": "Recomendaciones",
     "publications": "Publicaciones",
     "myPublications": "Mis Publicaciones",
     "chats": "Chats",
@@ -297,6 +335,154 @@
     "manageReports": "Gestión de Reportes",
     "manageContent": "Gestión de Contenido",
     "searchUsers": "Buscar Usuarios"
+  },
+  "recommendations": {
+    "eyebrow": "Sugerencias inteligentes",
+    "title": "Recomendaciones personalizadas",
+    "subtitle": "Basadas en tu historial de actividad y matches para ayudarte a socializar mejor.",
+    "loading": "Analizando tu perfil para generar recomendaciones...",
+    "actions": {
+      "refresh": "Actualizar recomendaciones"
+    },
+    "type": {
+      "fallback": "Inicio guiado",
+      "personalized": "Perfil personalizado"
+    },
+    "summary": {
+      "title": "Resumen de la recomendación",
+      "fallbackMessage": "Aún estamos aprendiendo de tus interacciones. Mientras tanto, te mostramos sugerencias destacadas.",
+      "personalizedMessage": "Estas recomendaciones están ajustadas a tus preferencias detectadas automáticamente."
+    },
+    "stats": {
+      "attendances": "Asistencias previas",
+      "matches": "Matches previos",
+      "activities": "Actividades favoritas",
+      "noActivities": "Sin actividades detectadas aún"
+    },
+    "events": {
+      "title": "Eventos recomendados",
+      "subtitle": "Actividades que pueden encajar con tus gustos",
+      "empty": "No hay eventos sugeridos por ahora.",
+      "fields": {
+        "date": "Fecha",
+        "address": "Dirección"
+      }
+    },
+    "pets": {
+      "title": "Mascotas sugeridas",
+      "subtitle": "Perfiles recientes para explorar nuevas conexiones",
+      "empty": "No hay mascotas sugeridas en este momento.",
+      "fields": {
+        "breed": "Raza",
+        "size": "Tamaño",
+        "age": "Edad",
+        "health": "Salud"
+      }
+    },
+    "errors": {
+      "noSession": "No hay sesión activa. Inicia sesión nuevamente.",
+      "connection": "No se pudo conectar al backend en http://localhost:3000.",
+      "load": "No se pudieron cargar tus recomendaciones."
+    }
+  },
+  "events": {
+    "catalog": {
+      "title": "Catálogo de Eventos",
+      "subtitle": "Explora todas las actividades programadas para la comunidad",
+      "createButton": "Crear Evento",
+      "filters": {
+        "from": "Desde",
+        "to": "Hasta",
+        "clear": "Limpiar filtros"
+      },
+      "loading": "Cargando eventos...",
+      "emptyTitle": "No hay eventos activos",
+      "emptySubtitle": "Aún no se han publicado actividades.",
+      "card": {
+        "date": "Fecha",
+        "location": "Ubicación",
+        "capacity": "Aforo",
+        "available": "Cupos disponibles"
+      },
+      "actions": {
+        "attend": "Confirmar asistencia",
+        "cancel": "Cancelar asistencia",
+        "processing": "Procesando..."
+      },
+      "messages": {
+        "loadError": "No se pudieron cargar los eventos.",
+        "noSession": "No hay sesión activa para confirmar asistencia.",
+        "attendanceConfirmed": "Asistencia confirmada correctamente.",
+        "attendanceError": "No se pudo confirmar la asistencia.",
+        "attendanceCancelled": "Asistencia cancelada correctamente.",
+        "cancelError": "No se pudo cancelar la asistencia."
+      },
+      "actions": {
+        "request": "Solicitar participación",
+        "confirm": "Confirmar asistencia",
+        "cancel": "Cancelar participación",
+        "goBack": "Volver",
+        "processing": "Procesando..."
+      },
+      "status": {
+        "confirmed": "Asistencia confirmada"
+      },
+      "confirmation": {
+        "title": "Confirmar participación",
+        "message": "¿Deseas confirmar tu asistencia al evento {{name}}?"
+      },
+      "participants": {
+        "title": "Participantes",
+        "loading": "Cargando participantes...",
+        "empty": "Todavía no hay participantes confirmados.",
+        "loadError": "No se pudo cargar la lista de participantes.",
+        "unknownUser": "Usuario",
+        "you": "Tú"
+      },
+      "messages": {
+        "noAvailableSpots": "El evento ya no tiene cupos disponibles.",
+        "alreadyConfirmed": "Ya estás registrado en este evento."
+      }
+    },
+    "form": {
+      "backToCatalog": "Volver al catálogo",
+      "title": "Gestión de Eventos",
+      "subtitle": "Completa el formulario para publicar una nueva actividad",
+      "fields": {
+        "name": "Nombre del evento",
+        "description": "Descripción",
+        "datetime": "Fecha y hora",
+        "activityType": "Tipo de actividad",
+        "address": "Dirección",
+        "capacity": "Capacidad máxima",
+        "latitude": "Latitud (opcional)",
+        "longitude": "Longitud (opcional)",
+        "mapPicker": "Ubicación en mapa",
+        "mapHint": "Haz clic sobre el mapa para seleccionar la ubicación del evento.",
+        "mapSelection": "Ubicación seleccionada"
+      },
+      "actions": {
+        "cancel": "Cancelar",
+        "save": "Guardar evento",
+        "saving": "Guardando..."
+      },
+      "validation": {
+        "required": "Este campo es obligatorio.",
+        "minName": "El nombre debe tener al menos 4 caracteres.",
+        "minDescription": "La descripción debe tener al menos 15 caracteres.",
+        "invalidDate": "La fecha no es válida.",
+        "futureDate": "La fecha debe ser futura.",
+        "capacity": "La capacidad debe ser un número entero mayor a 0.",
+        "latitude": "La latitud debe estar entre -90 y 90.",
+        "longitude": "La longitud debe estar entre -180 y 180."
+      },
+      "messages": {
+        "validationError": "Revisa los campos marcados en rojo antes de enviar.",
+        "noSession": "No hay sesión activa para crear eventos.",
+        "success": "Evento creado exitosamente.",
+        "error": "No se pudo crear el evento."
+      }
+    }
   },
   "dashboard": {
     "admin": {
@@ -409,6 +595,10 @@
       "gender": {
         "male": "Macho",
         "female": "Hembra"
+      },
+      "imageInfo": "Máximo 2MB. Formatos aceptados: JPG, PNG, WEBP.",
+      "validation": {
+        "fileTooLarge": "El archivo es demasiado pesado. El límite máximo es de 2MB."
       }
     },
     "list": {

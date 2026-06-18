@@ -39,9 +39,9 @@ export class ReportsService {
 
     const report = this.reportesRepository.create({
       ...createReportDto,
-      id_usuario_reportante: userId, // 🔥 ahora viene del JWT
+      id_usuario_reportante: userId,
       fecha_reporte: new Date(),
-      estado: 'pendiente', // 🔥 forzado
+      estado: 'pendiente', 
     });
 
     const savedReport = await this.reportesRepository.save(report);
@@ -68,7 +68,7 @@ export class ReportsService {
 
     if (updateReportDto.estado === 'resuelto') {
       report.fecha_resolucion = new Date();
-      report.id_admin_resolutor = adminId; // ✅ corregido
+      report.id_admin_resolutor = adminId; 
     }
 
     if (updateReportDto.estado) {

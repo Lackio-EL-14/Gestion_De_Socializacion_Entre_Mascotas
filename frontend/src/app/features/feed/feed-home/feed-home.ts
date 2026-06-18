@@ -48,6 +48,24 @@ interface InteractionResponse {
   id_match?: number;
 }
 
+interface CompatibilidadCoincidencias {
+  raza: boolean;
+  tamano: boolean;
+  edad: boolean;
+  genero: boolean;
+  estado_salud: boolean;
+}
+
+interface CompatibilidadResponse {
+  compatibilidad: number;
+  coincidencias: CompatibilidadCoincidencias;
+}
+
+interface CampoCompatibilidad {
+  key: keyof CompatibilidadCoincidencias;
+  labelKey: string;
+}
+
 @Component({
   selector: 'app-feed-home',
   standalone: false,
@@ -62,6 +80,7 @@ export class FeedHome implements OnInit, OnDestroy {
 
   private huesitoReactionTimer: ReturnType<typeof setTimeout> | null = null;
   private loadRequestId = 0;
+  private compatibilityRequestId = 0;
 
   currentUserId: number | null = null;
   pet: RandomPetResponse | null = null;
@@ -78,6 +97,32 @@ export class FeedHome implements OnInit, OnDestroy {
 
   matchModalVisible = false;
   matchNombreMascota = '';
+  compatibilidad: CompatibilidadResponse | null = null;
+  cargandoCompatibilidad = false;
+  errorCompatibilidad = '';
+
+  readonly camposCompatibilidad: ReadonlyArray<CampoCompatibilidad> = [
+    {
+      key: 'raza',
+      labelKey: 'feed.compatibility.fields.breed'
+    },
+    {
+      key: 'tamano',
+      labelKey: 'feed.compatibility.fields.size'
+    },
+    {
+      key: 'edad',
+      labelKey: 'feed.compatibility.fields.age'
+    },
+    {
+      key: 'genero',
+      labelKey: 'feed.compatibility.fields.gender'
+    },
+    {
+      key: 'estado_salud',
+      labelKey: 'feed.compatibility.fields.health'
+    }
+  ];
 
   readonly imagenPlaceholder = 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80';
 
@@ -125,6 +170,7 @@ export class FeedHome implements OnInit, OnDestroy {
     }
 
     this.loadRequestId += 1;
+    this.compatibilityRequestId += 1;
   }
 
   private t(key: string): string {
@@ -206,6 +252,7 @@ export class FeedHome implements OnInit, OnDestroy {
     }
 
     const requestId = ++this.loadRequestId;
+    this.limpiarCompatibilidad();
 
     this.isLoading = true;
     this.errorMessage = '';
@@ -225,6 +272,10 @@ export class FeedHome implements OnInit, OnDestroy {
       }
 
       this.pet = this.listaPerros.shift() || null;
+
+      if (this.pet) {
+        void this.cargarCompatibilidad(this.pet.id_mascota);
+      }
 
       if (!this.pet) {
         this.errorMessage = this.hasActiveFilters()
@@ -254,6 +305,167 @@ export class FeedHome implements OnInit, OnDestroy {
         .get<RandomPetResponse[]>(`${this.apiBaseUrl}/pets/feed/${idMascotaOrigen}`)
         .pipe(timeout(10000)),
     );
+  }
+
+  get compatibilidadPorcentaje(): number {
+    const porcentaje = this.compatibilidad?.compatibilidad ?? 0;
+
+    return Math.max(0, Math.min(100, Math.round(porcentaje)));
+  }
+
+  get compatibilidadNivelClase(): 'high' | 'medium' | 'low' {
+    if (this.compatibilidadPorcentaje >= 80) {
+      return 'high';
+    }
+
+    if (this.compatibilidadPorcentaje >= 60) {
+      return 'medium';
+    }
+
+    return 'low';
+  }
+
+  get compatibilidadNivelKey(): string {
+    return `feed.compatibility.level.${this.compatibilidadNivelClase}`;
+  }
+
+  get recomendacionesCompatibilidad(): string[] {
+    if (!this.compatibilidad) {
+      return [];
+    }
+
+    const recomendaciones: string[] = [];
+    const coincidencias = this.compatibilidad.coincidencias;
+
+    recomendaciones.push(
+      this.t(
+        `feed.compatibility.recommendations.${this.compatibilidadNivelClase}`
+      )
+    );
+
+    if (!coincidencias.tamano) {
+      recomendaciones.push(
+        this.t('feed.compatibility.recommendations.size')
+      );
+    }
+
+    if (!coincidencias.edad) {
+      recomendaciones.push(
+        this.t('feed.compatibility.recommendations.age')
+      );
+    }
+
+    if (!coincidencias.estado_salud) {
+      recomendaciones.push(
+        this.t('feed.compatibility.recommendations.health')
+      );
+    }
+
+    if (!coincidencias.genero) {
+      recomendaciones.push(
+        this.t('feed.compatibility.recommendations.gender')
+      );
+    }
+
+    if (!coincidencias.raza) {
+      recomendaciones.push(
+        this.t('feed.compatibility.recommendations.breed')
+      );
+    }
+
+    const todasCoinciden = Object.values(coincidencias).every(
+      (coincide) => coincide
+    );
+
+    if (todasCoinciden) {
+      recomendaciones.push(
+        this.t('feed.compatibility.recommendations.allMatch')
+      );
+    }
+
+    return recomendaciones;
+  }
+
+  private limpiarCompatibilidad(): void {
+    this.compatibilityRequestId += 1;
+    this.compatibilidad = null;
+    this.cargandoCompatibilidad = false;
+    this.errorCompatibilidad = '';
+  }
+
+  private async cargarCompatibilidad(
+    idMascotaDestino: number
+  ): Promise<void> {
+    const idMascotaOrigen = this.mascotaOrigenId;
+
+    if (!idMascotaOrigen || !idMascotaDestino) {
+      return;
+    }
+
+    const requestId = ++this.compatibilityRequestId;
+
+    this.compatibilidad = null;
+    this.cargandoCompatibilidad = true;
+    this.errorCompatibilidad = '';
+    this.cdr.detectChanges();
+
+    const body = {
+      mascota1: idMascotaOrigen,
+      mascota2: idMascotaDestino
+    };
+
+    try {
+      const response = await firstValueFrom(
+        this.http
+          .post<CompatibilidadResponse>(
+            `${this.apiBaseUrl}/interactions/compatibilidad`,
+            body
+          )
+          .pipe(timeout(10000))
+      );
+
+      const mascotaSigueVisible =
+        this.pet?.id_mascota === idMascotaDestino;
+
+      if (
+        requestId !== this.compatibilityRequestId ||
+        !mascotaSigueVisible
+      ) {
+        return;
+      }
+
+      this.compatibilidad = {
+        compatibilidad: Math.max(
+          0,
+          Math.min(100, Number(response.compatibilidad) || 0)
+        ),
+        coincidencias: response.coincidencias
+      };
+    } catch (error) {
+      if (requestId !== this.compatibilityRequestId) {
+        return;
+      }
+
+      this.errorCompatibilidad =
+        this.resolveCompatibilidadError(error);
+    } finally {
+      if (requestId === this.compatibilityRequestId) {
+        this.cargandoCompatibilidad = false;
+        this.cdr.detectChanges();
+      }
+    }
+  }
+
+  private resolveCompatibilidadError(error: unknown): string {
+    if (error instanceof TimeoutError) {
+      return this.t('feed.compatibility.errors.timeout');
+    }
+
+    if (error instanceof HttpErrorResponse && error.status === 0) {
+      return this.t('feed.compatibility.errors.connectionFailed');
+    }
+
+    return this.t('feed.compatibility.errors.loadFailed');
   }
 
   private resolveLoadError(error: unknown): string {

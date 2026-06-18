@@ -247,12 +247,50 @@
       "apply": "Appliquer les filtres",
       "clear": "Effacer les filtres",
       "cancel": "Annuler"
+    },
+    "compatibility": {
+    "eyebrow": "Analyse automatique",
+    "title": "Compatibilité",
+    "calculating": "Calcul de la compatibilité...",
+    "match": "Correspond",
+    "different": "Différent",
+    "recommendationsTitle": "Recommandations d'interaction",
+    "level": {
+      "high": "Élevée",
+      "medium": "Moyenne",
+      "low": "Faible"
+    },
+    "fields": {
+      "breed": "Race",
+      "size": "Taille",
+      "age": "Âge",
+      "gender": "Genre",
+      "health": "Santé"
+    },
+    "recommendations": {
+      "high": "Ils ont une compatibilité élevée. Ils peuvent interagir sous une supervision normale.",
+      "medium": "La compatibilité est moyenne. Présentez-les progressivement.",
+      "low": "La compatibilité est faible. Privilégiez des rencontres courtes et surveillées.",
+      "breed": "Ils sont de races différentes; observez leur manière de jouer avant de les laisser interagir librement.",
+      "size": "Ils ont des tailles différentes; évitez les jeux brusques et surveillez le contact.",
+      "age": "La différence d'âge peut influencer leur énergie; adaptez la durée de la rencontre.",
+      "gender": "Ils ont des genres différents; tenez compte de leur tempérament et de leur stérilisation.",
+      "health": "Leur état de santé est différent; vérifiez qu'ils peuvent interagir en toute sécurité.",
+      "allMatch": "Ils correspondent dans tous les critères évalués."
+    },
+    "errors": {
+      "timeout": "Le calcul de compatibilité a pris trop de temps.",
+      "connectionFailed": "Impossible de se connecter au service de compatibilité.",
+      "loadFailed": "Impossible de calculer la compatibilité."
     }
+  }
   },
   "sidebar": {
     "dashboard": "Tableau de bord",
     "cards": "Cartes",
     "bones": "Os",
+    "events": "Evenements",
+    "recommendations": "Recommandations",
     "publications": "Publications",
     "myPublications": "Mes Publications",
     "chats": "Discussions",
@@ -264,6 +302,150 @@
     "manageReports": "Gestion des Rapports",
     "manageContent": "Gestion du Contenu",
     "searchUsers": "Rechercher des utilisateurs"
+  },
+  "recommendations": {
+    "eyebrow": "Suggestions intelligentes",
+    "title": "Recommandations personnalisees",
+    "subtitle": "Basees sur votre activite et vos matchs pour mieux socialiser.",
+    "loading": "Analyse de votre profil pour generer des recommandations...",
+    "actions": {
+      "refresh": "Actualiser les recommandations"
+    },
+    "type": {
+      "fallback": "Demarrage guide",
+      "personalized": "Profil personnalise"
+    },
+    "summary": {
+      "title": "Resume de la recommandation",
+      "fallbackMessage": "Nous apprenons encore de vos interactions. En attendant, voici des suggestions mises en avant.",
+      "personalizedMessage": "Ces recommandations sont adaptees a vos preferences detectees automatiquement."
+    },
+    "stats": {
+      "attendances": "Participations precedentes",
+      "matches": "Matchs precedents",
+      "activities": "Activites favorites",
+      "noActivities": "Aucune activite detectee pour le moment"
+    },
+    "events": {
+      "title": "Evenements recommandes",
+      "subtitle": "Activites susceptibles de correspondre a vos gouts",
+      "empty": "Aucun evenement suggere pour le moment.",
+      "fields": {
+        "date": "Date",
+        "address": "Adresse"
+      }
+    },
+    "pets": {
+      "title": "Animaux suggeres",
+      "subtitle": "Profils recents pour explorer de nouvelles connexions",
+      "empty": "Aucun animal suggere pour le moment.",
+      "fields": {
+        "breed": "Race",
+        "size": "Taille",
+        "age": "Age",
+        "health": "Sante"
+      }
+    },
+    "errors": {
+      "noSession": "Aucune session active. Connectez-vous a nouveau.",
+      "connection": "Impossible de se connecter au backend sur http://localhost:3000.",
+      "load": "Impossible de charger vos recommandations."
+    }
+  },
+  "events": {
+    "catalog": {
+      "title": "Catalogue des evenements",
+      "subtitle": "Parcourez toutes les activites planifiees de la communaute",
+      "createButton": "Creer un evenement",
+      "filters": {
+        "from": "De",
+        "to": "A",
+        "clear": "Effacer les filtres"
+      },
+      "loading": "Chargement des evenements...",
+      "emptyTitle": "Aucun evenement actif",
+      "emptySubtitle": "Aucune activite n'a encore ete publiee.",
+      "card": {
+        "date": "Date",
+        "location": "Lieu",
+        "capacity": "Capacite",
+        "available": "Places disponibles"
+      },
+      "actions": {
+        "attend": "Confirmer la participation",
+        "cancel": "Annuler la participation",
+        "processing": "Traitement..."
+      },
+      "messages": {
+        "loadError": "Impossible de charger les evenements.",
+        "noSession": "Aucune session active pour confirmer la participation.",
+        "attendanceConfirmed": "Participation confirmee avec succes.",
+        "attendanceError": "Impossible de confirmer la participation.",
+        "attendanceCancelled": "Participation annulee avec succes.",
+        "cancelError": "Impossible d'annuler la participation."
+      },
+      "actions": {
+        "request": "Demander à participer",
+        "confirm": "Confirmer la présence",
+        "cancel": "Annuler la participation",
+        "goBack": "Retour",
+        "processing": "Traitement..."
+      },
+      "status": {
+        "confirmed": "Présence confirmée"
+      },
+      "confirmation": {
+        "title": "Confirmer la participation",
+        "message": "Voulez-vous confirmer votre présence à l’événement {{name}} ?"
+      },
+      "participants": {
+        "title": "Participants",
+        "loading": "Chargement des participants...",
+        "empty": "Il n’y a pas encore de participants confirmés.",
+        "loadError": "Impossible de charger la liste des participants.",
+        "unknownUser": "Utilisateur",
+        "you": "Vous"
+      }
+    },
+    "form": {
+      "backToCatalog": "Retour au catalogue",
+      "title": "Gestion des evenements",
+      "subtitle": "Remplissez le formulaire pour publier une nouvelle activite",
+      "fields": {
+        "name": "Nom de l'evenement",
+        "description": "Description",
+        "datetime": "Date et heure",
+        "activityType": "Type d'activite",
+        "address": "Adresse",
+        "capacity": "Capacite maximale",
+        "latitude": "Latitude (optionnel)",
+        "longitude": "Longitude (optionnel)",
+        "mapPicker": "Emplacement sur la carte",
+        "mapHint": "Cliquez sur la carte pour selectionner l'emplacement de l'evenement.",
+        "mapSelection": "Emplacement selectionne"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "save": "Enregistrer l'evenement",
+        "saving": "Enregistrement..."
+      },
+      "validation": {
+        "required": "Ce champ est obligatoire.",
+        "minName": "Le nom doit contenir au moins 4 caracteres.",
+        "minDescription": "La description doit contenir au moins 15 caracteres.",
+        "invalidDate": "La date n'est pas valide.",
+        "futureDate": "La date doit etre future.",
+        "capacity": "La capacite doit etre un entier superieur a 0.",
+        "latitude": "La latitude doit etre comprise entre -90 et 90.",
+        "longitude": "La longitude doit etre comprise entre -180 et 180."
+      },
+      "messages": {
+        "validationError": "Verifiez les champs en rouge avant d'envoyer.",
+        "noSession": "Aucune session active pour creer des evenements.",
+        "success": "Evenement cree avec succes.",
+        "error": "Impossible de creer l'evenement."
+      }
+    }
   },
   "dashboard": {
     "admin": {
@@ -369,6 +551,10 @@
       "gender": {
         "male": "Male",
         "female": "Femelle"
+      },
+      "imageInfo": "Maximum 2MB. Accepted formats: JPG, PNG, WEBP.",
+      "validation": {
+        "fileTooLarge": "The file is too large. The maximum limit is 2MB."
       }
     },
     "list": {
@@ -447,16 +633,6 @@
         "successMessage": "L'animal a ete mis a jour avec succes",
         "errorMessage": "Une erreur est survenue lors de la mise a jour de l'animal"
       }
-    }
-  },
-  "publications": {
-    "myPublications": {
-      "title": "Mes Publicaciones",
-      "subtitle": "Gestion et revision du statut de vos publications"
-    },
-    "see": {
-      "title": "Publicaciones",
-      "subtitle": "Feed de la comunidad y trabajadores del rubro"
     }
   }
 }

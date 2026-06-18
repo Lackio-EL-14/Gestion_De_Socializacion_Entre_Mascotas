@@ -2,7 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 
+const MAX_FILE_SIZE_MB = 2;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 interface UpdatePetRequest {
   nombre?: string;
   raza?: string;
@@ -35,6 +38,7 @@ interface Mascota {
   styleUrl: './edit-pet.scss'
 })
 export class EditPetComponent implements OnInit {
+
   idMascota: number | null = null;
 
   nombre = '';
@@ -56,6 +60,24 @@ export class EditPetComponent implements OnInit {
   modalTitulo = '';
   modalMensaje = '';
   modalTipo: 'success' | 'error' = 'success';
+
+  readonly razasDisponibles = [
+    { value: 'golden_retriever', label: 'Golden Retriever' },
+    { value: 'labrador', label: 'Labrador' },
+    { value: 'bulldog', label: 'Bulldog' },
+    { value: 'poodle', label: 'Poodle' },
+    { value: 'beagle', label: 'Beagle' },
+    { value: 'chihuahua', label: 'Chihuahua' },
+    { value: 'pastor_aleman', label: 'Pastor Aleman' },
+    { value: 'husky', label: 'Husky Siberiano' },
+    { value: 'shih_tzu', label: 'Shih Tzu' },
+    { value: 'dalmata', label: 'Dalmata' },
+    { value: 'otra', label: 'Otras' },
+  ];
+
+  imagen: File | null = null;
+  imagenPreview: string | null = null;
+  archivoVacunas: File | null = null;
 
   constructor(
     private http: HttpClient,
@@ -125,9 +147,45 @@ cargarMascota(): void {
   });
 }
 
-  submit(): void {
-    if (!this.idMascota) {
-      this.mostrarModalByKey('pets.common.errorTitle', 'pets.edit.errors.invalidId', 'error');
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file=input.files[0];
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.common.validation.fileTooLarge', 'error');
+        input.value = '';
+        this.imagen = null;
+        this.imagenPreview = null;
+        return;
+      }
+      this.imagen = file;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagenPreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(this.imagen);
+    }
+  }
+
+  onVaccineSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.common.validation.fileTooLarge', 'error');
+        input.value = '';
+        this.archivoVacunas = null;
+        return;
+      }
+
+      this.archivoVacunas = file;
+    }
+  }
+
+  async submit(): Promise<void> {
+    if (!this.idMascota || this.enviando) {
       return;
     }
 
@@ -159,32 +217,61 @@ cargarMascota(): void {
       return;
     }
 
-    const body: UpdatePetRequest = {
-      nombre,
-      raza,
-      tamano,
-      genero,
-      edad,
-      estado_salud,
-      vacuna_imagen_url: this.vacuna_imagen_url || ''
-    };
-
     this.enviando = true;
 
-    this.http.patch(`https://gestion-de-socializacion-entre-mascotas.onrender.com/pets/${this.idMascota}`, body).subscribe({
-      next: () => {
-        this.enviando = false;
-        this.mostrarModalByKey('pets.edit.modal.successTitle', 'pets.edit.modal.successMessage', 'success');
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error al actualizar la mascota:', error);
-        const mensaje = error?.error?.message || this.t('pets.edit.modal.errorMessage');
-        this.enviando = false;
-        this.mostrarModal(this.t('pets.common.errorTitle'), Array.isArray(mensaje) ? mensaje.join('\n') : mensaje, 'error');
-        this.cdr.detectChanges();
+    try {
+      let nuevaUrlFoto = this.perfil_imagen_url;
+      let nuevaUrlVacuna = this.vacuna_imagen_url;
+
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+
+      if (this.imagen) {
+        const formData = new FormData();
+        formData.append('file', this.imagen);
+
+        const uploadRes: any = await firstValueFrom(
+          this.http.post('http://localhost:3000/upload', formData, { headers })
+        );
+        nuevaUrlFoto = uploadRes.url;
       }
-    });
+
+      if (this.archivoVacunas) {
+        const formData = new FormData();
+        formData.append('file', this.archivoVacunas);
+
+        const uploadRes: any = await firstValueFrom(
+          this.http.post('http://localhost:3000/upload', formData, { headers })
+        );
+        nuevaUrlVacuna = uploadRes.url;
+      }
+
+      const body: UpdatePetRequest = {
+        nombre,
+        raza,
+        tamano,
+        genero,
+        edad: edad!,
+        estado_salud,
+        vacuna_imagen_url: nuevaUrlVacuna || '',
+        perfil_imagen_url: nuevaUrlFoto || ''
+      };
+
+      await firstValueFrom(
+        this.http.patch(`http://localhost:3000/pets/${this.idMascota}`, body)
+      );
+
+      this.enviando = false;
+      this.mostrarModalByKey('pets.edit.modal.successTitle', 'pets.edit.modal.successMessage', 'success');
+      this.cdr.detectChanges();
+
+    } catch (error: any) {
+      console.error('Error al actualizar la mascota o subir imagen:', error);
+      const mensaje = error?.error?.message || this.t('pets.edit.modal.errorMessage');
+      this.enviando = false;
+      this.mostrarModal(this.t('pets.common.errorTitle'), Array.isArray(mensaje) ? mensaje.join('\n') : mensaje, 'error');
+      this.cdr.detectChanges();
+    }
   }
 
   private t(key: string): string {

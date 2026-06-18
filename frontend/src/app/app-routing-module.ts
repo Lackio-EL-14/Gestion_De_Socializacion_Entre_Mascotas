@@ -96,6 +96,18 @@ const routes: Routes = [
       import('./features/feed/feed-module').then(m => m.FeedModule)
   },
   {
+    path: 'events',
+    loadChildren: () =>
+      import('./features/events/events-module').then(m => m.EventsModule)
+  },
+  {
+    path: 'recommendations',
+    loadChildren: () =>
+      import('./features/recommendations/recommendations-module').then(m => m.RecommendationsModule),
+    canActivate: [roleGuard],
+    data: { roles: [1, 3] }
+  },
+  {
     path: '',
     pathMatch: 'full',
     component: Home,

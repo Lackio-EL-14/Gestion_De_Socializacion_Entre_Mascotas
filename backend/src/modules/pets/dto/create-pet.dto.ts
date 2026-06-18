@@ -1,18 +1,5 @@
 import { IsNotEmpty, IsString, IsInt, Min, Max, IsIn } from 'class-validator';
 
-const RAZAS_PERMITIDAS = [
-  'golden_retriever',
-  'labrador',
-  'bulldog',
-  'poodle',
-  'beagle',
-  'chihuahua',
-  'pastor_aleman',
-  'husky',
-  'shih_tzu',
-  'dalmata',
-  'otra',
-] as const;
 
 export class CreatePetDto {
   @IsNotEmpty()
@@ -21,7 +8,6 @@ export class CreatePetDto {
 
   @IsNotEmpty()
   @IsString()
-  @IsIn(RAZAS_PERMITIDAS, { message: 'La raza seleccionada no es valida' })
   raza: string;
 
   @IsNotEmpty()

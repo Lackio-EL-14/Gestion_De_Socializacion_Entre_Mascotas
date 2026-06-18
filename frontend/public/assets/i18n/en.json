@@ -280,12 +280,50 @@
         "noSession": "There is no active session.",
         "loadFailed": "Could not load your pets."
       }
+    },
+    "compatibility": {
+    "eyebrow": "Automatic analysis",
+    "title": "Compatibility",
+    "calculating": "Calculating compatibility...",
+    "match": "Matches",
+    "different": "Different",
+    "recommendationsTitle": "Interaction recommendations",
+    "level": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "fields": {
+      "breed": "Breed",
+      "size": "Size",
+      "age": "Age",
+      "gender": "Gender",
+      "health": "Health"
+    },
+    "recommendations": {
+      "high": "They have high compatibility. They can interact with normal supervision.",
+      "medium": "Compatibility is moderate. Introduce them gradually.",
+      "low": "Compatibility is low. Prefer short and closely supervised meetings.",
+      "breed": "They are different breeds; observe their play styles before letting them interact freely.",
+      "size": "They have different sizes; avoid rough play and supervise contact.",
+      "age": "The age difference may affect their energy levels; adjust the length of the meeting.",
+      "gender": "They have different genders; consider their temperament and neutering status.",
+      "health": "Their health conditions differ; verify that both can interact safely.",
+      "allMatch": "They match in every evaluated criterion."
+    },
+    "errors": {
+      "timeout": "The compatibility calculation took too long.",
+      "connectionFailed": "Could not connect to the compatibility service.",
+      "loadFailed": "Compatibility could not be calculated."
     }
+  }
   },
   "sidebar": {
     "dashboard": "Dashboard",
     "cards": "Cards",
     "bones": "Bones",
+    "events": "Events",
+    "recommendations": "Recommendations",
     "publications": "Publications",
     "myPublications": "My Publications",
     "chats": "Chats",
@@ -297,6 +335,150 @@
     "manageReports": "Report Management",
     "manageContent": "Content Management",
     "searchUsers": "Search Users"
+  },
+  "recommendations": {
+    "eyebrow": "Smart suggestions",
+    "title": "Personalized recommendations",
+    "subtitle": "Based on your activity and match history to help you socialize better.",
+    "loading": "Analyzing your profile to generate recommendations...",
+    "actions": {
+      "refresh": "Refresh recommendations"
+    },
+    "type": {
+      "fallback": "Guided start",
+      "personalized": "Personalized profile"
+    },
+    "summary": {
+      "title": "Recommendation summary",
+      "fallbackMessage": "We are still learning from your interactions. Meanwhile, we show featured suggestions.",
+      "personalizedMessage": "These recommendations are adjusted to your automatically detected preferences."
+    },
+    "stats": {
+      "attendances": "Previous attendances",
+      "matches": "Previous matches",
+      "activities": "Favorite activities",
+      "noActivities": "No activities detected yet"
+    },
+    "events": {
+      "title": "Recommended events",
+      "subtitle": "Activities that may match your interests",
+      "empty": "There are no suggested events for now.",
+      "fields": {
+        "date": "Date",
+        "address": "Address"
+      }
+    },
+    "pets": {
+      "title": "Suggested pets",
+      "subtitle": "Recent profiles to explore new connections",
+      "empty": "There are no suggested pets at this moment.",
+      "fields": {
+        "breed": "Breed",
+        "size": "Size",
+        "age": "Age",
+        "health": "Health"
+      }
+    },
+    "errors": {
+      "noSession": "There is no active session. Please log in again.",
+      "connection": "Could not connect to backend at http://localhost:3000.",
+      "load": "Could not load your recommendations."
+    }
+  },
+  "events": {
+    "catalog": {
+      "title": "Events Catalog",
+      "subtitle": "Browse all scheduled activities in the community",
+      "createButton": "Create Event",
+      "filters": {
+        "from": "From",
+        "to": "To",
+        "clear": "Clear filters"
+      },
+      "loading": "Loading events...",
+      "emptyTitle": "No active events",
+      "emptySubtitle": "No activities have been published yet.",
+      "card": {
+        "date": "Date",
+        "location": "Location",
+        "capacity": "Capacity",
+        "available": "Available spots"
+      },
+      "actions": {
+        "attend": "Confirm attendance",
+        "cancel": "Cancel attendance",
+        "processing": "Processing..."
+      },
+      "messages": {
+        "loadError": "Could not load events.",
+        "noSession": "No active session found to confirm attendance.",
+        "attendanceConfirmed": "Attendance confirmed successfully.",
+        "attendanceError": "Could not confirm attendance.",
+        "attendanceCancelled": "Attendance cancelled successfully.",
+        "cancelError": "Could not cancel attendance."
+      },
+      "actions": {
+        "request": "Request participation",
+        "confirm": "Confirm attendance",
+        "cancel": "Cancel participation",
+        "goBack": "Go back",
+        "processing": "Processing..."
+      },
+      "status": {
+        "confirmed": "Attendance confirmed"
+      },
+      "confirmation": {
+        "title": "Confirm participation",
+        "message": "Do you want to confirm your attendance at {{name}}?"
+      },
+      "participants": {
+        "title": "Participants",
+        "loading": "Loading participants...",
+        "empty": "There are no confirmed participants yet.",
+        "loadError": "The participant list could not be loaded.",
+        "unknownUser": "User",
+        "you": "You"
+      }
+    },
+    "form": {
+      "backToCatalog": "Back to catalog",
+      "title": "Event Management",
+      "subtitle": "Complete the form to publish a new activity",
+      "fields": {
+        "name": "Event name",
+        "description": "Description",
+        "datetime": "Date and time",
+        "activityType": "Activity type",
+        "address": "Address",
+        "capacity": "Maximum capacity",
+        "latitude": "Latitude (optional)",
+        "longitude": "Longitude (optional)",
+        "mapPicker": "Location on map",
+        "mapHint": "Click on the map to select the event location.",
+        "mapSelection": "Selected location"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save event",
+        "saving": "Saving..."
+      },
+      "validation": {
+        "required": "This field is required.",
+        "minName": "Name must be at least 4 characters long.",
+        "minDescription": "Description must be at least 15 characters long.",
+        "invalidDate": "Date is not valid.",
+        "futureDate": "Date must be in the future.",
+        "capacity": "Capacity must be an integer greater than 0.",
+        "latitude": "Latitude must be between -90 and 90.",
+        "longitude": "Longitude must be between -180 and 180."
+      },
+      "messages": {
+        "validationError": "Review the highlighted fields before submitting.",
+        "noSession": "No active session found to create events.",
+        "success": "Event created successfully.",
+        "error": "Could not create event."
+      }
+    }
   },
   "dashboard": {
     "admin": {
@@ -409,6 +591,10 @@
       "gender": {
         "male": "Male",
         "female": "Female"
+      },
+      "imageInfo": "Maximum 2MB. Accepted formats: JPG, PNG, WEBP.",
+      "validation": {
+        "fileTooLarge": "The file is too large. The maximum limit is 2MB."
       }
     },
     "list": {

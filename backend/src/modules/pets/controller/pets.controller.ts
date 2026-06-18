@@ -12,17 +12,6 @@ export class PetsController {
   create(@Body() createPetDto: CreatePetDto) {
     return this.petsService.create(createPetDto);
   }
-  /* Luis Esto no sirve borralo este era el problema
-  @Get('user/:id')
-  findByUser(@Param('id', ParseIntPipe) id: number) {
-    return this.petsService.findByUser(id);
-  }
-
-  @Get()
-  findAll() {
-    return this.petsService.findAll();
-  }
-  */
 
   @UseGuards(JwtAuthGuard) 
   @Get('my-pets')
@@ -40,9 +29,10 @@ export class PetsController {
     return this.petsService.update(id, updatePetDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.petsService.remove(id);
+  remove(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return this.petsService.remove(id, req.user.userId);
   }
 
   @Get('random/:userId')

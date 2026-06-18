@@ -44,6 +44,10 @@
           <button class="edit-btn" (click)="editarMascota(mascota.id_mascota)">
             {{ 'pets.list.edit' | translate }}
           </button>
+
+          <button class="delete-btn" (click)="abrirModalEliminar(mascota)">
+            Eliminar
+          </button>
         </div>
       </div>
     </div>
@@ -68,5 +72,42 @@
       </button>
     </div>
 
+    <div
+      class="modal-overlay"
+      *ngIf="modalEliminarVisible"
+    >
+      <div class="modal-card">
+
+        <h2 class="modal-title">
+          Confirmar eliminación
+        </h2>
+
+        <p class="modal-message">
+          ¿Estás seguro de eliminar a
+          <strong>{{ mascotaSeleccionada?.nombre }}</strong>?
+        </p>
+
+        <div class="modal-actions">
+
+          <button
+            class="cancel-btn"
+            (click)="cerrarModalEliminar()"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="confirm-btn"
+            (click)="eliminarMascota()"
+            [disabled]="eliminando"
+          >
+            {{ eliminando ? 'Eliminando...' : 'Eliminar' }}
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+    
   </main>
 </div>

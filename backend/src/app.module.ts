@@ -15,6 +15,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UploadModule } from './modules/upload/upload.module';
 import { EmailService } from './modules/users/service/EmailService';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { EventsModule } from './modules/events/events.module';
+import { EvaluationsModule } from './modules/evaluations/evaluations.module';
+import { RecommendationsModule } from './modules/recommendations/recommendations.module';
 
 @Module({
   imports: [
@@ -45,6 +48,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
             MessagesModule,
             PublicationsModule, 
             ProfessionalProfileModule,
+            EventsModule,
+            EvaluationsModule,
+            RecommendationsModule,
             TypeOrmModule.forRoot({//
               type: 'mysql',
               host: process.env.DB_HOST,

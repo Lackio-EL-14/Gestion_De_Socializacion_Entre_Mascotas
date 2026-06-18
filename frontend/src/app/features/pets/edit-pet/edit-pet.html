@@ -22,14 +22,26 @@
         <div class="image-box">
           <img
             class="pet-image"
-            [src]="perfil_imagen_url || imagenPlaceholder"
+            [src]="imagenPreview || perfil_imagen_url || imagenPlaceholder"
             [alt]="nombre || 'Mascota'"
           />
 
-          <button type="button" class="change-photo-btn">
+          <input
+            type="file"
+            #fileInput
+            class="file-input"
+            (change)="onImageSelected($event)"
+            accept="image/jpeg, image/png, image/webp"
+            style="display: none;"
+          />
+
+          <button type="button" class="change-photo-btn" (click)="fileInput.click()">
             {{ 'pets.edit.changePhoto' | translate }}
           </button>
         </div>
+        <small class="form-help" style="display: block; margin-top: 8px; color: #6b7280;">
+          {{ 'pets.common.imageInfo' | translate }}
+        </small>
       </div>
 
       <div class="form-group">
@@ -46,14 +58,16 @@
 
       <div class="form-group">
         <label for="raza" class="form-label">{{ 'pets.edit.form.breedLabel' | translate }}</label>
-        <input
-          type="text"
+        <select
           id="raza"
           name="raza"
           class="form-input"
           [(ngModel)]="raza"
           required
-        />
+        >
+          <option value="">{{ 'pets.common.selectPlaceholder' | translate }}</option>
+          <option *ngFor="let item of razasDisponibles" [value]="item.value">{{ item.label }}</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -106,8 +120,12 @@
           id="vacuna"
           name="vacuna"
           class="form-input"
+          accept="image/jpeg, image/png, image/webp"
+          (change)="onVaccineSelected($event)"
         />
-        <small class="form-help">{{ 'pets.edit.form.vaccineHelp' | translate }}</small>
+        <small class="form-help" style="display: block; margin-top: 4px; color: #6b7280;">
+          {{ 'pets.common.imageInfo' | translate }}
+        </small>
       </div>
 
       <div class="actions">

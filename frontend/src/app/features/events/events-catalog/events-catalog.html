@@ -1,0 +1,363 @@
+<div class="layout">
+  <app-sidebar-owner *ngIf="esOwner"></app-sidebar-owner>
+  <app-sidebar-admin *ngIf="esAdmin"></app-sidebar-admin>
+  <app-sidebar-worker *ngIf="esWorker"></app-sidebar-worker>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h1 class="page-header__title">{{ 'events.catalog.title' | translate }}</h1>
+        <p class="page-header__subtitle">{{ 'events.catalog.subtitle' | translate }}</p>
+      </div>
+
+      <a routerLink="/events/create" class="create-button">
+        <svg class="create-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        {{ 'events.catalog.createButton' | translate }}
+      </a>
+    </header>
+
+    <div
+      *ngIf="feedbackMessage"
+      class="feedback"
+      [class.feedback--error]="feedbackType === 'error'"
+      [class.feedback--success]="feedbackType === 'success'"
+    >
+      {{ feedbackMessage }}
+    </div>
+
+    <section class="filters">
+      <div class="filters__group">
+        <label for="fromDate">{{ 'events.catalog.filters.from' | translate }}</label>
+        <input id="fromDate" type="date" [(ngModel)]="filterFromDate" />
+      </div>
+      <div class="filters__group">
+        <label for="toDate">{{ 'events.catalog.filters.to' | translate }}</label>
+        <input id="toDate" type="date" [(ngModel)]="filterToDate" />
+      </div>
+      <button type="button" class="filters__clear" (click)="clearDateFilters()">
+        {{ 'events.catalog.filters.clear' | translate }}
+      </button>
+    </section>
+
+    <section class="events-loading" *ngIf="isLoading">
+      <div class="events-loading__spinner"></div>
+      <span>{{ 'events.catalog.loading' | translate }}</span>
+    </section>
+
+    <section class="events-empty" *ngIf="!isLoading && !hasEvents">
+      <h2>{{ 'events.catalog.emptyTitle' | translate }}</h2>
+      <p>{{ 'events.catalog.emptySubtitle' | translate }}</p>
+    </section>
+
+    <section class="events-grid" *ngIf="!isLoading && hasEvents">
+      <article class="event-card" *ngFor="let event of filteredEvents" (click)="openModal(event)" style="cursor: pointer;">
+        <div class="event-card__head">
+          <span class="event-type">{{ event.tipo_actividad }}</span>
+          <span class="event-status">{{ event.estado_evento }}</span>
+        </div>
+
+        <h3 class="event-card__title">{{ event.nombre }}</h3>
+        <p class="event-card__desc">{{ event.descripcion }}</p>
+
+        <ul class="event-card__meta">
+          <li>
+            <strong>{{ 'events.catalog.card.date' | translate }}:</strong>
+            {{ event.fecha_hora | date:'medium' }}
+          </li>
+          <li>
+            <strong>{{ 'events.catalog.card.location' | translate }}:</strong>
+            {{ event.direccion }}
+          </li>
+          <li>
+            <strong>{{ 'events.catalog.card.capacity' | translate }}:</strong>
+            {{ event.asistentes_actuales }} / {{ event.capacidad_maxima }}
+          </li>
+          <li>
+            <strong>{{ 'events.catalog.card.available' | translate }}:</strong>
+            {{ getAvailableSpots(event) }}
+          </li>
+        </ul>
+
+        <div class="event-card__actions">
+          <div
+            class="event-card__attendance-state"
+            *ngIf="isConfirmed(event.id_evento)"
+          >
+            ✓ {{ 'events.catalog.status.confirmed' | translate }}
+          </div>
+
+          <button
+            type="button"
+            class="attendance-btn"
+            [class.attendance-btn--cancel]="isConfirmed(event.id_evento)"
+            [disabled]="!canAttend(event) || isProcessing(event.id_evento)"
+            (click)="$event.stopPropagation(); toggleAttendance(event)"
+          >
+            <span *ngIf="!isProcessing(event.id_evento)">
+              {{
+                isConfirmed(event.id_evento)
+                  ? ('events.catalog.actions.cancel' | translate)
+                  : ('events.catalog.actions.request' | translate)
+              }}
+            </span>
+
+            <span *ngIf="isProcessing(event.id_evento)">
+              {{ 'events.catalog.actions.processing' | translate }}
+            </span>
+          </button>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>
+
+<div class="event-modal-overlay" *ngIf="selectedEvent" (click)="closeModal()">
+  <div class="event-modal-content" (click)="$event.stopPropagation()">
+
+    <button
+      type="button"
+      class="event-modal-close"
+      (click)="closeModal()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="event-modal-header">
+      <div class="event-modal-badges">
+        <span class="badge badge-type">{{ selectedEvent.tipo_actividad }}</span>
+        <span class="badge badge-status" [ngClass]="selectedEvent.estado_evento.toLowerCase()">
+          {{ selectedEvent.estado_evento }}
+        </span>
+      </div>
+      <h2 class="event-modal-title">{{ selectedEvent.nombre }}</h2>
+    </div>
+
+    <div class="event-modal-body">
+      <div class="event-modal-main">
+        <h3>{{ 'events.catalog.detail.description' | translate }}</h3>
+        <p class="event-modal-desc">{{ selectedEvent.descripcion }}</p>
+
+        <div class="event-modal-map" *ngIf="hasCoordinates(selectedEvent); else noCoordinatesTemplate">
+          <iframe
+            class="event-modal-map__frame"
+            [src]="getEventMapEmbedUrl(selectedEvent)"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa del evento"
+          ></iframe>
+          <div class="event-modal-map__links">
+            <a
+              class="event-modal-map__link"
+              [href]="getOpenStreetMapUrl(selectedEvent)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir en OpenStreetMap
+            </a>
+            <a
+              class="event-modal-map__link"
+              [href]="getGoogleMapsUrl(selectedEvent)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir en Google Maps
+            </a>
+          </div>
+        </div>
+        <ng-template #noCoordinatesTemplate>
+          <div class="event-modal-map-placeholder">
+            Este evento no tiene coordenadas para mostrar en el mapa.
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="event-modal-sidebar">
+        <div class="meta-block">
+          <span class="meta-label">Fecha y Hora</span>
+          <span class="meta-value">{{ selectedEvent.fecha_hora | date:'fullDate' }}<br>{{ selectedEvent.fecha_hora | date:'shortTime' }}</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Ubicación</span>
+          <span class="meta-value">{{ selectedEvent.direccion }}</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Aforo</span>
+          <span class="meta-value">{{ selectedEvent.asistentes_actuales }} / {{ selectedEvent.capacidad_maxima }} confirmados</span>
+          <small class="meta-sub">({{ getAvailableSpots(selectedEvent) }} cupos disponibles)</small>
+        </div>
+        <div class="meta-block" *ngIf="selectedEvent.creador">
+          <span class="meta-label">Organizado por</span>
+          <span class="meta-value">{{ selectedEvent.creador.nombre }}</span>
+        </div>
+        <section class="participants-panel">
+          <div class="participants-panel__header">
+            <span class="meta-label">
+              {{ 'events.catalog.participants.title' | translate }}
+            </span>
+
+            <span class="participants-panel__count">
+              {{ selectedParticipants.length }}
+            </span>
+          </div>
+
+          <div
+            class="participants-panel__loading"
+            *ngIf="participantsLoading"
+          >
+            <span class="participants-panel__spinner"></span>
+
+            {{ 'events.catalog.participants.loading' | translate }}
+          </div>
+
+          <p
+            class="participants-panel__error"
+            *ngIf="!participantsLoading && participantsError"
+          >
+            {{ participantsError }}
+          </p>
+
+          <p
+            class="participants-panel__empty"
+            *ngIf="
+              !participantsLoading &&
+              !participantsError &&
+              selectedParticipants.length === 0
+            "
+          >
+            {{ 'events.catalog.participants.empty' | translate }}
+          </p>
+
+          <ul
+            class="participants-panel__list"
+            *ngIf="
+              !participantsLoading &&
+              !participantsError &&
+              selectedParticipants.length > 0
+            "
+          >
+            <li
+              class="participants-panel__item"
+              *ngFor="let participant of selectedParticipants"
+            >
+              <div class="participants-panel__avatar">
+                {{ getParticipantName(participant).charAt(0) | uppercase }}
+              </div>
+
+              <div class="participants-panel__info">
+                <strong>
+                  {{ getParticipantName(participant) }}
+                </strong>
+
+                <small>
+                  {{
+                    participant.fecha_registro
+                      | date:'short'
+                  }}
+                </small>
+              </div>
+
+              <span
+                class="participants-panel__you"
+                *ngIf="participant.usuario.id_usuario === currentUserId"
+              >
+                {{ 'events.catalog.participants.you' | translate }}
+              </span>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <div class="event-modal-footer">
+
+      <div
+        class="attendance-confirmation"
+        *ngIf="
+          isParticipationRequestOpen(selectedEvent.id_evento);
+          else attendanceMainAction
+        "
+      >
+        <div class="attendance-confirmation__text">
+          <strong>
+            {{ 'events.catalog.confirmation.title' | translate }}
+          </strong>
+
+          <p>
+            {{
+              'events.catalog.confirmation.message'
+                | translate:{ name: selectedEvent.nombre }
+            }}
+          </p>
+        </div>
+
+        <div class="attendance-confirmation__actions">
+          <button
+            type="button"
+            class="confirmation-secondary-btn"
+            [disabled]="isProcessing(selectedEvent.id_evento)"
+            (click)="cancelParticipationRequest()"
+          >
+            {{ 'events.catalog.actions.goBack' | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="attendance-btn confirmation-primary-btn"
+            [disabled]="isProcessing(selectedEvent.id_evento)"
+            (click)="confirmAttendance(selectedEvent)"
+          >
+            <span *ngIf="!isProcessing(selectedEvent.id_evento)">
+              {{ 'events.catalog.actions.confirm' | translate }}
+            </span>
+
+            <span *ngIf="isProcessing(selectedEvent.id_evento)">
+              {{ 'events.catalog.actions.processing' | translate }}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <ng-template #attendanceMainAction>
+        <div
+          class="attendance-current-state"
+          *ngIf="isConfirmed(selectedEvent.id_evento)"
+        >
+          ✓ {{ 'events.catalog.status.confirmed' | translate }}
+        </div>
+
+        <button
+          type="button"
+          class="attendance-btn large-btn"
+          [class.attendance-btn--cancel]="
+            isConfirmed(selectedEvent.id_evento)
+          "
+          [disabled]="
+            !canAttend(selectedEvent) ||
+            isProcessing(selectedEvent.id_evento)
+          "
+          (click)="toggleAttendance(selectedEvent)"
+        >
+          <span *ngIf="!isProcessing(selectedEvent.id_evento)">
+            {{
+              isConfirmed(selectedEvent.id_evento)
+                ? ('events.catalog.actions.cancel' | translate)
+                : ('events.catalog.actions.request' | translate)
+            }}
+          </span>
+
+          <span *ngIf="isProcessing(selectedEvent.id_evento)">
+            {{ 'events.catalog.actions.processing' | translate }}
+          </span>
+        </button>
+      </ng-template>
+
+    </div>
+
+  </div>
+</div>

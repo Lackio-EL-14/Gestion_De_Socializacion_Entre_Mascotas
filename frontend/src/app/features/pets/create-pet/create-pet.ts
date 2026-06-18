@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from "rxjs";
 
+const MAX_FILE_SIZE_MB = 2;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 interface CreatePetRequest {
   nombre: string;
   raza: string;
@@ -34,11 +36,12 @@ export class CreatePetComponent {
     { value: 'husky', label: 'Husky Siberiano' },
     { value: 'shih_tzu', label: 'Shih Tzu' },
     { value: 'dalmata', label: 'Dalmata' },
-    { value: 'otra', label: 'Otras' },
+    { value: 'otro', label: 'Otro' },
   ];
 
   nombre = "";
-  raza = ""
+  raza = "";
+  razaPersonalizada = "";
   tamano = "";
   genero = "";
   edad: number | null = null;
@@ -65,7 +68,7 @@ export class CreatePetComponent {
 
     console.log("Submit mascota ejecutado")
     const nombre = this.nombre.trim();
-    const raza = this.raza.trim();
+    let raza = this.raza.trim();
     const tamano = this.tamano.trim();
     const genero = this.genero.trim();
     const edad = this.edad;
@@ -79,9 +82,29 @@ export class CreatePetComponent {
       return;
     }
 
+    if (raza === 'otro') {
+      if (!this.razaPersonalizada.trim()) {
+        this.mostrarModal(
+          'Validación',
+          'Debe especificar la raza de la mascota.',
+          'error'
+        );
+        return;
+      }
+
+      raza = this.razaPersonalizada.trim();
+    }
+
     const razasPermitidas = this.razasDisponibles.map((razaItem) => razaItem.value);
-    if (!razasPermitidas.includes(raza)) {
-      this.mostrarModalByKey('pets.common.validationTitle', 'pets.create.validation.breedInvalid', 'error');
+    if (
+      this.raza !== 'otro' &&
+      !this.razasDisponibles.some(r => r.value === this.raza)
+    ) {
+      this.mostrarModalByKey(
+        'pets.common.validationTitle',
+        'pets.create.validation.breedInvalid',
+        'error'
+      );
       return;
     }
     if(!tamano) {
@@ -156,6 +179,7 @@ export class CreatePetComponent {
 
     this.limpiarFormulario();
       this.enviando = false;
+      this.razaPersonalizada = '';
       this.mostrarModalByKey('pets.create.modal.successTitle', 'pets.create.modal.successMessage', 'success');
       this.cdr.detectChanges();
 
@@ -178,7 +202,14 @@ export class CreatePetComponent {
   const input = event.target as HTMLInputElement;
 
   if (input.files && input.files.length > 0) {
-    this.imagen = input.files[0];
+    const file = input.files[0];
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.common.validation.fileTooLarge', 'error');
+        input.value = '';
+        this.imagen = null;
+        return;
+      }
+      this.imagen=file;
   }
 }
 
@@ -186,6 +217,13 @@ onVaccineSelected(event: Event) {
   const input = event.target as HTMLInputElement;
 
   if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+        this.mostrarModalByKey('pets.common.errorTitle', 'pets.common.validation.fileTooLarge', 'error');
+        input.value = '';
+        this.archivoVacunas = null;
+        return;
+      }
     this.archivoVacunas = input.files[0];
   }
 }
