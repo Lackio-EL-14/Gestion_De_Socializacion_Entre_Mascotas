@@ -34,6 +34,17 @@
           </select>
         </div>
 
+        <div class="form-group" *ngIf="raza === 'otro'">
+          <label for="customBreed">Especifique la raza</label>
+          <input
+            type="text"
+            id="customBreed"
+            [(ngModel)]="razaPersonalizada"
+            name="razaPersonalizada"
+            placeholder="Ej: Akita Inu"
+          />
+        </div>
+
         <div class="form-group">
           <label for="size">{{ 'pets.create.form.sizeLabel' | translate }}</label>
           <select id="size" [(ngModel)]="tamano" name="tamano">
