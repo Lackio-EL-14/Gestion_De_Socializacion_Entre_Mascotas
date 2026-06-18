@@ -82,6 +82,13 @@
         </ul>
 
         <div class="event-card__actions">
+          <div
+            class="event-card__attendance-state"
+            *ngIf="isConfirmed(event.id_evento)"
+          >
+            ✓ {{ 'events.catalog.status.confirmed' | translate }}
+          </div>
+
           <button
             type="button"
             class="attendance-btn"
@@ -90,11 +97,16 @@
             (click)="$event.stopPropagation(); toggleAttendance(event)"
           >
             <span *ngIf="!isProcessing(event.id_evento)">
-              {{ isConfirmed(event.id_evento)
-                ? ('events.catalog.actions.cancel' | translate)
-                : ('events.catalog.actions.attend' | translate) }}
+              {{
+                isConfirmed(event.id_evento)
+                  ? ('events.catalog.actions.cancel' | translate)
+                  : ('events.catalog.actions.request' | translate)
+              }}
             </span>
-            <span *ngIf="isProcessing(event.id_evento)">{{ 'events.catalog.actions.processing' | translate }}</span>
+
+            <span *ngIf="isProcessing(event.id_evento)">
+              {{ 'events.catalog.actions.processing' | translate }}
+            </span>
           </button>
         </div>
       </article>
@@ -105,7 +117,11 @@
 <div class="event-modal-overlay" *ngIf="selectedEvent" (click)="closeModal()">
   <div class="event-modal-content" (click)="$event.stopPropagation()">
 
-    <button class="event-modal-close" (click)="closeModal()">
+    <button
+      type="button"
+      class="event-modal-close"
+      (click)="closeModal()"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -179,24 +195,168 @@
           <span class="meta-label">Organizado por</span>
           <span class="meta-value">{{ selectedEvent.creador.nombre }}</span>
         </div>
+        <section class="participants-panel">
+          <div class="participants-panel__header">
+            <span class="meta-label">
+              {{ 'events.catalog.participants.title' | translate }}
+            </span>
+
+            <span class="participants-panel__count">
+              {{ selectedParticipants.length }}
+            </span>
+          </div>
+
+          <div
+            class="participants-panel__loading"
+            *ngIf="participantsLoading"
+          >
+            <span class="participants-panel__spinner"></span>
+
+            {{ 'events.catalog.participants.loading' | translate }}
+          </div>
+
+          <p
+            class="participants-panel__error"
+            *ngIf="!participantsLoading && participantsError"
+          >
+            {{ participantsError }}
+          </p>
+
+          <p
+            class="participants-panel__empty"
+            *ngIf="
+              !participantsLoading &&
+              !participantsError &&
+              selectedParticipants.length === 0
+            "
+          >
+            {{ 'events.catalog.participants.empty' | translate }}
+          </p>
+
+          <ul
+            class="participants-panel__list"
+            *ngIf="
+              !participantsLoading &&
+              !participantsError &&
+              selectedParticipants.length > 0
+            "
+          >
+            <li
+              class="participants-panel__item"
+              *ngFor="let participant of selectedParticipants"
+            >
+              <div class="participants-panel__avatar">
+                {{ getParticipantName(participant).charAt(0) | uppercase }}
+              </div>
+
+              <div class="participants-panel__info">
+                <strong>
+                  {{ getParticipantName(participant) }}
+                </strong>
+
+                <small>
+                  {{
+                    participant.fecha_registro
+                      | date:'short'
+                  }}
+                </small>
+              </div>
+
+              <span
+                class="participants-panel__you"
+                *ngIf="participant.usuario.id_usuario === currentUserId"
+              >
+                {{ 'events.catalog.participants.you' | translate }}
+              </span>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
 
     <div class="event-modal-footer">
-      <button
-        type="button"
-        class="attendance-btn large-btn"
-        [class.attendance-btn--cancel]="isConfirmed(selectedEvent.id_evento)"
-        [disabled]="!canAttend(selectedEvent) || isProcessing(selectedEvent.id_evento)"
-        (click)="toggleAttendance(selectedEvent)"
+
+      <div
+        class="attendance-confirmation"
+        *ngIf="
+          isParticipationRequestOpen(selectedEvent.id_evento);
+          else attendanceMainAction
+        "
       >
-        <span *ngIf="!isProcessing(selectedEvent.id_evento)">
-          {{ isConfirmed(selectedEvent.id_evento)
-            ? ('events.catalog.actions.cancel' | translate)
-            : ('events.catalog.actions.attend' | translate) }}
-        </span>
-        <span *ngIf="isProcessing(selectedEvent.id_evento)">{{ 'events.catalog.actions.processing' | translate }}</span>
-      </button>
+        <div class="attendance-confirmation__text">
+          <strong>
+            {{ 'events.catalog.confirmation.title' | translate }}
+          </strong>
+
+          <p>
+            {{
+              'events.catalog.confirmation.message'
+                | translate:{ name: selectedEvent.nombre }
+            }}
+          </p>
+        </div>
+
+        <div class="attendance-confirmation__actions">
+          <button
+            type="button"
+            class="confirmation-secondary-btn"
+            [disabled]="isProcessing(selectedEvent.id_evento)"
+            (click)="cancelParticipationRequest()"
+          >
+            {{ 'events.catalog.actions.goBack' | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="attendance-btn confirmation-primary-btn"
+            [disabled]="isProcessing(selectedEvent.id_evento)"
+            (click)="confirmAttendance(selectedEvent)"
+          >
+            <span *ngIf="!isProcessing(selectedEvent.id_evento)">
+              {{ 'events.catalog.actions.confirm' | translate }}
+            </span>
+
+            <span *ngIf="isProcessing(selectedEvent.id_evento)">
+              {{ 'events.catalog.actions.processing' | translate }}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <ng-template #attendanceMainAction>
+        <div
+          class="attendance-current-state"
+          *ngIf="isConfirmed(selectedEvent.id_evento)"
+        >
+          ✓ {{ 'events.catalog.status.confirmed' | translate }}
+        </div>
+
+        <button
+          type="button"
+          class="attendance-btn large-btn"
+          [class.attendance-btn--cancel]="
+            isConfirmed(selectedEvent.id_evento)
+          "
+          [disabled]="
+            !canAttend(selectedEvent) ||
+            isProcessing(selectedEvent.id_evento)
+          "
+          (click)="toggleAttendance(selectedEvent)"
+        >
+          <span *ngIf="!isProcessing(selectedEvent.id_evento)">
+            {{
+              isConfirmed(selectedEvent.id_evento)
+                ? ('events.catalog.actions.cancel' | translate)
+                : ('events.catalog.actions.request' | translate)
+            }}
+          </span>
+
+          <span *ngIf="isProcessing(selectedEvent.id_evento)">
+            {{ 'events.catalog.actions.processing' | translate }}
+          </span>
+        </button>
+      </ng-template>
+
     </div>
 
   </div>

@@ -366,6 +366,32 @@
         "attendanceError": "No se pudo confirmar la asistencia.",
         "attendanceCancelled": "Asistencia cancelada correctamente.",
         "cancelError": "No se pudo cancelar la asistencia."
+      },
+      "actions": {
+        "request": "Solicitar participación",
+        "confirm": "Confirmar asistencia",
+        "cancel": "Cancelar participación",
+        "goBack": "Volver",
+        "processing": "Procesando..."
+      },
+      "status": {
+        "confirmed": "Asistencia confirmada"
+      },
+      "confirmation": {
+        "title": "Confirmar participación",
+        "message": "¿Deseas confirmar tu asistencia al evento {{name}}?"
+      },
+      "participants": {
+        "title": "Participantes",
+        "loading": "Cargando participantes...",
+        "empty": "Todavía no hay participantes confirmados.",
+        "loadError": "No se pudo cargar la lista de participantes.",
+        "unknownUser": "Usuario",
+        "you": "Tú"
+      },
+      "messages": {
+        "noAvailableSpots": "El evento ya no tiene cupos disponibles.",
+        "alreadyConfirmed": "Ya estás registrado en este evento."
       }
     },
     "form": {
