@@ -5,6 +5,7 @@ import { Evento } from '../entities/events.entity';
 import { AsistenciaEvento } from '../entities/asistencia.entity';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { CreateAssistanceDto } from '../dto/events-assistance.dto';
+import { MoreThanOrEqual } from 'typeorm';
 
 @Injectable()
 export class EventsService {
@@ -160,6 +161,28 @@ export class EventsService {
         id_usuario: a.usuario.id_usuario,
         nombres: a.usuario.nombre,
       }
+    }));
+  }
+
+  async getEventsForMap() {
+
+    const eventos = await this.eventoRepository.find({
+      where: {
+        estado_evento: 'ACTIVO',
+        fecha_hora: MoreThanOrEqual(new Date())
+      }
+    });
+
+    if (!eventos.length) {
+      return [];
+    }
+
+    return eventos.map(evento => ({
+      id_evento: evento.id_evento,
+      nombre: evento.nombre,
+      tipo_actividad: evento.tipo_actividad,
+      latitud: Number(evento.latitud),
+      longitud: Number(evento.longitud)
     }));
   }
 
